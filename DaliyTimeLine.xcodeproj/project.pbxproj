@@ -16,6 +16,9 @@
 		416F1E082B5A6DF900F8C2C8 /* DaliyTimeLineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E072B5A6DF900F8C2C8 /* DaliyTimeLineTests.swift */; };
 		416F1E122B5A6DF900F8C2C8 /* DaliyTimeLineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E112B5A6DF900F8C2C8 /* DaliyTimeLineUITests.swift */; };
 		416F1E142B5A6DF900F8C2C8 /* DaliyTimeLineUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E132B5A6DF900F8C2C8 /* DaliyTimeLineUITestsLaunchTests.swift */; };
+		416F1E282B5A6EF600F8C2C8 /* MainTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */; };
+		416F1E2A2B5A6F5A00F8C2C8 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */; };
+		416F1E2C2B5A6F6100F8C2C8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E2B2B5A6F6100F8C2C8 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +52,9 @@
 		416F1E0D2B5A6DF900F8C2C8 /* DaliyTimeLineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DaliyTimeLineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		416F1E112B5A6DF900F8C2C8 /* DaliyTimeLineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaliyTimeLineUITests.swift; sourceTree = "<group>"; };
 		416F1E132B5A6DF900F8C2C8 /* DaliyTimeLineUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaliyTimeLineUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabbarController.swift; sourceTree = "<group>"; };
+		416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
+		416F1E2B2B5A6F6100F8C2C8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +105,10 @@
 		416F1DEF2B5A6DF800F8C2C8 /* DaliyTimeLine */ = {
 			isa = PBXGroup;
 			children = (
-				416F1DF02B5A6DF800F8C2C8 /* AppDelegate.swift */,
-				416F1DF22B5A6DF800F8C2C8 /* SceneDelegate.swift */,
+				416F1E232B5A6E3D00F8C2C8 /* App */,
+				416F1E222B5A6E3400F8C2C8 /* Model */,
+				416F1E212B5A6E2F00F8C2C8 /* ViewModel */,
+				416F1E262B5A6EF600F8C2C8 /* View */,
 				416F1DF42B5A6DF800F8C2C8 /* ViewController.swift */,
 				416F1DF62B5A6DF800F8C2C8 /* Main.storyboard */,
 				416F1DF92B5A6DF900F8C2C8 /* Assets.xcassets */,
@@ -126,6 +134,40 @@
 			);
 			path = DaliyTimeLineUITests;
 			sourceTree = "<group>";
+		};
+		416F1E212B5A6E2F00F8C2C8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		416F1E222B5A6E3400F8C2C8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		416F1E232B5A6E3D00F8C2C8 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				416F1DF02B5A6DF800F8C2C8 /* AppDelegate.swift */,
+				416F1DF22B5A6DF800F8C2C8 /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		416F1E262B5A6EF600F8C2C8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */,
+				416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */,
+				416F1E2B2B5A6F6100F8C2C8 /* ProfileViewController.swift */,
+			);
+			name = View;
+			path = DaliyTimeLine/View;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -258,8 +300,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				416F1E2C2B5A6F6100F8C2C8 /* ProfileViewController.swift in Sources */,
 				416F1DF52B5A6DF800F8C2C8 /* ViewController.swift in Sources */,
 				416F1DF12B5A6DF800F8C2C8 /* AppDelegate.swift in Sources */,
+				416F1E282B5A6EF600F8C2C8 /* MainTabbarController.swift in Sources */,
+				416F1E2A2B5A6F5A00F8C2C8 /* MainListViewController.swift in Sources */,
 				416F1DF32B5A6DF800F8C2C8 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
