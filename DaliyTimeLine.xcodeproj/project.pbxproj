@@ -24,6 +24,8 @@
 		416F1E2C2B5A6F6100F8C2C8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E2B2B5A6F6100F8C2C8 /* ProfileViewController.swift */; };
 		41CDCE9C2B5A72EF0019C945 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CDCE9B2B5A72EF0019C945 /* SplashViewController.swift */; };
 		41CDCE9F2B5A78400019C945 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41CDCE9E2B5A78400019C945 /* GoogleService-Info.plist */; };
+		41CDCEA12B5A78C60019C945 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CDCEA02B5A78C60019C945 /* LoginViewController.swift */; };
+		41CDCEA62B5AB5070019C945 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CDCEA52B5AB5070019C945 /* LoginViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +68,11 @@
 		416F1E2B2B5A6F6100F8C2C8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		41CDCE9B2B5A72EF0019C945 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		41CDCE9E2B5A78400019C945 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		41CDCEA02B5A78C60019C945 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		41CDCEA22B5A84FC0019C945 /* DaliyTimeLine.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DaliyTimeLine.entitlements; sourceTree = "<group>"; };
+		41CDCEA52B5AB5070019C945 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		41CDCEA72B5ABDF40019C945 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
+		41CDCEA82B5ABDF40019C945 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		458A8EC6D350A17E170B0247 /* Pods-DaliyTimeLine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DaliyTimeLine.debug.xcconfig"; path = "Target Support Files/Pods-DaliyTimeLine/Pods-DaliyTimeLine.debug.xcconfig"; sourceTree = "<group>"; };
 		A80FC5DBA4111D73A5541337 /* Pods-DaliyTimeLineTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DaliyTimeLineTests.release.xcconfig"; path = "Target Support Files/Pods-DaliyTimeLineTests/Pods-DaliyTimeLineTests.release.xcconfig"; sourceTree = "<group>"; };
 		BBA66C544E29A5A4F032D339 /* Pods-DaliyTimeLine-DaliyTimeLineUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DaliyTimeLine-DaliyTimeLineUITests.debug.xcconfig"; path = "Target Support Files/Pods-DaliyTimeLine-DaliyTimeLineUITests/Pods-DaliyTimeLine-DaliyTimeLineUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -136,6 +143,7 @@
 		416F1DEF2B5A6DF800F8C2C8 /* DaliyTimeLine */ = {
 			isa = PBXGroup;
 			children = (
+				41CDCEA22B5A84FC0019C945 /* DaliyTimeLine.entitlements */,
 				416F1E232B5A6E3D00F8C2C8 /* App */,
 				416F1E222B5A6E3400F8C2C8 /* Model */,
 				416F1E212B5A6E2F00F8C2C8 /* ViewModel */,
@@ -170,6 +178,7 @@
 		416F1E212B5A6E2F00F8C2C8 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				41CDCEA52B5AB5070019C945 /* LoginViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -197,6 +206,7 @@
 				416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */,
 				416F1E2B2B5A6F6100F8C2C8 /* ProfileViewController.swift */,
 				41CDCE9B2B5A72EF0019C945 /* SplashViewController.swift */,
+				41CDCEA02B5A78C60019C945 /* LoginViewController.swift */,
 			);
 			name = View;
 			path = DaliyTimeLine/View;
@@ -309,11 +319,12 @@
 			};
 			buildConfigurationList = 416F1DE82B5A6DF800F8C2C8 /* Build configuration list for PBXProject "DaliyTimeLine" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 416F1DE42B5A6DF800F8C2C8;
 			productRefGroup = 416F1DEE2B5A6DF800F8C2C8 /* Products */;
@@ -467,8 +478,10 @@
 				416F1DF52B5A6DF800F8C2C8 /* ViewController.swift in Sources */,
 				416F1DF12B5A6DF800F8C2C8 /* AppDelegate.swift in Sources */,
 				416F1E282B5A6EF600F8C2C8 /* MainTabbarController.swift in Sources */,
+				41CDCEA12B5A78C60019C945 /* LoginViewController.swift in Sources */,
 				416F1E2A2B5A6F5A00F8C2C8 /* MainListViewController.swift in Sources */,
 				416F1DF32B5A6DF800F8C2C8 /* SceneDelegate.swift in Sources */,
+				41CDCEA62B5AB5070019C945 /* LoginViewModel.swift in Sources */,
 				41CDCE9C2B5A72EF0019C945 /* SplashViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -510,6 +523,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				416F1DF72B5A6DF800F8C2C8 /* Base */,
+				41CDCEA72B5ABDF40019C945 /* ko */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -518,6 +532,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				416F1DFC2B5A6DF900F8C2C8 /* Base */,
+				41CDCEA82B5ABDF40019C945 /* ko */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -530,6 +545,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -577,7 +593,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -593,6 +609,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -634,7 +651,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -650,6 +667,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DaliyTimeLine/DaliyTimeLine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9UU59NTC96;
@@ -660,7 +678,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -680,6 +698,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DaliyTimeLine/DaliyTimeLine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9UU59NTC96;
@@ -690,7 +709,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

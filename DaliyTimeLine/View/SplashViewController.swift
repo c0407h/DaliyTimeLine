@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Firebase
 
 class SplashViewController: UIViewController {
     //TODO: - 로그인 체크를 해당 controller에서 해야함 -> 로그인이 안되었을때 로그인 페이지로 로그인이 되어있는 경우 메인 탭바로 이동
@@ -24,6 +25,7 @@ class SplashViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.text = "Daily TimeLine"
         label.textAlignment = .center
+        label.textColor = .black
         return label
     }()
     
@@ -32,6 +34,23 @@ class SplashViewController: UIViewController {
         super.viewDidLoad()
         
         counfigureUI()
+        
+        if let user = Auth.auth().currentUser {
+            //메인으로 이동
+print("메인으로이동")
+//            let mainView = MainTabbarController()
+//            let navi = UINavigationController(rootViewController: mainView)
+//            self.navigationController?.pushViewController(mainView, animated: true)
+            if let navigationController = self.navigationController {
+                let viewControllerB = MainTabbarController() // YourBViewController는 B 뷰 컨트롤러의 클래스명으로 대체되어야 합니다.
+                navigationController.pushViewController(viewControllerB, animated: true)
+            }
+        } else {
+            let loginView = LoginViewController(viewModel: LoginViewModel())
+            loginView.modalPresentationStyle = .fullScreen
+            self.present(loginView, animated: true)
+            
+        }
     }
     
     func counfigureUI() {
@@ -48,6 +67,8 @@ class SplashViewController: UIViewController {
             make.top.equalTo(logoImageView.snp.bottom).offset(10)
             make.leading.trailing.equalTo(self.view)
         }
+        
+        
     }
     
 }

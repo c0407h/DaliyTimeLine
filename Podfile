@@ -17,6 +17,7 @@ target 'DaliyTimeLine' do
   pod 'Firebase/Messaging'
   pod 'Firebase/Auth'
 
+  pod 'GoogleSignIn'
 
   target 'DaliyTimeLineTests' do
     inherit! :search_paths

@@ -11,23 +11,27 @@ class MainTabbarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        configureTabbar()
+        configureUI()
     }
     
     func configureTabbar() {
         let mainListController = MainListViewController()
-        
+        mainListController.tabBarItem = UITabBarItem(title: "캘린더", image: UIImage(systemName:  "calendar"), selectedImage: nil)
+               
         let profileController = ProfileViewController()
+        profileController.tabBarItem = UITabBarItem(title: "설정", image: UIImage(systemName: "calendar"), selectedImage: nil)
+        
         
         viewControllers = [mainListController, profileController]
         tabBar.tintColor = .black
         tabBar.backgroundColor = .white
         tabBar.isTranslucent = false
-        
+        self.delegate = self
     }
     
     func configureUI() {
-        self.delegate = self
+        view.backgroundColor = .white
     }
 }
 
