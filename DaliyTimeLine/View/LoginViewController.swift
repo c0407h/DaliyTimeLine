@@ -44,7 +44,6 @@ class LoginViewController: UIViewController {
     private lazy var googleLoginButton: GIDSignInButton = {
         let button = GIDSignInButton()
         button.style = .wide
-        
         button.addTarget(self, action: #selector(handleAuthorizationGoogleButtonPress), for: .touchUpInside)
         return button
     }()
@@ -97,12 +96,10 @@ class LoginViewController: UIViewController {
         stack.snp.makeConstraints { make in
             make.bottom.equalTo(self.view.safeAreaInsets.bottom).offset(-300)
             make.centerX.equalTo(self.view)
-            make.leading.equalTo(self.view).offset(100)
-            make.trailing.equalTo(self.view).offset(-100)
+            make.leading.equalTo(self.view).offset(50)
+            make.trailing.equalTo(self.view).offset(-50)
         }
     }
-    
-    
     
     //Apple Login Action
     @objc func handleAuthorizationAppleIDButtonPress() {
@@ -112,6 +109,10 @@ class LoginViewController: UIViewController {
     //Google Login Action
     @objc func handleAuthorizationGoogleButtonPress() {
         startSignInWithGoogle()
+    }
+    
+    func createUser() {
+//        AuthService.registerUser(withCredential: <#T##AuthCredentials#>, completion: <#T##(Error?) -> Void#>)
     }
 }
 
@@ -158,7 +159,14 @@ extension LoginViewController {
             
             
             Auth.auth().signIn(with: credential) { result, error in
-
+                guard let user = result?.user else { return }
+                let data: [String: Any] = ["email": user.email,
+                                           "fullname": user.displayName,
+                                           "uid": user.uid,
+                                           "username": user.displayName]
+                print("data", data)
+                COLLECTION_USERS.document(user.uid).setData(data)
+                
               // At this point, our user is signed in
             }
         }
@@ -187,7 +195,10 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             
             // Sign in with Firebase.
+            
             Auth.auth().signIn(with: credential) { (authResult, error) in
+                
+                
                 if let error = error {
                     // Error. If error.code == .MissingOrInvalidNonce, make sure
                     // you're sending the SHA256-hashed nonce as a hex string with
@@ -196,9 +207,19 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     return
                 }
                 
+                
+                
+                guard let user = authResult?.user else { return }
+                
+                let data: [String: Any] = ["email": user.email,
+                                           "fullname": user.displayName,
+                                           "uid": user.uid,
+                                           "username": user.displayName]
+                COLLECTION_USERS.document(user.uid).setData(data)
                 //로그인이 되었다면..
-                
-                
+//                if let auth = authResult {
+//                    self.createUser()
+//                }
                 
                 // User is signed in to Firebase with Apple.
                 // ...

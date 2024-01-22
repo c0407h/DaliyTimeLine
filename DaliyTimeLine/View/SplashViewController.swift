@@ -37,12 +37,10 @@ class SplashViewController: UIViewController {
         
         if let user = Auth.auth().currentUser {
             //메인으로 이동
-print("메인으로이동")
-//            let mainView = MainTabbarController()
-//            let navi = UINavigationController(rootViewController: mainView)
-//            self.navigationController?.pushViewController(mainView, animated: true)
+            print("메인으로이동")
             if let navigationController = self.navigationController {
                 let viewControllerB = MainTabbarController() // YourBViewController는 B 뷰 컨트롤러의 클래스명으로 대체되어야 합니다.
+                navigationController.navigationBar.isHidden = true
                 navigationController.pushViewController(viewControllerB, animated: true)
             }
         } else {
