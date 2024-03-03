@@ -35,7 +35,7 @@ struct ImageUploader {
         guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
         
         let filename = UUID().uuidString
-        let ref = Storage.storage().reference(withPath: "/profile_images/\(filename)")
+        let ref = Storage.storage().reference(withPath: "/contents_images/\(filename)")
         
         ref.putData(imageData, metadata: nil) { (metadata, error) in
             if let error = error {

@@ -12,8 +12,6 @@ import CryptoKit
 
 
 class LoginViewModel {
-
-    
     func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
         var randomBytes = [UInt8](repeating: 0, count: length)

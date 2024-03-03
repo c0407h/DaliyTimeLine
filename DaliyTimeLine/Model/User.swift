@@ -7,12 +7,13 @@
 
 import Foundation
 import Firebase
+import FirebaseAuth
 
 struct User {
     let email: String
-    let fullname: String
-    let profileImageUrl: URL
-    let username: String
+    let fullname: String?
+    let profileImageUrl: URL?
+    let username: String?
     let uid: String
     
 //    var isFollowed = false
@@ -22,7 +23,7 @@ struct User {
     //현재사용자인지 상대방인지 확인하는 프로퍼티
     var isCurrentUser: Bool { return Auth.auth().currentUser?.uid == uid}
     
-    init(email: String, fullname: String, profileImageUrl: URL, username: String, uid: String) {
+    init(email: String, fullname: String?, profileImageUrl: URL?, username: String?, uid: String) {
         self.email = email
         self.fullname = fullname
         self.profileImageUrl = profileImageUrl

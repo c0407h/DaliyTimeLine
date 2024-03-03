@@ -19,6 +19,8 @@ target 'DaliyTimeLine' do
 
   pod 'GoogleSignIn'
 
+  pod 'FSCalendar'
+
   target 'DaliyTimeLineTests' do
     inherit! :search_paths
     # Pods for testing

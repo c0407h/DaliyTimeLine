@@ -12,11 +12,19 @@ import GoogleSignIn
 import Firebase
 import FirebaseAuth
 
+protocol LoginDelegate {
+    func goToMain()
+}
+
 fileprivate var currentNonce: String?
 
 class LoginViewController: UIViewController {
     
     private var viewModel: LoginViewModel
+    
+    var delegate: LoginDelegate?
+    
+    
     
     private let logoImageView: UIImageView = {
         let iv = UIImageView()
@@ -111,8 +119,11 @@ class LoginViewController: UIViewController {
         startSignInWithGoogle()
     }
     
-    func createUser() {
-//        AuthService.registerUser(withCredential: <#T##AuthCredentials#>, completion: <#T##(Error?) -> Void#>)
+    
+    func moveMain() {
+        self.dismiss(animated: true) { [weak self] in
+            self?.delegate?.goToMain()
+        }
     }
 }
 
@@ -167,6 +178,9 @@ extension LoginViewController {
                 print("data", data)
                 COLLECTION_USERS.document(user.uid).setData(data)
                 
+                
+                self.moveMain()
+
               // At this point, our user is signed in
             }
         }
@@ -223,6 +237,8 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 
                 // User is signed in to Firebase with Apple.
                 // ...
+                
+                self.moveMain()
             }
         }
     }

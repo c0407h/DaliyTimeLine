@@ -2,10 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<string>카메라사용을 위해 권한을 허락해주세요</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>사진 업로드를 위해 권한을 허락해주세요</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SB 어그로OTF M.otf</string>
+		<string>SB 어그로OTF L.otf</string>
+		<string>SB 어그로OTF B.otf</string>
+	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

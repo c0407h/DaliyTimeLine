@@ -17,6 +17,17 @@
 		4128D1F52B5E94FE00FA78B3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4128D1F42B5E94FE00FA78B3 /* Constants.swift */; };
 		4128D1F72B5E953A00FA78B3 /* UploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4128D1F62B5E953A00FA78B3 /* UploadService.swift */; };
 		4128D1F92B5E978A00FA78B3 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4128D1F82B5E978A00FA78B3 /* AuthService.swift */; };
+		413D75AE2B70BE85008A67B5 /* FeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413D75AD2B70BE85008A67B5 /* FeedCollectionViewCell.swift */; };
+		413D75B02B710848008A67B5 /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413D75AF2B710848008A67B5 /* CalendarCell.swift */; };
+		413D75B22B7108E3008A67B5 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413D75B12B7108E3008A67B5 /* Post.swift */; };
+		413D75B42B7109A6008A67B5 /* MainListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413D75B32B7109A6008A67B5 /* MainListViewModel.swift */; };
+		413D75B72B710BC5008A67B5 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413D75B62B710BC5008A67B5 /* PostService.swift */; };
+		413D75BE2B752F47008A67B5 /* SB 어그로OTF M.otf in Resources */ = {isa = PBXBuildFile; fileRef = 413D75BB2B752F47008A67B5 /* SB 어그로OTF M.otf */; };
+		413D75BF2B752F47008A67B5 /* SB 어그로OTF L.otf in Resources */ = {isa = PBXBuildFile; fileRef = 413D75BC2B752F47008A67B5 /* SB 어그로OTF L.otf */; };
+		413D75C02B752F47008A67B5 /* SB 어그로OTF B.otf in Resources */ = {isa = PBXBuildFile; fileRef = 413D75BD2B752F47008A67B5 /* SB 어그로OTF B.otf */; };
+		413D75C32B763A58008A67B5 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413D75C22B763A58008A67B5 /* SettingViewModel.swift */; };
+		413D75C62B766EB3008A67B5 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413D75C52B766EB3008A67B5 /* PostDetailViewModel.swift */; };
+		413D75C82B766EDA008A67B5 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 413D75C72B766EDA008A67B5 /* PostDetailViewController.swift */; };
 		416F1DF12B5A6DF800F8C2C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1DF02B5A6DF800F8C2C8 /* AppDelegate.swift */; };
 		416F1DF32B5A6DF800F8C2C8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1DF22B5A6DF800F8C2C8 /* SceneDelegate.swift */; };
 		416F1DF52B5A6DF800F8C2C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1DF42B5A6DF800F8C2C8 /* ViewController.swift */; };
@@ -28,7 +39,7 @@
 		416F1E142B5A6DF900F8C2C8 /* DaliyTimeLineUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E132B5A6DF900F8C2C8 /* DaliyTimeLineUITestsLaunchTests.swift */; };
 		416F1E282B5A6EF600F8C2C8 /* MainTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */; };
 		416F1E2A2B5A6F5A00F8C2C8 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */; };
-		416F1E2C2B5A6F6100F8C2C8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E2B2B5A6F6100F8C2C8 /* ProfileViewController.swift */; };
+		416F1E2C2B5A6F6100F8C2C8 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */; };
 		41CDCE9C2B5A72EF0019C945 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CDCE9B2B5A72EF0019C945 /* SplashViewController.swift */; };
 		41CDCE9F2B5A78400019C945 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41CDCE9E2B5A78400019C945 /* GoogleService-Info.plist */; };
 		41CDCEA12B5A78C60019C945 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CDCEA02B5A78C60019C945 /* LoginViewController.swift */; };
@@ -64,6 +75,17 @@
 		4128D1F42B5E94FE00FA78B3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4128D1F62B5E953A00FA78B3 /* UploadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadService.swift; sourceTree = "<group>"; };
 		4128D1F82B5E978A00FA78B3 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		413D75AD2B70BE85008A67B5 /* FeedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionViewCell.swift; sourceTree = "<group>"; };
+		413D75AF2B710848008A67B5 /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
+		413D75B12B7108E3008A67B5 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		413D75B32B7109A6008A67B5 /* MainListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewModel.swift; sourceTree = "<group>"; };
+		413D75B62B710BC5008A67B5 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		413D75BB2B752F47008A67B5 /* SB 어그로OTF M.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SB 어그로OTF M.otf"; sourceTree = "<group>"; };
+		413D75BC2B752F47008A67B5 /* SB 어그로OTF L.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SB 어그로OTF L.otf"; sourceTree = "<group>"; };
+		413D75BD2B752F47008A67B5 /* SB 어그로OTF B.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SB 어그로OTF B.otf"; sourceTree = "<group>"; };
+		413D75C22B763A58008A67B5 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		413D75C52B766EB3008A67B5 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
+		413D75C72B766EDA008A67B5 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		416F1DED2B5A6DF800F8C2C8 /* DaliyTimeLine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DaliyTimeLine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		416F1DF02B5A6DF800F8C2C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		416F1DF22B5A6DF800F8C2C8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -79,7 +101,7 @@
 		416F1E132B5A6DF900F8C2C8 /* DaliyTimeLineUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaliyTimeLineUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabbarController.swift; sourceTree = "<group>"; };
 		416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
-		416F1E2B2B5A6F6100F8C2C8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		41CDCE9B2B5A72EF0019C945 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		41CDCE9E2B5A78400019C945 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		41CDCEA02B5A78C60019C945 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +165,59 @@
 			path = Repository;
 			sourceTree = "<group>";
 		};
+		413D75B52B710B95008A67B5 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				413D75B62B710BC5008A67B5 /* PostService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		413D75B82B720B6D008A67B5 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				413D75C42B7641DA008A67B5 /* PostDetail */,
+				416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */,
+				413D75AD2B70BE85008A67B5 /* FeedCollectionViewCell.swift */,
+				413D75AF2B710848008A67B5 /* CalendarCell.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		413D75B92B752F47008A67B5 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				413D75BA2B752F47008A67B5 /* SB_Mac_Font */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		413D75BA2B752F47008A67B5 /* SB_Mac_Font */ = {
+			isa = PBXGroup;
+			children = (
+				413D75BB2B752F47008A67B5 /* SB 어그로OTF M.otf */,
+				413D75BC2B752F47008A67B5 /* SB 어그로OTF L.otf */,
+				413D75BD2B752F47008A67B5 /* SB 어그로OTF B.otf */,
+			);
+			path = SB_Mac_Font;
+			sourceTree = "<group>";
+		};
+		413D75C12B763A04008A67B5 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		413D75C42B7641DA008A67B5 /* PostDetail */ = {
+			isa = PBXGroup;
+			children = (
+				413D75C72B766EDA008A67B5 /* PostDetailViewController.swift */,
+			);
+			path = PostDetail;
+			sourceTree = "<group>";
+		};
 		416F1DE42B5A6DF800F8C2C8 = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +243,8 @@
 		416F1DEF2B5A6DF800F8C2C8 /* DaliyTimeLine */ = {
 			isa = PBXGroup;
 			children = (
+				413D75B92B752F47008A67B5 /* Resource */,
+				413D75B52B710B95008A67B5 /* Service */,
 				4128D1F12B5E94E400FA78B3 /* Repository */,
 				41CDCEA22B5A84FC0019C945 /* DaliyTimeLine.entitlements */,
 				416F1E232B5A6E3D00F8C2C8 /* App */,
@@ -206,6 +283,9 @@
 			isa = PBXGroup;
 			children = (
 				41CDCEA52B5AB5070019C945 /* LoginViewModel.swift */,
+				413D75B32B7109A6008A67B5 /* MainListViewModel.swift */,
+				413D75C22B763A58008A67B5 /* SettingViewModel.swift */,
+				413D75C52B766EB3008A67B5 /* PostDetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -214,6 +294,7 @@
 			isa = PBXGroup;
 			children = (
 				4128D1EF2B5E940000FA78B3 /* User.swift */,
+				413D75B12B7108E3008A67B5 /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -230,9 +311,9 @@
 		416F1E262B5A6EF600F8C2C8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				413D75C12B763A04008A67B5 /* Setting */,
+				413D75B82B720B6D008A67B5 /* Main */,
 				416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */,
-				416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */,
-				416F1E2B2B5A6F6100F8C2C8 /* ProfileViewController.swift */,
 				41CDCE9B2B5A72EF0019C945 /* SplashViewController.swift */,
 				41CDCEA02B5A78C60019C945 /* LoginViewController.swift */,
 				4128D1EB2B5E711600FA78B3 /* UploadContentViewController.swift */,
@@ -372,9 +453,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				413D75C02B752F47008A67B5 /* SB 어그로OTF B.otf in Resources */,
 				416F1DFD2B5A6DF900F8C2C8 /* LaunchScreen.storyboard in Resources */,
 				41CDCE9F2B5A78400019C945 /* GoogleService-Info.plist in Resources */,
+				413D75BE2B752F47008A67B5 /* SB 어그로OTF M.otf in Resources */,
 				416F1DFA2B5A6DF900F8C2C8 /* Assets.xcassets in Resources */,
+				413D75BF2B752F47008A67B5 /* SB 어그로OTF L.otf in Resources */,
 				416F1DF82B5A6DF800F8C2C8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -503,7 +587,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				416F1E2C2B5A6F6100F8C2C8 /* ProfileViewController.swift in Sources */,
+				416F1E2C2B5A6F6100F8C2C8 /* SettingViewController.swift in Sources */,
+				413D75C82B766EDA008A67B5 /* PostDetailViewController.swift in Sources */,
+				413D75AE2B70BE85008A67B5 /* FeedCollectionViewCell.swift in Sources */,
 				416F1DF52B5A6DF800F8C2C8 /* ViewController.swift in Sources */,
 				416F1DF12B5A6DF800F8C2C8 /* AppDelegate.swift in Sources */,
 				416F1E282B5A6EF600F8C2C8 /* MainTabbarController.swift in Sources */,
@@ -515,10 +601,16 @@
 				416F1E2A2B5A6F5A00F8C2C8 /* MainListViewController.swift in Sources */,
 				4128D1F02B5E940000FA78B3 /* User.swift in Sources */,
 				416F1DF32B5A6DF800F8C2C8 /* SceneDelegate.swift in Sources */,
+				413D75B02B710848008A67B5 /* CalendarCell.swift in Sources */,
 				4128D1F52B5E94FE00FA78B3 /* Constants.swift in Sources */,
 				41CDCEA62B5AB5070019C945 /* LoginViewModel.swift in Sources */,
+				413D75B72B710BC5008A67B5 /* PostService.swift in Sources */,
+				413D75C62B766EB3008A67B5 /* PostDetailViewModel.swift in Sources */,
+				413D75B22B7108E3008A67B5 /* Post.swift in Sources */,
 				41CDCE9C2B5A72EF0019C945 /* SplashViewController.swift in Sources */,
+				413D75C32B763A58008A67B5 /* SettingViewModel.swift in Sources */,
 				4128D1F92B5E978A00FA78B3 /* AuthService.swift in Sources */,
+				413D75B42B7109A6008A67B5 /* MainListViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -709,9 +801,12 @@
 				DEVELOPMENT_TEAM = 9UU59NTC96;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DaliyTimeLine/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라사용을 위해 권한을 허락해주세요";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 업로드를 위해 권한을 허락해주세요";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -740,9 +835,12 @@
 				DEVELOPMENT_TEAM = 9UU59NTC96;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DaliyTimeLine/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "카메라사용을 위해 권한을 허락해주세요";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 업로드를 위해 권한을 허락해주세요";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

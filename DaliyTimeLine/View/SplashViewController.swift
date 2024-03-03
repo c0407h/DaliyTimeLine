@@ -32,23 +32,21 @@ class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         counfigureUI()
-        
-        if let user = Auth.auth().currentUser {
-            //메인으로 이동
-            print("메인으로이동")
-            if let navigationController = self.navigationController {
-                let viewControllerB = MainTabbarController() // YourBViewController는 B 뷰 컨트롤러의 클래스명으로 대체되어야 합니다.
-                navigationController.navigationBar.isHidden = true
-                navigationController.pushViewController(viewControllerB, animated: true)
-            }
+        if let _ = Auth.auth().currentUser {
+            goToMain()
         } else {
+            print("로그인")
             let loginView = LoginViewController(viewModel: LoginViewModel())
             loginView.modalPresentationStyle = .fullScreen
+            loginView.delegate = self
             self.present(loginView, animated: true)
-            
         }
+ 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+      
     }
     
     func counfigureUI() {
@@ -69,4 +67,14 @@ class SplashViewController: UIViewController {
         
     }
     
+}
+extension SplashViewController: LoginDelegate {
+    func goToMain() {
+        print(#function)
+        if let navigationController = self.navigationController {
+            let viewControllerB = MainTabbarController() // YourBViewController는 B 뷰 컨트롤러의 클래스명으로 대체되어야 합니다.
+            navigationController.navigationBar.isHidden = true
+            navigationController.pushViewController(viewControllerB, animated: true)
+        }
+    }
 }
