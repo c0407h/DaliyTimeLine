@@ -8,12 +8,14 @@
 import UIKit
 import SnapKit
 import FirebaseAuth
-
+import StoreKit
+import MessageUI
 
 
 class SettingViewController: UIViewController {
     
     var viewModel = SettingViewModel()
+   
     
     lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .grouped)
@@ -21,12 +23,15 @@ class SettingViewController: UIViewController {
         tv.dataSource = self
         tv.backgroundColor = .white
         tv.separatorStyle = .singleLine
+        
         return tv
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        checkEmailAvailability()
+        
     }
     
     
@@ -42,6 +47,40 @@ class SettingViewController: UIViewController {
             $0.leading.trailing.bottom.equalTo(view)
         }
     }
+    
+    
+    private func checkEmailAvailability() {
+        if !MFMailComposeViewController.canSendMail() {
+            print("Mail services are not available")
+            return
+        }
+    }
+    
+    private func sendEmail() {
+        let composeVC = MFMailComposeViewController()
+//        composeVC.delegate = self
+        composeVC.mailComposeDelegate = self
+        
+        composeVC.setToRecipients(["rueliosdev@gmail.com"])
+        composeVC.setSubject("💌피드백&문의사항")
+        
+        
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] ?? 1.0    // 앱 버전
+        let osVersion = UIDevice().systemVersion    // 기기의 os 버전
+        let message = """
+        피드백&문의사항을 남겨주세요.
+        
+        App Version: \(appVersion)
+        iOS Version: \(osVersion)
+        """
+        
+        composeVC.setMessageBody(message, isHTML: false)
+        
+        self.present(composeVC, animated: true, completion: nil)
+        
+        
+    }
+    
     
 }
 
@@ -63,6 +102,8 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = UITableViewCell()
         cell.textLabel?.text = viewModel.settingItemTitle[indexPath.section][indexPath.row]
         cell.textLabel?.font = UIFont(name: "OTSBAggroM", size: 14)
+        cell.selectionStyle = .none
+        
         return cell
     }
     
@@ -72,9 +113,15 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             print(indexPath)
         case 1:
-            print(indexPath)
+            switch indexPath.row {
+            case 0:
+                sendEmail()
+            case 1:
+                SKStoreReviewController.requestReviewInCurrentScene()
+            default:
+                print("")
+            }
         case 2:
-            print(indexPath)
             switch indexPath.row {
             case 0:
                 let sheet = UIAlertController(title: "로그 아웃", message: "로그아웃 하시겠습니까?", preferredStyle: .alert)
@@ -82,20 +129,29 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                 sheet.addAction(UIAlertAction(title: "로그아웃", style: .destructive,handler: { _ in
                     
                     self.viewModel.logout {
-                        print("logout")
-                        print(self.navigationController?.viewControllers)
                         let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
-                         sceneDelegate.goToSplashScreen()
-//                        MainTabbarController().navigationController?.popToRootViewController(animated: true)
+                        sceneDelegate.goToSplashScreen()
                     }
                     
                 }))
                 
-                sheet.addAction(UIAlertAction(title: "취소", style: .cancel, handler: { _ in print("yes 클릭") }))
+                sheet.addAction(UIAlertAction(title: "취소", style: .cancel, handler: { _ in print("취소") }))
                 
                 present(sheet, animated: true)
             case 1:
-                print("")
+                let sheet = UIAlertController(title: "회원 탈퇴", message: "탈퇴 하시겠습니까?", preferredStyle: .alert)
+                
+                sheet.addAction(UIAlertAction(title: "탈퇴", style: .destructive,handler: { _ in
+                    
+                    self.viewModel.deleteUser {
+                        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+                        sceneDelegate.goToSplashScreen()
+                    }
+                }))
+                
+                sheet.addAction(UIAlertAction(title: "취소", style: .cancel, handler: { _ in print("취소") }))
+                
+                present(sheet, animated: true)
             default:
                 print("")
             }
@@ -122,3 +178,43 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
 //        print("ASdf")
 //    }
 //}
+
+extension SKStoreReviewController {
+    public static func requestReviewInCurrentScene() {
+        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+            DispatchQueue.main.async {
+                requestReview(in: scene)
+            }
+        }
+    }
+}
+
+extension SettingViewController: UINavigationControllerDelegate, MFMailComposeViewControllerDelegate {
+    
+    func mailComposeController(_ controller: MFMailComposeViewController,
+                               didFinishWith result: MFMailComposeResult, error: Error?) {
+        switch result {
+        case .sent:
+            // 메일 발송 성공 ( 인터넷이 안되는 경우도 sent처리되고, 인터넷이 연결되면 메일이 발송됨. )
+            print("send")
+        case .saved:
+            // 메일 임시 저장
+            print("save")
+        case .cancelled:
+            // 메일 작성 취소
+            print("cancel")
+        case .failed:
+            // 메일 발송 실패 (오류 발생)
+            print("failed")
+        default:
+            break
+        }
+        
+        controller.dismiss(animated: true)
+    }
+    
+    
+    
+    
+}
+
