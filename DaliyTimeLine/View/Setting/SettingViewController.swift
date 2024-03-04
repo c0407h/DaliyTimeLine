@@ -15,7 +15,7 @@ import MessageUI
 class SettingViewController: UIViewController {
     
     var viewModel = SettingViewModel()
-   
+    
     
     lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .grouped)
@@ -23,7 +23,9 @@ class SettingViewController: UIViewController {
         tv.dataSource = self
         tv.backgroundColor = .white
         tv.separatorStyle = .singleLine
-        
+        tv.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.id)
+        tv.register(SettingInfoTableViewCell.self, forCellReuseIdentifier: SettingInfoTableViewCell.id)
+        tv.register(SettingAppInfoTableViewCell.self, forCellReuseIdentifier: SettingAppInfoTableViewCell.id)
         return tv
     }()
     
@@ -46,6 +48,7 @@ class SettingViewController: UIViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalTo(view)
         }
+        
     }
     
     
@@ -58,7 +61,7 @@ class SettingViewController: UIViewController {
     
     private func sendEmail() {
         let composeVC = MFMailComposeViewController()
-//        composeVC.delegate = self
+        //        composeVC.delegate = self
         composeVC.mailComposeDelegate = self
         
         composeVC.setToRecipients(["rueliosdev@gmail.com"])
@@ -99,12 +102,29 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = viewModel.settingItemTitle[indexPath.section][indexPath.row]
-        cell.textLabel?.font = UIFont(name: "OTSBAggroM", size: 14)
-        cell.selectionStyle = .none
-        
-        return cell
+        switch indexPath.section {
+            
+        case 0:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.id, for: indexPath) as? SettingTableViewCell else {
+                return UITableViewCell()
+            }
+            cell.configureCell(title: viewModel.settingItemTitle[indexPath.section][indexPath.row], index: SettingCellType(rawValue: indexPath.row)!)
+            return cell
+        case 1, 2:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingInfoTableViewCell.id, for: indexPath) as? SettingInfoTableViewCell else {
+                return UITableViewCell()
+            }
+            cell.counfigureCell(title: viewModel.settingItemTitle[indexPath.section][indexPath.row])
+            return cell
+        case 3:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingAppInfoTableViewCell.id, for: indexPath) as? SettingAppInfoTableViewCell else {
+                return UITableViewCell()
+            }
+            cell.counfigureCell(title: viewModel.settingItemTitle[indexPath.section][indexPath.row], appVersion: viewModel.getAppVersion())
+            return cell
+        default:
+            return UITableViewCell()
+        }
     }
     
     

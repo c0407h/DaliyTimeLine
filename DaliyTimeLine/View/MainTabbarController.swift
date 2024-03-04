@@ -17,21 +17,13 @@ class MainTabbarController: UITabBarController {
         didSet {
             guard let user = user else { return }
             configureTabbar(user: user)
-            print("user: ", user)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        configureTabbar()
         fetchUser()
         configureUI()
-        //        do {
-        //            try Auth.auth().signOut()
-        //        } catch {
-        //            print("ASdf")
-        //        }
-        print(#function)
     }
     
     
@@ -42,9 +34,6 @@ class MainTabbarController: UITabBarController {
       
         let user = User(email: email, fullname: currentUser.displayName, profileImageUrl: currentUser.photoURL, username: currentUser.displayName, uid: currentUser.uid)
         self.user = user
-        //        UserService.fetchUser(withUid: currentUser.uid) { user in
-        //            self.user = user
-        //        }
     }
     
     func configureTabbar(user: User) {
@@ -57,10 +46,7 @@ class MainTabbarController: UITabBarController {
         uploadViewController.tabBarItem.title = nil
         
         uploadViewController.tabBarItem.image = UIImage(systemName:  "camera.circle", withConfiguration: UIImage.SymbolConfiguration(font: .systemFont(ofSize: 30)))?.withBaselineOffset(fromBottom: 25)
-        //        uploadViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
-        //        = UITabBarItem(title: "", image: UIImage(systemName:  "camera.circle"), selectedImage: nil)
-        
+    
         let settingViewController = UINavigationController(rootViewController: SettingViewController())
         settingViewController.tabBarItem = UITabBarItem(title: "설정", image: UIImage(systemName: "gearshape.fill"), selectedImage: nil)
         settingViewController.tabBarItem.tag = 2
@@ -97,8 +83,6 @@ class MainTabbarController: UITabBarController {
         self.tabBar.barTintColor = .white
         
     }
-    
-    
     
     func configureUI() {
         view.backgroundColor = .white

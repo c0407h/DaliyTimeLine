@@ -36,7 +36,6 @@ class SplashViewController: UIViewController {
         if let _ = Auth.auth().currentUser {
             goToMain()
         } else {
-            print("로그인")
             let loginView = LoginViewController(viewModel: LoginViewModel())
             loginView.modalPresentationStyle = .fullScreen
             loginView.delegate = self
@@ -70,7 +69,6 @@ class SplashViewController: UIViewController {
 }
 extension SplashViewController: LoginDelegate {
     func goToMain() {
-        print(#function)
         if let navigationController = self.navigationController {
             let viewControllerB = MainTabbarController() // YourBViewController는 B 뷰 컨트롤러의 클래스명으로 대체되어야 합니다.
             navigationController.navigationBar.isHidden = true

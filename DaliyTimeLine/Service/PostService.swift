@@ -18,7 +18,7 @@ class PostService {
         Firestore.firestore().collection("contents")
             .whereField("timestamp", isGreaterThanOrEqualTo: Timestamp(date: startDate))
            .whereField("timestamp", isLessThan: Timestamp(date: endDate))
-           .whereField("ownerUid", isEqualTo: Auth.auth().currentUser?.uid)
+           .whereField("ownerUid", isEqualTo: Auth.auth().currentUser?.uid as Any)
             .getDocuments { snapshot, error in
             if let error = error {
                 print("DEBUG: \(error.localizedDescription)")
@@ -34,7 +34,7 @@ class PostService {
     
     func getAllPosts(completion: @escaping([Post]) -> Void) {
         Firestore.firestore().collection("contents")
-            .whereField("ownerUid", isEqualTo: Auth.auth().currentUser?.uid)
+            .whereField("ownerUid", isEqualTo: Auth.auth().currentUser?.uid as Any)
             .getDocuments { snapshot, error in
             if let error = error {
                 print("DEBUG: \(error.localizedDescription)")

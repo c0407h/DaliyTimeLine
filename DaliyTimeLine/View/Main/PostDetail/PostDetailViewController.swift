@@ -10,11 +10,11 @@ import SnapKit
 import Kingfisher
 
 class PostDetailViewController: UIViewController {
-
+    
     private var viewModel: PostDetailViewModel
- 
+    
     lazy var postImageView: UIImageView = {
-       let iv = UIImageView()
+        let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         iv.layer.cornerRadius = 10
         iv.layer.masksToBounds = true
@@ -101,13 +101,13 @@ class PostDetailViewController: UIViewController {
     }
     
     func convertTimestamp(serverTimestamp: Double) -> String {
-            let x = serverTimestamp / 1000
-            let date = NSDate(timeIntervalSince1970: x)
-            let formatter = DateFormatter()
-            formatter.dateStyle = .long
-            formatter.timeStyle = .medium
-
-            return formatter.string(from: date as Date)
-        }
+        let x = serverTimestamp / 1000
+        let date = NSDate(timeIntervalSince1970: x)
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .medium
+        
+        return formatter.string(from: date as Date)
+    }
     
 }

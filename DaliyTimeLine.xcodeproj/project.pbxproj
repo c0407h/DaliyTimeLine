@@ -40,6 +40,9 @@
 		416F1E282B5A6EF600F8C2C8 /* MainTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */; };
 		416F1E2A2B5A6F5A00F8C2C8 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */; };
 		416F1E2C2B5A6F6100F8C2C8 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */; };
+		41C4B6CD2B94AEFE00CD8292 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C4B6CC2B94AEFE00CD8292 /* SettingTableViewCell.swift */; };
+		41C4B6CF2B94AF0900CD8292 /* SettingInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C4B6CE2B94AF0900CD8292 /* SettingInfoTableViewCell.swift */; };
+		41C4B6D12B94B10300CD8292 /* SettingAppInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C4B6D02B94B10300CD8292 /* SettingAppInfoTableViewCell.swift */; };
 		41CDCE9C2B5A72EF0019C945 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CDCE9B2B5A72EF0019C945 /* SplashViewController.swift */; };
 		41CDCE9F2B5A78400019C945 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41CDCE9E2B5A78400019C945 /* GoogleService-Info.plist */; };
 		41CDCEA12B5A78C60019C945 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CDCEA02B5A78C60019C945 /* LoginViewController.swift */; };
@@ -102,6 +105,9 @@
 		416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabbarController.swift; sourceTree = "<group>"; };
 		416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
 		416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		41C4B6CC2B94AEFE00CD8292 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		41C4B6CE2B94AF0900CD8292 /* SettingInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingInfoTableViewCell.swift; sourceTree = "<group>"; };
+		41C4B6D02B94B10300CD8292 /* SettingAppInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAppInfoTableViewCell.swift; sourceTree = "<group>"; };
 		41CDCE9B2B5A72EF0019C945 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		41CDCE9E2B5A78400019C945 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		41CDCEA02B5A78C60019C945 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -206,6 +212,9 @@
 			isa = PBXGroup;
 			children = (
 				416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */,
+				41C4B6CC2B94AEFE00CD8292 /* SettingTableViewCell.swift */,
+				41C4B6CE2B94AF0900CD8292 /* SettingInfoTableViewCell.swift */,
+				41C4B6D02B94B10300CD8292 /* SettingAppInfoTableViewCell.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -588,6 +597,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				416F1E2C2B5A6F6100F8C2C8 /* SettingViewController.swift in Sources */,
+				41C4B6CD2B94AEFE00CD8292 /* SettingTableViewCell.swift in Sources */,
 				413D75C82B766EDA008A67B5 /* PostDetailViewController.swift in Sources */,
 				413D75AE2B70BE85008A67B5 /* FeedCollectionViewCell.swift in Sources */,
 				416F1DF52B5A6DF800F8C2C8 /* ViewController.swift in Sources */,
@@ -598,10 +608,12 @@
 				4128D1F32B5E94ED00FA78B3 /* UserService.swift in Sources */,
 				4128D1EC2B5E711600FA78B3 /* UploadContentViewController.swift in Sources */,
 				4128D1F72B5E953A00FA78B3 /* UploadService.swift in Sources */,
+				41C4B6D12B94B10300CD8292 /* SettingAppInfoTableViewCell.swift in Sources */,
 				416F1E2A2B5A6F5A00F8C2C8 /* MainListViewController.swift in Sources */,
 				4128D1F02B5E940000FA78B3 /* User.swift in Sources */,
 				416F1DF32B5A6DF800F8C2C8 /* SceneDelegate.swift in Sources */,
 				413D75B02B710848008A67B5 /* CalendarCell.swift in Sources */,
+				41C4B6CF2B94AF0900CD8292 /* SettingInfoTableViewCell.swift in Sources */,
 				4128D1F52B5E94FE00FA78B3 /* Constants.swift in Sources */,
 				41CDCEA62B5AB5070019C945 /* LoginViewModel.swift in Sources */,
 				413D75B72B710BC5008A67B5 /* PostService.swift in Sources */,
@@ -797,7 +809,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DaliyTimeLine/DaliyTimeLine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.00.00;
 				DEVELOPMENT_TEAM = 9UU59NTC96;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DaliyTimeLine/Info.plist;
@@ -814,7 +826,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.00.00;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chung.DaliyTimeLine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -831,7 +843,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DaliyTimeLine/DaliyTimeLine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.00.00;
 				DEVELOPMENT_TEAM = 9UU59NTC96;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DaliyTimeLine/Info.plist;
@@ -848,7 +860,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.00.00;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chung.DaliyTimeLine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

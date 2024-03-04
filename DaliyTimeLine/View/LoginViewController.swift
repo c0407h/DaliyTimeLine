@@ -171,17 +171,16 @@ extension LoginViewController {
             
             Auth.auth().signIn(with: credential) { result, error in
                 guard let user = result?.user else { return }
-                let data: [String: Any] = ["email": user.email,
-                                           "fullname": user.displayName,
+                let data: [String: Any] = ["email": user.email as Any,
+                                           "fullname": user.displayName as Any,
                                            "uid": user.uid,
-                                           "username": user.displayName]
+                                           "username": user.displayName as Any]
                 print("data", data)
                 COLLECTION_USERS.document(user.uid).setData(data)
                 
                 
                 self.moveMain()
 
-              // At this point, our user is signed in
             }
         }
     }
@@ -232,10 +231,11 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 
                 guard let user = authResult?.user else { return }
                 
-                let data: [String: Any] = ["email": user.email,
-                                           "fullname": user.displayName,
+                let data: [String: Any] = ["email": user.email as Any,
+                                           "fullname": user.displayName as Any,
                                            "uid": user.uid,
-                                           "username": user.displayName]
+                                           "username": user.displayName as Any]
+                
                 COLLECTION_USERS.document(user.uid).setData(data)
                 //로그인이 되었다면..
 //                if let auth = authResult {

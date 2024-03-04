@@ -16,7 +16,7 @@ struct UploadService {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         ImageUploader.uploadImage(image: image) { imageUrl in
-            let data = ["caption": caption, "timestamp": Timestamp(date: Date()), "imageUrl": imageUrl, "ownerUid": uid, "ownerUsername": user.username] as [String : Any]
+            let data = ["caption": caption, "timestamp": Timestamp(date: Date()), "imageUrl": imageUrl, "ownerUid": uid, "ownerUsername": user.username as Any] as [String : Any]
             
                     
             let docRef = COLLECTION_CONTENTS.addDocument(data: data, completion: compltion)
