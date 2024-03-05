@@ -109,6 +109,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.configureCell(title: viewModel.settingItemTitle[indexPath.section][indexPath.row], index: SettingCellType(rawValue: indexPath.row)!)
+            cell.delegate = self
             return cell
         case 1, 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingInfoTableViewCell.id, for: indexPath) as? SettingInfoTableViewCell else {
@@ -238,3 +239,20 @@ extension SettingViewController: UINavigationControllerDelegate, MFMailComposeVi
     
 }
 
+
+extension SettingViewController: SettingTableViewCellDelegate {
+    func showSettingSecretView() {
+        let vc = SecretSettingViewController()
+        vc.modalPresentationStyle = .fullScreen
+        vc.delegate = self
+        self.present(vc, animated: true)
+    }
+}
+
+extension SettingViewController: SecretSettingViewDelegate {
+    func settingSecretCancel() {
+        if let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? SettingTableViewCell {
+            cell.configureScreenSecretCell(title: viewModel.settingItemTitle[0][1])
+        }
+    }
+}

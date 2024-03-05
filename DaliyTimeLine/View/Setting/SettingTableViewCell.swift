@@ -12,10 +12,17 @@ enum SettingCellType: Int {
     case screenSecret
 }
 
+protocol SettingTableViewCellDelegate: AnyObject {
+    func showSettingSecretView()
+    
+//    func settingSecretCancel()
+}
+
 class SettingTableViewCell: UITableViewCell {
     static let id = "SettingTableViewCell"
     
     var cellType: SettingCellType = .autoSave
+    weak var delegate: SettingTableViewCellDelegate?
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -89,6 +96,9 @@ class SettingTableViewCell: UITableViewCell {
             UserDefaults.standard.setValue(sender.isOn, forKey: "AutoSave")
         case .screenSecret:
             print("screesecert")
+            if sender.isOn {
+                self.delegate?.showSettingSecretView()
+            }
         }
     }
     

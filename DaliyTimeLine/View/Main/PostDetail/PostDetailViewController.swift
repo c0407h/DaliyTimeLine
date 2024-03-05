@@ -12,6 +12,7 @@ import Kingfisher
 class PostDetailViewController: UIViewController {
     
     private var viewModel: PostDetailViewModel
+    weak var delegate: MainListViewControllerDelegate?
     
     lazy var postImageView: UIImageView = {
         let iv = UIImageView()
@@ -32,9 +33,6 @@ class PostDetailViewController: UIViewController {
     private lazy var captionTextView: UITextView = {
         let tv = InputTextView()
         tv.backgroundColor = .white
-        tv.layer.borderWidth = 1
-        tv.layer.borderColor = UIColor.lightGray.cgColor
-        tv.layer.cornerRadius = 10
         tv.font = UIFont(name: "OTSBAggroL", size: 16)
         tv.textColor = .black
         tv.isEditable = false
@@ -64,6 +62,12 @@ class PostDetailViewController: UIViewController {
     }
     
     private func configureUI() {
+        let firstButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deletePost))
+        let secondButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up.fill"), style: .plain, target: self, action: nil)
+        self.navigationItem.rightBarButtonItems = [firstButton, secondButton]
+            
+        self.navigationController?.navigationBar.tintColor = .black
+        
         postImageView.kf.setImage(with: URL(string:viewModel.post.imageUrl))
         dateLabel.text = String(dateFormatter().string(from: viewModel.post.timestamp.dateValue()))
         captionTextView.text = viewModel.post.caption
@@ -90,6 +94,7 @@ class PostDetailViewController: UIViewController {
             $0.trailing.equalTo(self.view).inset(10)
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
+        
     }
     
     func dateFormatter() -> DateFormatter {
@@ -109,5 +114,25 @@ class PostDetailViewController: UIViewController {
         
         return formatter.string(from: date as Date)
     }
+    
+    @objc func deletePost() {
+        
+        let sheet = UIAlertController(title: "삭제하시겠습니까??", message: nil, preferredStyle: .alert)
+        sheet.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: {[weak self] _ in
+            guard let self = self else { return }
+            
+            self.viewModel.deletePost(documentID: self.viewModel.post.documentId) {
+                self.delegate?.reload()
+                self.navigationController?.popViewController(animated: true)
+            }
+        }))
+                
+        sheet.addAction(UIAlertAction(title: "아니요", style: .cancel, handler: { _ in }))
+        
+        present(sheet, animated: true)
+        
+        
+    }
+    
     
 }

@@ -321,6 +321,7 @@ extension MainListViewController: UICollectionViewDataSource, UICollectionViewDe
         if self.viewModel.isPostsEmpty{
             let viewModel = PostDetailViewModel(post: viewModel.posts[indexPath.row])
             let detailVC = PostDetailViewController(viewModel: viewModel)
+            detailVC.delegate = self
             self.navigationController?.navigationBar.isHidden = false
             self.navigationController?.pushViewController(detailVC, animated: true)
         }

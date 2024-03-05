@@ -9,13 +9,15 @@ import Foundation
 import Firebase
 
 struct Post {
+    let documentId: String
     var caption: String
     let imageUrl: String
     let ownerUid: String
     let ownerUsername: String
     let timestamp: Timestamp
     
-    init(dictionary: [String: Any]) {
+    init(documentId: String, dictionary: [String: Any]) {
+        self.documentId = documentId
         self.caption = dictionary["caption"] as? String ?? ""
         self.imageUrl = dictionary["imageUrl"] as? String ?? ""
         self.ownerUid = dictionary["ownerUid"] as? String ?? ""

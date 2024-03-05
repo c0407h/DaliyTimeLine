@@ -26,7 +26,10 @@ class PostService {
             }
             
             guard let documents = snapshot?.documents else { return } // document들을 가져옴
-            let posts = documents.map{ Post(dictionary: $0.data())}
+                
+                let posts = documents.map{
+                    Post(documentId: $0.documentID,dictionary: $0.data())
+                }
             
             completion(posts)
         }
@@ -42,7 +45,7 @@ class PostService {
             }
             
             guard let documents = snapshot?.documents else { return } // document들을 가져옴
-            let posts = documents.map{ Post(dictionary: $0.data())}
+            let posts = documents.map{ Post(documentId: $0.documentID, dictionary: $0.data())}
             
             completion(posts)
         }

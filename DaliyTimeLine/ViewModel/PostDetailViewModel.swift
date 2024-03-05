@@ -15,4 +15,14 @@ struct PostDetailViewModel {
         self.post = post
     }
     
+    func deletePost(documentID: String, completion: @escaping() -> Void) {
+        COLLECTION_CONTENTS.document(documentID).delete() { error in
+            if let error = error {
+                
+            } else {
+                completion()
+            }
+        }
+    }
+    
 }

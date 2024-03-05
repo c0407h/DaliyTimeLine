@@ -12,7 +12,6 @@ import FirebaseAuth
 
 class MainTabbarController: UITabBarController {
     
-    
     var user: User? {
         didSet {
             guard let user = user else { return }
@@ -69,12 +68,12 @@ class MainTabbarController: UITabBarController {
         self.tabBar.frame.origin.x = 0
         self.tabBar.frame.size.width = tabBar.bounds.width
         
-            self.tabBar.backgroundColor = .clear
+        self.tabBar.backgroundColor = .white
         self.tabBar.layer.borderWidth = 1
         self.tabBar.layer.borderColor = UIColor.lightGray.cgColor
-        
         self.tabBar.layer.cornerRadius = 24
         self.tabBar.layer.masksToBounds = true
+        
         self.tabBar.itemPositioning = .fill
         self.tabBar.itemSpacing = self.tabBar.frame.width / 3
         self.tabBar.isTranslucent = true
