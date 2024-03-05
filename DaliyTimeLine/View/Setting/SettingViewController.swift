@@ -131,8 +131,6 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
-        case 0:
-            print(indexPath)
         case 1:
             switch indexPath.row {
             case 0:
@@ -140,7 +138,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             case 1:
                 SKStoreReviewController.requestReviewInCurrentScene()
             default:
-                print("")
+                break
             }
         case 2:
             switch indexPath.row {
@@ -233,10 +231,7 @@ extension SettingViewController: UINavigationControllerDelegate, MFMailComposeVi
         
         controller.dismiss(animated: true)
     }
-    
-    
-    
-    
+
 }
 
 

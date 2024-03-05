@@ -18,7 +18,6 @@ class UploadContentViewController: UIViewController {
             if let image = selectedImage{
                 originalImage = image
                 photoImageView.image = image
-                //                drawText(onImage: image)
             }
         }
     }
@@ -65,14 +64,26 @@ class UploadContentViewController: UIViewController {
         label.textColor = .white
         return label
     }()
-    
+
     weak var delegate: MainListViewControllerDelegate?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
     
     func configureUI() {
         view.backgroundColor = .white
@@ -108,7 +119,10 @@ class UploadContentViewController: UIViewController {
         charaterCountLabel.snp.makeConstraints { make in
             make.top.equalTo(captionTextView.snp.bottom)
             make.trailing.equalTo(view).offset(-12)
+            make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
         }
+        
+        
     }
     
     @objc func didTapCancel() {
@@ -117,25 +131,20 @@ class UploadContentViewController: UIViewController {
     }
     
     @objc func didTapDone() {
-        //        guard let image = selectedImage else { return }
-        //내용 없을 시 Alert띄ㅣ어줘야함
-        //        guard let mergedImage = self.drawText(onImage: image) else {
-        //            print("Error: Failed to merge text to image")
-        //            return
-        //        }
+        LoadingIndicator.showLoading()
+        
         guard let mergedImage = self.transfromToImage(view: photoImageView) else {
             print("Error: Failed to merge text to image")
+            LoadingIndicator.hideLoading()
             return
         }
-        //        photoImageView.image = mergedImage
-        
         
         guard let caption = captionTextView.text else { return }
         guard let user = currentUser else { return }
-        //                showLoader(true)
         
         UploadService.uploadPost(caption: caption, image: mergedImage, user: user) { error in
-            //            self.showLoader(false)
+            
+            LoadingIndicator.hideLoading()
             if let error = error {
                 print(#function,"\(error.localizedDescription)")
                 return
@@ -172,92 +181,22 @@ class UploadContentViewController: UIViewController {
         return nil
     }
     
-    //TODO: - 수정필요
-    //    func drawText(onImage image: UIImage) -> UIImage? {
-    //        let dateFormatter = DateFormatter()
-    //        dateFormatter.dateFormat = "yyyy년 MM월 dd일 (E)\nHH:mm"
-    //        let dateString = dateFormatter.string(from: Date())
-    //
-    //
-    //        let imageSize = self.originalImage?.size ?? .zero
-    //        UIGraphicsBeginImageContextWithOptions(CGSize(width: imageSize.width, height: imageSize.height), false, 1.0)
-    //        let currentView = UIView(frame: CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height))
-    //        let currentImage = UIImageView(image: self.originalImage)
-    //        currentImage.frame = CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height)
-    //        currentView.addSubview(currentImage)
-    //
-    //        let label = UILabel()
-    //        label.frame = currentView.frame
-    //
-    //        let fontSize: CGFloat = 18
-    //        let font = UIFont(name:"OTSBAggroM" , size: fontSize)
-    //        let attributedStr = NSMutableAttributedString(string: dateString)
-    //        attributedStr.addAttribute(NSAttributedString.Key(rawValue: kCTFontAttributeName as String), value: font ?? .init(), range: (dateString as NSString).range(of: dateString))
-    //        attributedStr.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white, range: (dateString as NSString).range(of: dateString))
-    //
-    //        label.attributedText = attributedStr
-    //        label.numberOfLines = 0
-    //        label.textAlignment = .left
-    //        label.text = dateString
-    //
-    //        let labelSize = label.sizeThatFits(currentView.bounds.size)
-    //        label.frame = CGRect(x: currentView.bounds.midX,
-    //                             y: currentView.bounds.midY,
-    //                             width: labelSize.width,
-    //                             height: labelSize.height)
-    //
-    //
-    //        currentView.addSubview(label)
-    //
-    //        guard let currentContext = UIGraphicsGetCurrentContext() else {
-    //            return nil
-    //        }
-    //        currentView.layer.render(in: currentContext)
-    //        let img = UIGraphicsGetImageFromCurrentImageContext()
-    //        UIGraphicsEndImageContext()
-    //        return img
-    //
-    //
-    ////                let dateFormatter = DateFormatter()
-    ////                dateFormatter.dateFormat = "yyyy년 MM월 dd일 (E)\nHH:mm"
-    ////                let dateString = dateFormatter.string(from: Date())
-    ////
-    ////                let imageSize = image.size
-    ////
-    ////                // 이미지 그래픽 컨텍스트 생성
-    ////                UIGraphicsBeginImageContextWithOptions(imageSize, false, 0.0)
-    ////
-    ////                // 이미지 그리기
-    ////                image.draw(in: CGRect(origin: .zero, size: imageSize))
-    ////
-    ////                // 텍스트 속성 설정
-    ////                let textFont = UIFont(name: "OTSBAggroM", size: 12) ?? UIFont.boldSystemFont(ofSize: 12)
-    ////                let textColor = UIColor.white
-    ////
-    ////                // 텍스트 크기 계산
-    ////                let textSize = (dateString as NSString).size(withAttributes: [.font: textFont])
-    ////
-    ////                // 텍스트 위치 계산
-    ////                let textRect = CGRect(x: 10,
-    ////                                      y: imageSize.height - 35,
-    ////                                      width: textSize.width,
-    ////                                      height: textSize.height)
-    ////
-    ////                // 텍스트 그리기
-    ////                let textAttributes: [NSAttributedString.Key: Any] = [
-    ////                    .font: textFont,
-    ////                    .foregroundColor: textColor
-    ////                ]
-    ////                (dateString as NSString).draw(in: textRect, withAttributes: textAttributes)
-    ////
-    ////                // 이미지 컨텍스트에서 이미지 추출
-    ////                let combinedImage = UIGraphicsGetImageFromCurrentImageContext()
-    ////
-    ////                // 이미지 그래픽 컨텍스트 종료
-    ////                UIGraphicsEndImageContext()
-    ////
-    ////                return combinedImage
-    //    }
+    @objc func keyboardWillShow(_ notification:NSNotification) {
+        if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.view.transform = CGAffineTransform(translationX: 0, y: -(keyboardRectangle.height/2))
+                }
+            )
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification:NSNotification) {
+        self.view.transform = .identity
+    }
+    
+
     
 }
 

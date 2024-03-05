@@ -290,25 +290,21 @@ class SecretSettingViewController: UIViewController {
         [passCodeFirstView, passCodeSecondView, passCodeThirdView,passCodeFouthView].forEach {
             passCordStackView.addArrangedSubview($0)
         }
-        passCodeFirstView.snp.makeConstraints {
-            $0.height.width.equalTo(20)
+        
+        [passCodeFirstView, passCodeSecondView, passCodeThirdView,passCodeFouthView].forEach {
+            $0.snp.makeConstraints { make in
+                make.height.width.equalTo(20)
+            }
         }
-        passCodeSecondView.snp.makeConstraints {
-            $0.height.width.equalTo(20)
-        }
-        passCodeThirdView.snp.makeConstraints {
-            $0.height.width.equalTo(20)
-        }
-        passCodeFouthView.snp.makeConstraints {
-            $0.height.width.equalTo(20)
-        }
+        
         
         self.view.addSubview(allCodeStackView)
         allCodeStackView.snp.makeConstraints {
             $0.leading.greaterThanOrEqualTo(self.view)
             $0.trailing.lessThanOrEqualTo(self.view)
+            $0.top.greaterThanOrEqualTo(passCordStackView)
             $0.centerX.equalTo(self.view)
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-10)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-80)
         }
         
         [firstStackView, secondStackView, thirdStackView, fourthStackView].forEach {
@@ -318,67 +314,47 @@ class SecretSettingViewController: UIViewController {
         [numberOneButton, numberTwoButton, numberThreeButton].forEach {
             firstStackView.addArrangedSubview($0)
         }
-        numberOneButton.snp.makeConstraints {
-            $0.height.equalTo(80)
-            $0.width.equalTo(80)
+        [numberOneButton, numberTwoButton, numberThreeButton].forEach {
+            $0.snp.makeConstraints { make in
+                make.height.equalTo(80)
+                make.width.equalTo(80)
+            }
         }
-        numberTwoButton.snp.makeConstraints {
-            $0.height.equalTo(80)
-            $0.width.equalTo(80)
-        }
-        numberThreeButton.snp.makeConstraints {
-            $0.height.equalTo(80)
-            $0.width.equalTo(80)
-        }
+        
         
         [numberFourButton, numberFiveButton, numberSixButton].forEach {
             secondStackView.addArrangedSubview($0)
         }
         
-        numberFourButton.snp.makeConstraints {
-            $0.height.equalTo(80)
-            $0.width.equalTo(80)
+        [numberFourButton, numberFiveButton, numberSixButton].forEach {
+            $0.snp.makeConstraints { make in
+                make.height.equalTo(80)
+                make.width.equalTo(80)
+            }
         }
-        numberFiveButton.snp.makeConstraints {
-            $0.height.equalTo(80)
-            $0.width.equalTo(80)
-        }
-        numberSixButton.snp.makeConstraints {
-            $0.height.equalTo(80)
-            $0.width.equalTo(80)
-        }
-        
+
         [numberSevenButton, numberEightButton, numberNineButton].forEach {
             thirdStackView.addArrangedSubview($0)
         }
-        numberSevenButton.snp.makeConstraints {
-            $0.height.equalTo(80)
-            $0.width.equalTo(80)
+        
+        [numberSevenButton, numberEightButton, numberNineButton].forEach{
+            $0.snp.makeConstraints { make in
+                make.height.equalTo(80)
+                make.width.equalTo(80)
+            }
         }
-        numberEightButton.snp.makeConstraints {
-            $0.height.equalTo(80)
-            $0.width.equalTo(80)
-        }
-        numberNineButton.snp.makeConstraints {
-            $0.height.equalTo(80)
-            $0.width.equalTo(80)
-        }
+
         
         [numberBackButton, numberZeroButton, numberDeleteButton].forEach {
             fourthStackView.addArrangedSubview($0)
         }
-        numberBackButton.snp.makeConstraints {
-            $0.height.equalTo(80)
-            $0.width.equalTo(80)
+        [numberBackButton, numberZeroButton, numberDeleteButton].forEach{
+            $0.snp.makeConstraints { make in
+                make.height.equalTo(80)
+                make.width.equalTo(80)
+            }
         }
-        numberZeroButton.snp.makeConstraints {
-            $0.height.equalTo(80)
-            $0.width.equalTo(80)
-        }
-        numberDeleteButton.snp.makeConstraints {
-            $0.height.equalTo(80)
-            $0.width.equalTo(80)
-        }
+
     }
     
     
@@ -396,25 +372,22 @@ class SecretSettingViewController: UIViewController {
         if let text = sender.titleLabel?.text {
             if isFirstPassCode {
                 secondPassCode += text
-                print("second", text , secondPassCode)
                 secondSecretCheck()
             } else {
                 passCode += text
-                print("first", text , passCode)
                 secretCheck()
             }
-            
         }
     }
     
     @objc func delteButtonTapped() {
         if isFirstPassCode {
             secondPassCode = String(secondPassCode.dropLast())
+            secondSecretCheck()
         } else {
             passCode = String(passCode.dropLast())
             secretCheck()
         }
-        
     }
     
     func secretCheck() {
@@ -499,8 +472,6 @@ class SecretSettingViewController: UIViewController {
                 passCode = ""
                 secondPassCode = ""
             }
-            
-
         }
     }
     

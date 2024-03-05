@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import LinkPresentation
 
 class PostDetailViewController: UIViewController {
     
@@ -53,6 +54,7 @@ class PostDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        self.navigationController?.navigationBar.backgroundColor = .white
         configureUI()
     }
     
@@ -63,9 +65,9 @@ class PostDetailViewController: UIViewController {
     
     private func configureUI() {
         let firstButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deletePost))
-        let secondButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up.fill"), style: .plain, target: self, action: nil)
+        let secondButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up.fill"), style: .plain, target: self, action: #selector(sharePost))
         self.navigationItem.rightBarButtonItems = [firstButton, secondButton]
-            
+        
         self.navigationController?.navigationBar.tintColor = .black
         
         postImageView.kf.setImage(with: URL(string:viewModel.post.imageUrl))
@@ -126,7 +128,7 @@ class PostDetailViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         }))
-                
+        
         sheet.addAction(UIAlertAction(title: "아니요", style: .cancel, handler: { _ in }))
         
         present(sheet, animated: true)
@@ -134,5 +136,61 @@ class PostDetailViewController: UIViewController {
         
     }
     
+    var metadata: LPLinkMetadata?
+        
     
+    @objc func sharePost() {
+//        var objectsToShare = [UIImage, String]()
+//        if let image = postImageView.image {
+//            objectsToShare.append(image)
+//            print("[INFO] textField's Text : ", text)
+//        }
+//        
+//        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+//        activityVC.popoverPresentationController?.sourceView = self.view
+//        
+//        // 공유하기 기능 중 제외할 기능이 있을 때 사용
+//        //        activityVC.excludedActivityTypes = [UIActivityType.airDrop, UIActivityType.addToReadingList]
+//        self.present(activityVC, animated: true, completion: nil)
+        
+//        let url = URL(string: viewModel.post.imageUrl)!
+//            LPMetadataProvider().startFetchingMetadata(for: url) { linkMetadata, _ in
+//                linkMetadata?.iconProvider = linkMetadata?.imageProvider
+//                self.metadata = linkMetadata
+//                let activityVc = UIActivityViewController(activityItems: [self.metadata], applicationActivities: nil)
+//                DispatchQueue.main.async {
+//                    self.present(activityVc, animated: true)
+//                }
+//            }
+////        
+        guard let text: String = captionTextView.text else { return }
+        guard let image: UIImage = postImageView.image else { return }
+        let shareAll: [Any] = [image]
+        let activityViewController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
+        
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    
+}
+extension PostDetailViewController: UIActivityItemSource {
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+        return "captionTextView.text"
+    }
+
+    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+        return postImageView.image
+    }
+    func activityViewController(_ activityViewController: UIActivityViewController, thumbnailImageForActivityType activityType: UIActivity.ActivityType?, suggestedSize size: CGSize) -> UIImage? {
+        return postImageView.image
+    }
+
+    func activityViewControllerLinkMetadata(_ activityViewController: UIActivityViewController) -> LPLinkMetadata? {
+        let image = postImageView.image!
+        let imageProvider = NSItemProvider(object: image)
+        let metadata = LPLinkMetadata()
+        metadata.imageProvider = imageProvider
+        return metadata
+    }
 }
