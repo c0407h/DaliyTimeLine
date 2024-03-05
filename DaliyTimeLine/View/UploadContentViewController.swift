@@ -22,6 +22,17 @@ class UploadContentViewController: UIViewController {
         }
     }
     
+    private lazy var scrollView: UIScrollView = {
+        let sv = UIScrollView()
+        sv.delegate = self
+        return sv
+    }()
+    
+    private let bottomView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -64,7 +75,88 @@ class UploadContentViewController: UIViewController {
         label.textColor = .white
         return label
     }()
-
+    
+    private let colorSelectLabel: UILabel = {
+        let label = UILabel()
+        label.text = "텍스트 색상 선택"
+        label.font = UIFont(name: "OTSBAggroL", size: 16)
+        return label
+    }()
+    
+    private let colorView: UIView = {
+       let view = UIView()
+        view.backgroundColor = .systemGray5
+        return view
+    }()
+    
+    private let colorStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.spacing = 10
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
+        return stackView
+    }()
+    
+    private lazy var whiteColorButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 15
+        button.layer.masksToBounds = true
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
+        return button
+    }()
+    private lazy var grayColorButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 15
+        button.layer.masksToBounds = true
+        button.backgroundColor = .gray
+        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
+        return button
+    }()
+    private lazy var blackColorButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 15
+        button.layer.masksToBounds = true
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
+        return button
+    }()
+    private lazy var redColorButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 15
+        button.layer.masksToBounds = true
+        button.backgroundColor = .red
+        button.addTarget(self, action: #selector(colorSelect), for: .touchUpInside)
+        return button
+    }()
+    private lazy var yellowColorButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 15
+        button.layer.masksToBounds = true
+        button.backgroundColor = .yellow
+        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var greenColorButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 15
+        button.layer.masksToBounds = true
+        button.backgroundColor = .green
+        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
+        return button
+    }()
+    private lazy var blueColorButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 15
+        button.layer.masksToBounds = true
+        button.backgroundColor = .blue
+        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
+        return button
+    }()
+    
     weak var delegate: MainListViewControllerDelegate?
     
     
@@ -91,38 +183,87 @@ class UploadContentViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "등록", style: .done, target: self, action: #selector(didTapDone))
         
-        view.addSubview(photoImageView)
-        photoImageView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-16)
-            make.height.equalTo(photoImageView.snp.width)
-            make.centerX.equalTo(view)
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+            
         }
         
-        photoImageView.addSubview(dateLabel)
+        view.addSubview(bottomView)
+        bottomView.snp.makeConstraints {
+            $0.height.equalTo(0)
+            $0.top.equalTo(scrollView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        
+        scrollView.addSubview(photoImageView)
+        photoImageView.snp.makeConstraints { make in
+            make.top.equalTo(scrollView.snp.top).offset(10)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            
+            make.width.height.equalTo(UIScreen.main.bounds.size.width - 32)
+            make.centerX.equalTo(scrollView.snp.centerX)
+            
+        }
+        
+        scrollView.addSubview(dateLabel)
         dateLabel.snp.makeConstraints { make in
             make.leading.equalTo(photoImageView.snp.leading).offset(16)
             make.trailing.equalTo(photoImageView.snp.trailing).offset(-16)
             make.bottom.equalTo(photoImageView.snp.bottom).offset(-16)
         }
         
-        view.addSubview(captionTextView)
+        
+        
+        scrollView.addSubview(colorSelectLabel)
+        colorSelectLabel.snp.makeConstraints {
+            $0.top.equalTo(photoImageView.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+        }
+        
+        scrollView.addSubview(colorView)
+        colorView.snp.makeConstraints {
+            $0.top.equalTo(colorSelectLabel.snp.bottom).offset(10)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(50)
+        }
+        
+        colorView.addSubview(colorStackView)
+        colorStackView.snp.makeConstraints {
+            $0.top.equalTo(colorSelectLabel.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.lessThanOrEqualToSuperview()
+            $0.height.equalTo(50)
+        }
+        
+        [whiteColorButton, grayColorButton, blackColorButton, redColorButton, yellowColorButton, greenColorButton, blueColorButton].forEach {
+            colorStackView.addArrangedSubview($0)
+        }
+        
+        [whiteColorButton, grayColorButton, blackColorButton, redColorButton, yellowColorButton, greenColorButton, blueColorButton].forEach {
+            $0.snp.makeConstraints {
+                $0.height.width.equalTo(30)
+            }
+        }
+        
+        scrollView.addSubview(captionTextView)
         captionTextView.snp.makeConstraints { make in
-            make.top.equalTo(photoImageView.snp.bottom).offset(16)
-            make.leading.equalTo(view).offset(12)
-            make.trailing.equalTo(view).offset(-12)
+            make.top.equalTo(colorView.snp.bottom).offset(10)
+            make.leading.equalToSuperview().offset(12)
+            make.trailing.equalToSuperview().offset(-12)
             make.height.equalTo(64)
         }
         
-        view.addSubview(charaterCountLabel)
+        scrollView.addSubview(charaterCountLabel)
         charaterCountLabel.snp.makeConstraints { make in
             make.top.equalTo(captionTextView.snp.bottom)
-            make.trailing.equalTo(view).offset(-12)
-            make.bottom.lessThanOrEqualTo(view.safeAreaLayoutGuide)
+            make.trailing.equalToSuperview().offset(-12)
+            make.bottom.lessThanOrEqualToSuperview()
         }
-        
-        
     }
     
     @objc func didTapCancel() {
@@ -181,22 +322,38 @@ class UploadContentViewController: UIViewController {
         return nil
     }
     
+    @objc func colorSelect(sender: UIButton) {
+        DispatchQueue.main.async {
+            self.dateLabel.textColor = sender.backgroundColor
+        }
+    }
+    
     @objc func keyboardWillShow(_ notification:NSNotification) {
         if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.view.transform = CGAffineTransform(translationX: 0, y: -(keyboardRectangle.height/2))
+            UIView.animate(withDuration: 0.5, animations: {
+                self.bottomView.snp.updateConstraints {
+                    $0.height.equalTo(keyboardRectangle.height)
                 }
-            )
+                
+                let offset = CGPoint(x: 0,y: self.scrollView.contentSize.height - self.scrollView.bounds.height)
+                self.scrollView.setContentOffset(offset, animated: false)
+                
+                
+            })
         }
     }
     
     @objc func keyboardWillHide(_ notification:NSNotification) {
-        self.view.transform = .identity
+        UIView.animate(withDuration: 0.5, animations: {
+            self.bottomView.snp.updateConstraints {
+                $0.height.equalTo(0)
+            }
+        }
+        )
     }
     
-
+    
     
 }
 
@@ -212,17 +369,27 @@ extension UploadContentViewController: UITextViewDelegate {
         let estimatedSize = textView.sizeThatFits(size)
         
         textView.constraints.forEach { (constraint) in
-            
             // 더 이상 줄어들지 않게하기
             if estimatedSize.height <= 64 {
                 
             } else if estimatedSize.height >= 180 {
                 
-            }else {
+            } else {
                 if constraint.firstAttribute == .height {
                     constraint.constant = estimatedSize.height
                 }
+                let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom + 20)
+                if(bottomOffset.y > 0) {
+                    scrollView.setContentOffset(bottomOffset, animated: true)
+                }
             }
         }
+    }
+}
+
+
+extension UploadContentViewController: UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.view.endEditing(true)
     }
 }

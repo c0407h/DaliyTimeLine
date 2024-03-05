@@ -25,8 +25,6 @@ class MainListViewController: UIViewController {
         calendar.contentView.clipsToBounds = false
         calendar.collectionView.clipsToBounds = false
         
-        
-        
         calendar.scope = .month
         calendar.locale = Locale(identifier: "ko_KR")
         calendar.scrollDirection = .horizontal
