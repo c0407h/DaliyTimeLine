@@ -34,10 +34,10 @@ class SplashViewController: UIViewController {
         super.viewDidLoad()
         counfigureUI()
        
-        //
-        for (key, value) in UserDefaults.standard.dictionaryRepresentation() {
-          print("\(key) = \(value) \n")
-        }
+//          UserDefaults확인
+//        for (key, value) in UserDefaults.standard.dictionaryRepresentation() {
+//          print("\(key) = \(value) \n")
+//        }
         
         if let _ = Auth.auth().currentUser {
             if UserDefaults.standard.string(forKey: "LoginSecret") != nil {
@@ -54,10 +54,6 @@ class SplashViewController: UIViewController {
             loginView.delegate = self
             self.present(loginView, animated: true)
         }
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
         
     }
     

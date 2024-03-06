@@ -122,20 +122,13 @@ class MainListViewController: UIViewController {
     
     private func configureUI() {
         self.delegate = self
-        self.view.addSubview(calendarView)
         
+        self.view.addSubview(calendarView)
         calendarView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalTo(view)
             $0.height.equalTo(300)
         }
-        
-//        self.calendarView.addSubview(calendarSettingButton)
-//        calendarSettingButton.snp.makeConstraints {
-//            $0.trailing.equalTo(calendarView.snp.trailing).offset(-10)
-//            $0.top.equalTo(calendarView.snp.top).offset(10)
-//        }
-        
         
         self.view.addSubview(dateLabel)
         dateLabel.snp.makeConstraints {
@@ -247,16 +240,7 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
             currentCell.backImageView.alpha = 1
         }
     }
-    
-    //날자를 string으로 변환
-    //    func calendar(_ calendar: FSCalendar, titleFor date: Date) -> String? {
-    //        switch dateFormatter().string(from: date) {
-    //        case dateFormatter().string(from: Date()):
-    //            return "오늘"
-    //        default:
-    //            return nil
-    //        }
-    //    }
+
     
     //날자 하단 subtitle string으로 변환
     func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {

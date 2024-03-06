@@ -65,13 +65,13 @@ class UploadContentViewController: UIViewController {
     
     private let dateLabel: UILabel = {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일 (E)\nHH:mm"
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일 (E) HH:mm"
         let dateString = dateFormatter.string(from: Date())
         
         let label = UILabel()
         label.numberOfLines = 0
         label.text = dateString
-        label.font = UIFont(name: "OTSBAggroM", size: 24) ?? UIFont.boldSystemFont(ofSize: 24)
+        label.font = UIFont(name: "OTSBAggroM", size: 20) ?? UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .white
         return label
     }()
@@ -84,8 +84,8 @@ class UploadContentViewController: UIViewController {
     }()
     
     private let colorView: UIView = {
-       let view = UIView()
-        view.backgroundColor = .systemGray5
+        let view = UIView()
+        view.backgroundColor = .systemGray6
         return view
     }()
     
@@ -267,7 +267,6 @@ class UploadContentViewController: UIViewController {
     }
     
     @objc func didTapCancel() {
-        //        delegate?.controllerDidFinishUploadingPost(self)
         dismiss(animated: true)
     }
     

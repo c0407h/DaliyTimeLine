@@ -64,9 +64,11 @@ class PostDetailViewController: UIViewController {
     }
     
     private func configureUI() {
-        let firstButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deletePost))
-        let secondButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up.fill"), style: .plain, target: self, action: #selector(sharePost))
-        self.navigationItem.rightBarButtonItems = [firstButton, secondButton]
+        let deleteButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deletePost))
+        let sharedButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up.fill"), style: .plain, target: self, action: #selector(sharePost))
+        let editButton = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(editPost))
+        
+        self.navigationItem.rightBarButtonItems = [deleteButton, sharedButton, editButton]
         
         self.navigationController?.navigationBar.tintColor = .black
         
@@ -132,6 +134,20 @@ class PostDetailViewController: UIViewController {
         sheet.addAction(UIAlertAction(title: "아니요", style: .cancel, handler: { _ in }))
         
         present(sheet, animated: true)
+    }
+    
+    @objc func editPost() {
+        let doneButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(editDone))
+        self.navigationItem.rightBarButtonItems = [doneButton]
+        captionTextView.isEditable = true
+    }
+    
+    @objc func editDone() {
+        let deleteButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deletePost))
+        let sharedButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up.fill"), style: .plain, target: self, action: #selector(sharePost))
+        let editButton = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(editPost))
+        
+        self.navigationItem.rightBarButtonItems = [deleteButton, sharedButton, editButton]
         
         
     }

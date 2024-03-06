@@ -61,12 +61,9 @@ class SettingViewController: UIViewController {
     
     private func sendEmail() {
         let composeVC = MFMailComposeViewController()
-        //        composeVC.delegate = self
         composeVC.mailComposeDelegate = self
-        
         composeVC.setToRecipients(["rueliosdev@gmail.com"])
         composeVC.setSubject("💌피드백&문의사항")
-        
         
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] ?? 1.0    // 앱 버전
         let osVersion = UIDevice().systemVersion    // 기기의 os 버전
@@ -80,10 +77,7 @@ class SettingViewController: UIViewController {
         composeVC.setMessageBody(message, isHTML: false)
         
         self.present(composeVC, animated: true, completion: nil)
-        
-        
     }
-    
     
 }
 
@@ -179,24 +173,6 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
-
-////TODO: - 테스트 함수 - 이후 이동이나 삭제 필요
-//func logoutTest() {
-//    self.view.addSubview(logoutButton)
-//    logoutButton.snp.makeConstraints { make in
-//        make.centerX.centerY.equalTo(view)
-//    }
-//    logoutButton.addTarget(self, action: #selector(logout), for: .touchUpInside)
-//}
-//
-//
-//@objc func logout() {
-//    do {
-//        try Auth.auth().signOut()
-//    } catch {
-//        print("ASdf")
-//    }
-//}
 
 extension SKStoreReviewController {
     public static func requestReviewInCurrentScene() {

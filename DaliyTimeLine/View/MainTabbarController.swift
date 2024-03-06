@@ -44,13 +44,21 @@ class MainTabbarController: UITabBarController {
         uploadViewController.tabBarItem.tag = 1
         uploadViewController.tabBarItem.title = nil
         
-        uploadViewController.tabBarItem.image = UIImage(systemName:  "camera.circle", withConfiguration: UIImage.SymbolConfiguration(font: .systemFont(ofSize: 30)))?.withBaselineOffset(fromBottom: 25)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            uploadViewController.tabBarItem.image = UIImage(systemName:  "camera.circle", withConfiguration: UIImage.SymbolConfiguration(font: .systemFont(ofSize: 30)))
+        } else {
+            uploadViewController.tabBarItem.image = UIImage(systemName:  "camera.circle", withConfiguration: UIImage.SymbolConfiguration(font: .systemFont(ofSize: 30)))?.withBaselineOffset(fromBottom: 25)
+        }
+
+        
+        
     
         let settingViewController = UINavigationController(rootViewController: SettingViewController())
         settingViewController.tabBarItem = UITabBarItem(title: "설정", image: UIImage(systemName: "gearshape.fill"), selectedImage: nil)
         settingViewController.tabBarItem.tag = 2
         
         viewControllers = [mainListController, uploadViewController, settingViewController]
+        
         tabBar.tintColor = .black
         tabBar.backgroundColor = .white
         tabBar.isTranslucent = false

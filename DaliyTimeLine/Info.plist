@@ -2,14 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>SB 어그로OTF M.otf</string>
-		<string>SB 어그로OTF L.otf</string>
-		<string>SB 어그로OTF B.otf</string>
-	</array>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -20,6 +12,12 @@
 				<string>com.googleusercontent.apps.572515862005-8fjn5e47clv5dfdkgfh1v3iunfm9p3p8</string>
 			</array>
 		</dict>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SB 어그로OTF M.otf</string>
+		<string>SB 어그로OTF L.otf</string>
+		<string>SB 어그로OTF B.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
@@ -40,7 +38,5 @@
 			</array>
 		</dict>
 	</dict>
-	<key>NSFaceIDUsageDescription</key>
-	<string>잠금 해제를 위해 FaceID를 사용합니다</string>
 </dict>
 </plist>
