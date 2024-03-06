@@ -40,5 +40,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>잠금 해제를 위해 FaceID를 사용합니다</string>
 </dict>
 </plist>

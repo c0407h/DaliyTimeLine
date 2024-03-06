@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import LocalAuthentication
 
 protocol SecretSettingViewDelegate: AnyObject {
     func settingSecretCancel()
@@ -20,6 +21,7 @@ class SecretSettingViewController: UIViewController {
     weak var delegate: SecretSettingViewDelegate?
     
     var isLogin: Bool
+    let authContext = LAContext()
     
     init(isLogin: Bool = false) {
         self.isLogin = isLogin
@@ -272,10 +274,28 @@ class SecretSettingViewController: UIViewController {
         return view
     }()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         configureUI()
+        
+        if isLogin {
+            if UserDefaults.standard.string(forKey: "LoginSecret") != nil {
+                authContext.localizedFallbackTitle = ""
+                
+                self.authContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "잠금을 위해 인증을 해주세요.") { success, error in
+                    if success {
+                        DispatchQueue.main.async {
+                            self.delegate?.goToMain()
+                            self.dismiss(animated: true)
+                        }
+                        
+                    } else {
+                    }
+                }
+            }
+        }
     }
     
     private func configureUI() {
@@ -442,6 +462,7 @@ class SecretSettingViewController: UIViewController {
             
             if isLogin {
                 let secret: String = UserDefaults.standard.object(forKey: "LoginSecret") as! String
+                
                 if secret == passCode {
                     self.delegate?.goToMain()
                     self.dismiss(animated: true)
@@ -496,9 +517,28 @@ class SecretSettingViewController: UIViewController {
         //처음입력 비밀번호와 재입력 비밀번호코드가 맞을 때
         if secondPassCode.count == 4 && isSecondPassCode {
             if secondPassCode == passCode {
+                UserDefaults.standard.set(self.passCode, forKey: "LoginSecret")
                 
-                UserDefaults.standard.set(passCode, forKey: "LoginSecret")
-                self.dismiss(animated: true)
+                authContext.localizedFallbackTitle = ""
+ 
+                self.authContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "잠금을 위해 인증을 해주세요.") { success, error in
+                    
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            print(error.localizedDescription, error)
+                            self.dismiss(animated: true)
+                        }
+                    }
+                    
+                    if success {
+                        DispatchQueue.main.async {
+                            self.dismiss(animated: true)
+                        }
+                        
+                    } else {
+                    }
+                    
+                }
             } else {
                 passCodeFirstView.backgroundColor = .white
                 passCodeSecondView.backgroundColor = .white
@@ -519,22 +559,22 @@ class SecretSettingViewController: UIViewController {
 }
 
 
-import SwiftUI
-struct HomeViewControllerPreViews: PreviewProvider {
-    static var previews: some View {
-        Container().edgesIgnoringSafeArea(.all)
-    }
-    
-    struct Container: UIViewControllerRepresentable {
-        func makeUIViewController(context: Context) -> UIViewController {
-            let homeVC = SecretSettingViewController()
-            return homeVC
-        }
-        
-        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        }
-        
-        typealias UIViewControllerType = UIViewController
-    }
-}
-
+//import SwiftUI
+//struct HomeViewControllerPreViews: PreviewProvider {
+//    static var previews: some View {
+//        Container().edgesIgnoringSafeArea(.all)
+//    }
+//
+//    struct Container: UIViewControllerRepresentable {
+//        func makeUIViewController(context: Context) -> UIViewController {
+//            let homeVC = SecretSettingViewController()
+//            return homeVC
+//        }
+//
+//        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+//        }
+//
+//        typealias UIViewControllerType = UIViewController
+//    }
+//}
+//

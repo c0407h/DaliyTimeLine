@@ -40,6 +40,7 @@
 		416F1E282B5A6EF600F8C2C8 /* MainTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */; };
 		416F1E2A2B5A6F5A00F8C2C8 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */; };
 		416F1E2C2B5A6F6100F8C2C8 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */; };
+		41AB41202B98435B005F42C4 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41AB411F2B98435B005F42C4 /* LocalAuthentication.framework */; };
 		41B538E32B962F2800160F66 /* SecretSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B538E22B962F2800160F66 /* SecretSettingViewController.swift */; };
 		41B538E52B96CC5100160F66 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B538E42B96CC5100160F66 /* LoadingIndicator.swift */; };
 		41C4B6CD2B94AEFE00CD8292 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C4B6CC2B94AEFE00CD8292 /* SettingTableViewCell.swift */; };
@@ -107,6 +108,7 @@
 		416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabbarController.swift; sourceTree = "<group>"; };
 		416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
 		416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		41AB411F2B98435B005F42C4 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		41B538E22B962F2800160F66 /* SecretSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretSettingViewController.swift; sourceTree = "<group>"; };
 		41B538E42B96CC5100160F66 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		41C4B6CC2B94AEFE00CD8292 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41AB41202B98435B005F42C4 /* LocalAuthentication.framework in Frameworks */,
 				392B57F0F47794566CE0B456 /* Pods_DaliyTimeLine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -157,6 +160,7 @@
 		29C2526175833F518CB5752F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				41AB411F2B98435B005F42C4 /* LocalAuthentication.framework */,
 				2507D3D0942A039C4BCE65C8 /* Pods_DaliyTimeLine.framework */,
 				E9199DB4444E80508902159A /* Pods_DaliyTimeLine_DaliyTimeLineUITests.framework */,
 				16365F4A697053E5B2D3E6DD /* Pods_DaliyTimeLineTests.framework */,

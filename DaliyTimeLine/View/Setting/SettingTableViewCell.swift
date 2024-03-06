@@ -97,7 +97,7 @@ class SettingTableViewCell: UITableViewCell {
             if sender.isOn {
                 self.delegate?.showSettingSecretView()
             } else {
-                UserDefaults.standard.removeObject(forKey: "LoginSecert")
+                UserDefaults.standard.removeObject(forKey: "LoginSecret")
             }
         }
     }

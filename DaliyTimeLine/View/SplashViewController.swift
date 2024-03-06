@@ -33,7 +33,8 @@ class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         counfigureUI()
-        print("LoginSecret", UserDefaults.standard.string(forKey: "LoginSecret"))
+       
+        //
         for (key, value) in UserDefaults.standard.dictionaryRepresentation() {
           print("\(key) = \(value) \n")
         }
