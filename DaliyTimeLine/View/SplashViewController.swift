@@ -33,19 +33,31 @@ class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         counfigureUI()
+        print("LoginSecret", UserDefaults.standard.string(forKey: "LoginSecret"))
+        for (key, value) in UserDefaults.standard.dictionaryRepresentation() {
+          print("\(key) = \(value) \n")
+        }
+        
         if let _ = Auth.auth().currentUser {
-            goToMain()
+            if UserDefaults.standard.string(forKey: "LoginSecret") != nil {
+                let secertView = SecretSettingViewController(isLogin: true)
+                secertView.modalPresentationStyle = .fullScreen
+                secertView.delegate = self
+                self.present(secertView, animated: true)
+            } else {
+                goToMain()
+            }
         } else {
             let loginView = LoginViewController(viewModel: LoginViewModel())
             loginView.modalPresentationStyle = .fullScreen
             loginView.delegate = self
             self.present(loginView, animated: true)
         }
- 
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-      
+        
     }
     
     func counfigureUI() {
@@ -67,7 +79,7 @@ class SplashViewController: UIViewController {
     }
     
 }
-extension SplashViewController: LoginDelegate {
+extension SplashViewController: LoginDelegate, SecretSettingViewDelegate {
     func goToMain() {
         if let navigationController = self.navigationController {
             let viewControllerB = MainTabbarController() // YourBViewController는 B 뷰 컨트롤러의 클래스명으로 대체되어야 합니다.

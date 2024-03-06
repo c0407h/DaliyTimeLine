@@ -9,17 +9,33 @@ import UIKit
 
 protocol SecretSettingViewDelegate: AnyObject {
     func settingSecretCancel()
+    func goToMain()
+}
+extension SecretSettingViewDelegate {
+    func settingSecretCancel() {}
+    func goToMain() {}
 }
 
 class SecretSettingViewController: UIViewController {
     weak var delegate: SecretSettingViewDelegate?
+    
+    var isLogin: Bool
+    
+    init(isLogin: Bool = false) {
+        self.isLogin = isLogin
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "암호 입력"
         label.textAlignment = .center
         label.font = UIFont(name: "OTSBAggroM", size: 18)
-       return label
+        return label
     }()
     
     var subTitleLabel: UILabel = {
@@ -28,11 +44,11 @@ class SecretSettingViewController: UIViewController {
         label.textAlignment = .center
         label.font = UIFont(name: "OTSBAggroM", size: 14)
         label.textColor = .lightGray
-       return label
+        return label
     }()
     
     var allCodeStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.spacing = 10
         stackView.axis = .vertical
         return stackView
@@ -44,7 +60,7 @@ class SecretSettingViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
-       return stackView
+        return stackView
     }()
     
     var secondStackView: UIStackView = {
@@ -53,7 +69,7 @@ class SecretSettingViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
-       return stackView
+        return stackView
     }()
     
     var thirdStackView: UIStackView = {
@@ -62,7 +78,7 @@ class SecretSettingViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
-       return stackView
+        return stackView
     }()
     
     var fourthStackView: UIStackView = {
@@ -71,11 +87,11 @@ class SecretSettingViewController: UIViewController {
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
-       return stackView
+        return stackView
     }()
     
     lazy var numberOneButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("1", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 40
@@ -86,7 +102,7 @@ class SecretSettingViewController: UIViewController {
     }()
     
     lazy var numberTwoButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("2", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 40
@@ -97,7 +113,7 @@ class SecretSettingViewController: UIViewController {
     }()
     
     lazy var numberThreeButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("3", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 40
@@ -108,7 +124,7 @@ class SecretSettingViewController: UIViewController {
     }()
     
     lazy var numberFourButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("4", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 40
@@ -119,7 +135,7 @@ class SecretSettingViewController: UIViewController {
     }()
     
     lazy var numberFiveButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("5", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 40
@@ -130,7 +146,7 @@ class SecretSettingViewController: UIViewController {
     }()
     
     lazy var numberSixButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("6", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 40
@@ -141,7 +157,7 @@ class SecretSettingViewController: UIViewController {
     }()
     
     lazy var numberSevenButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("7", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 40
@@ -152,7 +168,7 @@ class SecretSettingViewController: UIViewController {
     }()
     
     lazy var numberEightButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("8", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 40
@@ -163,7 +179,7 @@ class SecretSettingViewController: UIViewController {
     }()
     
     lazy var numberNineButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("9", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 40
@@ -174,7 +190,7 @@ class SecretSettingViewController: UIViewController {
     }()
     
     lazy var numberZeroButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("0", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 40
@@ -185,15 +201,17 @@ class SecretSettingViewController: UIViewController {
     }()
     
     lazy var numberBackButton: UIButton = {
-       let button = UIButton()
-        button.setTitle("취소", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action: #selector(viewDismiss), for: .touchUpInside)
+        let button = UIButton()
+        if !isLogin {
+            button.setTitle("취소", for: .normal)
+            button.setTitleColor(.black, for: .normal)
+            button.addTarget(self, action: #selector(viewDismiss), for: .touchUpInside)
+        }
         return button
     }()
     
     lazy var numberDeleteButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setImage(UIImage(systemName: "arrow.backward")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.addTarget(self, action: #selector(delteButtonTapped), for: .touchUpInside)
         button.tintColor = .black
@@ -206,7 +224,7 @@ class SecretSettingViewController: UIViewController {
     }()
     
     var passCordStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.spacing = 5
         stackView.axis = .horizontal
         stackView.alignment = .fill
@@ -253,7 +271,7 @@ class SecretSettingViewController: UIViewController {
         view.backgroundColor = .white
         return view
     }()
-       
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -272,7 +290,7 @@ class SecretSettingViewController: UIViewController {
             $0.top.equalTo(titleLabel.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview()
         }
-                
+        
         self.view.addSubview(sceretPasscordView)
         sceretPasscordView.snp.makeConstraints {
             $0.top.equalTo(subTitleLabel.snp.bottom).offset(20)
@@ -310,7 +328,7 @@ class SecretSettingViewController: UIViewController {
         [firstStackView, secondStackView, thirdStackView, fourthStackView].forEach {
             allCodeStackView.addArrangedSubview($0)
         }
-    
+        
         [numberOneButton, numberTwoButton, numberThreeButton].forEach {
             firstStackView.addArrangedSubview($0)
         }
@@ -332,7 +350,7 @@ class SecretSettingViewController: UIViewController {
                 make.width.equalTo(80)
             }
         }
-
+        
         [numberSevenButton, numberEightButton, numberNineButton].forEach {
             thirdStackView.addArrangedSubview($0)
         }
@@ -343,7 +361,7 @@ class SecretSettingViewController: UIViewController {
                 make.width.equalTo(80)
             }
         }
-
+        
         
         [numberBackButton, numberZeroButton, numberDeleteButton].forEach {
             fourthStackView.addArrangedSubview($0)
@@ -354,7 +372,6 @@ class SecretSettingViewController: UIViewController {
                 make.width.equalTo(80)
             }
         }
-
     }
     
     
@@ -391,7 +408,7 @@ class SecretSettingViewController: UIViewController {
     }
     
     func secretCheck() {
-    
+        
         switch self.passCode.count  {
         case 1:
             passCodeFirstView.backgroundColor = .black
@@ -420,17 +437,34 @@ class SecretSettingViewController: UIViewController {
             passCodeFouthView.backgroundColor = .white
         }
         
+        
         if passCode.count == 4 && isFirstPassCode{
-            passCodeFirstView.backgroundColor = .white
-            passCodeSecondView.backgroundColor = .white
-            passCodeThirdView.backgroundColor = .white
-            passCodeFouthView.backgroundColor = .white
-            subTitleLabel.text = "확인을 위해 한번 더 입력해주세요."
+            
+            if isLogin {
+                let secret: String = UserDefaults.standard.object(forKey: "LoginSecret") as! String
+                if secret == passCode {
+                    self.delegate?.goToMain()
+                    self.dismiss(animated: true)
+                } else {
+                    passCode = ""
+                    passCodeFirstView.backgroundColor = .white
+                    passCodeSecondView.backgroundColor = .white
+                    passCodeThirdView.backgroundColor = .white
+                    passCodeFouthView.backgroundColor = .white
+                    subTitleLabel.text = "암호가 일치하지 않습니다. 재입력해주세요"
+                }
+            } else {
+                passCodeFirstView.backgroundColor = .white
+                passCodeSecondView.backgroundColor = .white
+                passCodeThirdView.backgroundColor = .white
+                passCodeFouthView.backgroundColor = .white
+                subTitleLabel.text = "확인을 위해 한번 더 입력해주세요."
+            }
         }
     }
     
     func secondSecretCheck() {
-    
+        
         switch self.secondPassCode.count  {
         case 1:
             passCodeFirstView.backgroundColor = .black
@@ -459,9 +493,11 @@ class SecretSettingViewController: UIViewController {
             passCodeFouthView.backgroundColor = .white
         }
         
+        //처음입력 비밀번호와 재입력 비밀번호코드가 맞을 때
         if secondPassCode.count == 4 && isSecondPassCode {
             if secondPassCode == passCode {
-//                UserService.createUserPassCode(passcode: secondPassCode)
+                
+                UserDefaults.standard.set(passCode, forKey: "LoginSecret")
                 self.dismiss(animated: true)
             } else {
                 passCodeFirstView.backgroundColor = .white

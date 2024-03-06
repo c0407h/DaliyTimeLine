@@ -86,7 +86,6 @@ class SettingTableViewCell: UITableViewCell {
         titleLabel.text = title
         let autoSave = UserDefaults.standard.value(forKey: "AutoSave") as? Bool
         photoAutoSaveSwitch.isOn = autoSave ?? false
-        
     }
     
     @objc func onClickSwitch(sender: UISwitch) {
@@ -95,17 +94,17 @@ class SettingTableViewCell: UITableViewCell {
         case .autoSave:
             UserDefaults.standard.setValue(sender.isOn, forKey: "AutoSave")
         case .screenSecret:
-            print("screesecert")
             if sender.isOn {
                 self.delegate?.showSettingSecretView()
+            } else {
+                UserDefaults.standard.removeObject(forKey: "LoginSecert")
             }
         }
     }
     
     func configureScreenSecretCell(title: String) {
         titleLabel.text = title
-        let screenSecret = UserDefaults.standard.value(forKey: "ScreenSecret") as? Bool
-        photoAutoSaveSwitch.isOn = screenSecret ?? false
+        photoAutoSaveSwitch.isOn = UserDefaults.standard.string(forKey: "LoginSecret") != nil ? true : false
     }
     
 }
