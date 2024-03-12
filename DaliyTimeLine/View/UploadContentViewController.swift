@@ -166,16 +166,17 @@ class UploadContentViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:))))
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-    }
-    
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        view.endEditing(true)
+//    }
+//    
     
     func configureUI() {
         view.backgroundColor = .white
@@ -328,28 +329,66 @@ class UploadContentViewController: UIViewController {
     }
     
     @objc func keyboardWillShow(_ notification:NSNotification) {
-        if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            UIView.animate(withDuration: 0.5, animations: {
-                self.bottomView.snp.updateConstraints {
-                    $0.height.equalTo(keyboardRectangle.height)
-                }
-                
-                let offset = CGPoint(x: 0,y: self.scrollView.contentSize.height - self.scrollView.bounds.height)
-                self.scrollView.setContentOffset(offset, animated: false)
-                
-                
-            })
-        }
+        
+        guard let userInfo = notification.userInfo,
+               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+                   return
+           }
+           
+        scrollView.contentInset.bottom = keyboardFrame.size.height
+        scrollView.scrollRectToVisible(captionTextView.frame, animated: true)
+        
+        
+        
+//        guard let userInfo = notification.userInfo as NSDictionary?,
+//                      let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+//                          return
+//                      }
+//                /// 키보드의 높이
+//                let keyboardHeight = keyboardFrame.size.height
+//                
+//                scrollView.contentOffset.y = keyboardHeight
+//                
+//                UIView.animate(withDuration: 0.3,
+//                               animations: { self.view.layoutIfNeeded()},
+//                               completion: nil)
+
+        
+//        if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+//            let keyboardRectangle = keyboardFrame.cgRectValue
+//            UIView.animate(withDuration: 0.5, animations: {
+//                self.bottomView.snp.updateConstraints {
+//                    $0.height.equalTo(keyboardRectangle.height)
+//                }
+//                
+//                let offset = CGPoint(x: 0,y: self.scrollView.contentSize.height - self.scrollView.bounds.height)
+//                self.scrollView.setContentOffset(offset, animated: false)
+//                
+//                
+//            })
+//        }
     }
     
     @objc func keyboardWillHide(_ notification:NSNotification) {
-        UIView.animate(withDuration: 0.5, animations: {
-            self.bottomView.snp.updateConstraints {
-                $0.height.equalTo(0)
-            }
+        let contentInset = UIEdgeInsets.zero
+         scrollView.contentInset = contentInset
+         scrollView.scrollIndicatorInsets = contentInset
+        
+//
+//        scrollView.contentOffset.y = .zero
+//             scrollView.scrollIndicatorInsets = self.scrollView.contentInset
+//             
+//             UIView.animate(withDuration: 0.3,
+//                            animations: { self.view.layoutIfNeeded()},
+//                            completion: nil)
+    }
+    
+    
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            view.endEditing(true)
         }
-        )
+        sender.cancelsTouchesInView = false
     }
     
     
@@ -370,25 +409,20 @@ extension UploadContentViewController: UITextViewDelegate {
         textView.constraints.forEach { (constraint) in
             // 더 이상 줄어들지 않게하기
             if estimatedSize.height <= 64 {
-                
             } else if estimatedSize.height >= 180 {
-                
             } else {
                 if constraint.firstAttribute == .height {
                     constraint.constant = estimatedSize.height
                 }
-                let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom + 20)
-                if(bottomOffset.y > 0) {
-                    scrollView.setContentOffset(bottomOffset, animated: true)
-                }
+                scrollView.scrollRectToVisible(captionTextView.frame, animated: true)
             }
         }
     }
 }
 
 
-extension UploadContentViewController: UIScrollViewDelegate {
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        self.view.endEditing(true)
-    }
-}
+//extension UploadContentViewController: UIScrollViewDelegate {
+//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//        self.view.endEditing(true)
+//    }
+//}
