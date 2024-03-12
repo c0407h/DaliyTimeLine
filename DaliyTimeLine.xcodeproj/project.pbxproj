@@ -272,9 +272,9 @@
 				416F1DF42B5A6DF800F8C2C8 /* ViewController.swift */,
 				416F1DF62B5A6DF800F8C2C8 /* Main.storyboard */,
 				416F1DF92B5A6DF900F8C2C8 /* Assets.xcassets */,
+				416F1DFE2B5A6DF900F8C2C8 /* Info.plist */,
 				41CDCE9D2B5A78400019C945 /* Plist */,
 				416F1DFB2B5A6DF900F8C2C8 /* LaunchScreen.storyboard */,
-				416F1DFE2B5A6DF900F8C2C8 /* Info.plist */,
 				4128D1ED2B5E755A00FA78B3 /* InputTextView.swift */,
 				41B538E42B96CC5100160F66 /* LoadingIndicator.swift */,
 			);

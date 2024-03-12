@@ -382,7 +382,6 @@ class SecretSettingViewController: UIViewController {
             }
         }
         
-        
         [numberBackButton, numberZeroButton, numberDeleteButton].forEach {
             fourthStackView.addArrangedSubview($0)
         }
