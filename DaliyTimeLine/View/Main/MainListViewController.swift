@@ -76,7 +76,7 @@ class MainListViewController: UIViewController {
     
     lazy var dateLabel: UILabel = {
         let label = UILabel()
-        label.text = String(dateFormatter().string(from: Date()))
+        label.text = Date().dateToString()
         label.textColor = UIColor.darkGray
         label.font = UIFont(name: "OTSBAggroB", size: 15)
         return label
@@ -104,16 +104,16 @@ class MainListViewController: UIViewController {
         return button
     }()
     
-    var viewModel = MainListViewModel(service: PostService())
     private var dataSource: UICollectionViewDiffableDataSource<PostSection, Int>!
+    var viewModel = MainListViewModel(service: PostService())
     weak var delegate: MainListViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+        self.configureUI()
         self.configureCV()
         
-        viewModel.getPost(date: Date()) {
+        self.viewModel.getPost(date: Date()) {
             self.cvReload()
         }
     }
@@ -172,14 +172,6 @@ class MainListViewController: UIViewController {
 
 extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
-    func dateFormatter() -> DateFormatter {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        return dateFormatter
-    }
-    
     //오늘날짜까지만 선택
     func maximumDate(for calendar: FSCalendar) -> Date {
         return Date()
@@ -220,10 +212,11 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         viewModel.updateSelectedDate(date)
         
-        let chgDate = dateFormatter().string(from: date)
-        if let date = dateFormatter().date(from: chgDate) {
+        let chgDate = date.dateToString()
+        
+        if let date = chgDate.stringToDate() {
             viewModel.getPost(date: date) {
-                self.dateLabel.text = self.dateFormatter().string(from: date)
+                self.dateLabel.text = date.dateToString()
                 self.cvReload()
             }
         }
@@ -244,8 +237,8 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     
     //날자 하단 subtitle string으로 변환
     func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
-        switch dateFormatter().string(from: date) {
-        case dateFormatter().string(from: Date()):
+        switch date.dateToString() {
+        case Date().dateToString():
             return "오늘"
         default:
             return nil
@@ -304,7 +297,6 @@ extension MainListViewController: UICollectionViewDataSource, UICollectionViewDe
             let viewModel = PostDetailViewModel(post: viewModel.posts[indexPath.row])
             let detailVC = PostDetailViewController(viewModel: viewModel)
             detailVC.delegate = self
-//            self.navigationController?.navigationBar.isHidden = false
             self.navigationController?.pushViewController(detailVC, animated: true)
         }
         
@@ -331,7 +323,6 @@ extension MainListViewController: UICollectionViewDataSource, UICollectionViewDe
 
 extension MainListViewController: MainListViewControllerDelegate {
     func reload() {
-        
         viewModel.getPost(date: Date()) {
             self.calendarView.select(Date())
             self.calendarView.reloadData()

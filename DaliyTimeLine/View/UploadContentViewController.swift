@@ -10,28 +10,26 @@ import SnapKit
 
 class UploadContentViewController: UIViewController {
     
-    var currentUser: User?
+//    var currentUser: User?
+//    var originalImage: UIImage?
+//    var selectedImage: UIImage? {
+//        didSet {
+//            if let image = selectedImage{
+//                originalImage = image
+//                photoImageView.image = image
+//            }
+//        }
+//    }
     
-    var originalImage: UIImage?
-    var selectedImage: UIImage? {
-        didSet {
-            if let image = selectedImage{
-                originalImage = image
-                photoImageView.image = image
-            }
-        }
-    }
+    private let viewModel: UploadViewModel?
+    weak var delegate: MainListViewControllerDelegate?
     
     private lazy var scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.delegate = self
         return sv
     }()
-    
-    private let bottomView: UIView = {
-        let view = UIView()
-        return view
-    }()
+
     
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
@@ -157,26 +155,38 @@ class UploadContentViewController: UIViewController {
         return button
     }()
     
-    weak var delegate: MainListViewControllerDelegate?
     
+    
+    
+    init(viewModel: UploadViewModel) {
+        self.viewModel = viewModel
+
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+        self.configureUI()
+        
+        DispatchQueue.main.async {
+            self.photoImageView.image = self.viewModel?.selectedImage
+        }
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:))))
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
     
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        view.endEditing(true)
-//    }
-//    
     
     func configureUI() {
         view.backgroundColor = .white
@@ -187,17 +197,8 @@ class UploadContentViewController: UIViewController {
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalToSuperview()
-            
-        }
-        
-        view.addSubview(bottomView)
-        bottomView.snp.makeConstraints {
-            $0.height.equalTo(0)
-            $0.top.equalTo(scrollView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-        
         
         scrollView.addSubview(photoImageView)
         photoImageView.snp.makeConstraints { make in
@@ -210,7 +211,7 @@ class UploadContentViewController: UIViewController {
             
         }
         
-        scrollView.addSubview(dateLabel)
+        photoImageView.addSubview(dateLabel)
         dateLabel.snp.makeConstraints { make in
             make.leading.equalTo(photoImageView.snp.leading).offset(16)
             make.trailing.equalTo(photoImageView.snp.trailing).offset(-16)
@@ -267,6 +268,7 @@ class UploadContentViewController: UIViewController {
         }
     }
     
+    
     @objc func didTapCancel() {
         dismiss(animated: true)
     }
@@ -281,24 +283,21 @@ class UploadContentViewController: UIViewController {
         }
         
         guard let caption = captionTextView.text else { return }
-        guard let user = currentUser else { return }
+        guard let user = self.viewModel?.currentUser else { return }
         
-        UploadService.uploadPost(caption: caption, image: mergedImage, user: user) { error in
-            
-            LoadingIndicator.hideLoading()
-            if let error = error {
-                print(#function,"\(error.localizedDescription)")
-                return
-            }
-            
-            self.dismiss(animated: true) {
-                if let autoSave = UserDefaults.standard.value(forKey: "AutoSave") as? Bool {
-                    if autoSave {
-                        UIImageWriteToSavedPhotosAlbum(mergedImage, self, nil, nil)
-                    }
-                }
+        DispatchQueue.global().async {
+            self.viewModel?.uploadPost(caption: caption, image: mergedImage, user: user) {
+                LoadingIndicator.hideLoading()
                 
-                self.delegate?.reload()
+                self.dismiss(animated: true) {
+                    if let autoSave = UserDefaults.standard.value(forKey: "AutoSave") as? Bool {
+                        if autoSave {
+                            UIImageWriteToSavedPhotosAlbum(mergedImage, self, nil, nil)
+                        }
+                    }
+                    
+                    self.delegate?.reload()
+                }
             }
         }
     }

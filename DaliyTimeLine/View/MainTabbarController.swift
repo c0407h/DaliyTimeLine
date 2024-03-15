@@ -40,7 +40,7 @@ class MainTabbarController: UITabBarController {
         mainListController.tabBarItem.tag = 0
         mainListController.tabBarItem = UITabBarItem(title: "캘린더", image: UIImage(systemName:  "calendar"), selectedImage: nil)
         
-        let uploadViewController = UploadContentViewController()
+        let uploadViewController = UploadContentViewController(viewModel: UploadViewModel())
         uploadViewController.tabBarItem.tag = 1
         uploadViewController.tabBarItem.title = nil
         
@@ -100,11 +100,11 @@ class MainTabbarController: UITabBarController {
                 picker.dismiss(animated: false) {
                     guard let selectedImage = items.singlePhoto?.image else { return }
                     guard let user = self.user else { return }
-                    let controller = UploadContentViewController()
+                    let controller = UploadContentViewController(viewModel: UploadViewModel(currentUser: user, originalImage: selectedImage, selectedImage: selectedImage))
                     
-                    controller.selectedImage = selectedImage
+//                    controller.selectedImage = selectedImage
                     controller.delegate = self
-                    controller.currentUser = user
+//                    controller.currentUser = user
                     let nav = UINavigationController(rootViewController: controller)
                     nav.modalPresentationStyle = .fullScreen
                     nav.navigationBar.tintColor = .black

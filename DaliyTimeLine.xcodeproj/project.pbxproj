@@ -50,6 +50,9 @@
 		41CDCE9F2B5A78400019C945 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 41CDCE9E2B5A78400019C945 /* GoogleService-Info.plist */; };
 		41CDCEA12B5A78C60019C945 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CDCEA02B5A78C60019C945 /* LoginViewController.swift */; };
 		41CDCEA62B5AB5070019C945 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41CDCEA52B5AB5070019C945 /* LoginViewModel.swift */; };
+		41F04A3E2BA4A96200A034FA /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F04A3D2BA4A96200A034FA /* Date+Extension.swift */; };
+		41F04A402BA4ABB900A034FA /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F04A3F2BA4ABB900A034FA /* String+Extension.swift */; };
+		41F04A442BA4AD0700A034FA /* UploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41F04A432BA4AD0700A034FA /* UploadViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +124,9 @@
 		41CDCEA52B5AB5070019C945 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		41CDCEA72B5ABDF40019C945 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		41CDCEA82B5ABDF40019C945 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		41F04A3D2BA4A96200A034FA /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		41F04A3F2BA4ABB900A034FA /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		41F04A432BA4AD0700A034FA /* UploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadViewModel.swift; sourceTree = "<group>"; };
 		458A8EC6D350A17E170B0247 /* Pods-DaliyTimeLine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DaliyTimeLine.debug.xcconfig"; path = "Target Support Files/Pods-DaliyTimeLine/Pods-DaliyTimeLine.debug.xcconfig"; sourceTree = "<group>"; };
 		A80FC5DBA4111D73A5541337 /* Pods-DaliyTimeLineTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DaliyTimeLineTests.release.xcconfig"; path = "Target Support Files/Pods-DaliyTimeLineTests/Pods-DaliyTimeLineTests.release.xcconfig"; sourceTree = "<group>"; };
 		BBA66C544E29A5A4F032D339 /* Pods-DaliyTimeLine-DaliyTimeLineUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DaliyTimeLine-DaliyTimeLineUITests.debug.xcconfig"; path = "Target Support Files/Pods-DaliyTimeLine-DaliyTimeLineUITests/Pods-DaliyTimeLine-DaliyTimeLineUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -261,6 +267,7 @@
 		416F1DEF2B5A6DF800F8C2C8 /* DaliyTimeLine */ = {
 			isa = PBXGroup;
 			children = (
+				41F04A3C2BA4A95600A034FA /* Extension */,
 				413D75B92B752F47008A67B5 /* Resource */,
 				413D75B52B710B95008A67B5 /* Service */,
 				4128D1F12B5E94E400FA78B3 /* Repository */,
@@ -305,6 +312,7 @@
 				413D75B32B7109A6008A67B5 /* MainListViewModel.swift */,
 				413D75C22B763A58008A67B5 /* SettingViewModel.swift */,
 				413D75C52B766EB3008A67B5 /* PostDetailViewModel.swift */,
+				41F04A432BA4AD0700A034FA /* UploadViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -347,6 +355,15 @@
 				41CDCE9E2B5A78400019C945 /* GoogleService-Info.plist */,
 			);
 			path = Plist;
+			sourceTree = "<group>";
+		};
+		41F04A3C2BA4A95600A034FA /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				41F04A3D2BA4A96200A034FA /* Date+Extension.swift */,
+				41F04A3F2BA4ABB900A034FA /* String+Extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		54606CCD4B4BD91CF670B476 /* Pods */ = {
@@ -607,13 +624,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				416F1E2C2B5A6F6100F8C2C8 /* SettingViewController.swift in Sources */,
+				41F04A442BA4AD0700A034FA /* UploadViewModel.swift in Sources */,
 				41C4B6CD2B94AEFE00CD8292 /* SettingTableViewCell.swift in Sources */,
 				413D75C82B766EDA008A67B5 /* PostDetailViewController.swift in Sources */,
 				413D75AE2B70BE85008A67B5 /* FeedCollectionViewCell.swift in Sources */,
 				416F1DF52B5A6DF800F8C2C8 /* ViewController.swift in Sources */,
 				416F1DF12B5A6DF800F8C2C8 /* AppDelegate.swift in Sources */,
 				416F1E282B5A6EF600F8C2C8 /* MainTabbarController.swift in Sources */,
+				41F04A402BA4ABB900A034FA /* String+Extension.swift in Sources */,
 				41CDCEA12B5A78C60019C945 /* LoginViewController.swift in Sources */,
+				41F04A3E2BA4A96200A034FA /* Date+Extension.swift in Sources */,
 				4128D1EE2B5E755A00FA78B3 /* InputTextView.swift in Sources */,
 				4128D1F32B5E94ED00FA78B3 /* UserService.swift in Sources */,
 				4128D1EC2B5E711600FA78B3 /* UploadContentViewController.swift in Sources */,

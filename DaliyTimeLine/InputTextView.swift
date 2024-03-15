@@ -30,7 +30,6 @@ class InputTextView: UITextView {
                     make.centerX.equalTo(self)
                 }
             } else {
-                
                 placeholderLabel.snp.makeConstraints { make in
                     make.top.equalTo(self).offset(6)
                     make.leading.equalTo(self).offset(8)
@@ -47,7 +46,6 @@ class InputTextView: UITextView {
             make.top.equalTo(self).offset(6)
             make.leading.equalTo(self).offset(8)
         }
-        
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleTextDidChange), name: UITextView.textDidChangeNotification, object: nil)
         
