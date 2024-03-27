@@ -7,9 +7,11 @@
 
 import Foundation
 import Firebase
+import RxSwift
+import FirebaseFirestoreInternal
 
 class PostService {
-    
+
     func getPost(date: Date, completion: @escaping([Post]) -> Void) {
         let calendar = Calendar.current
         let startDate = calendar.startOfDay(for: date) // 오늘 날짜의 시작
@@ -17,38 +19,38 @@ class PostService {
         
         Firestore.firestore().collection("contents")
             .whereField("timestamp", isGreaterThanOrEqualTo: Timestamp(date: startDate))
-           .whereField("timestamp", isLessThan: Timestamp(date: endDate))
-           .whereField("ownerUid", isEqualTo: Auth.auth().currentUser?.uid as Any)
+            .whereField("timestamp", isLessThan: Timestamp(date: endDate))
+            .whereField("ownerUid", isEqualTo: Auth.auth().currentUser?.uid as Any)
             .getDocuments { snapshot, error in
-            if let error = error {
-                print("DEBUG: \(error.localizedDescription)")
-                return
-            }
-            
-            guard let documents = snapshot?.documents else { return } // document들을 가져옴
+                if let error = error {
+                    print("DEBUG: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let documents = snapshot?.documents else { return } // document들을 가져옴
                 
                 let posts = documents.map{
                     Post(documentId: $0.documentID,dictionary: $0.data())
                 }
-            
-            completion(posts)
-        }
+                
+                completion(posts)
+            }
     }
     
     func getAllPosts(completion: @escaping([Post]) -> Void) {
         Firestore.firestore().collection("contents")
             .whereField("ownerUid", isEqualTo: Auth.auth().currentUser?.uid as Any)
             .getDocuments { snapshot, error in
-            if let error = error {
-                print("DEBUG: \(error.localizedDescription)")
-                return
+                if let error = error {
+                    print("DEBUG: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let documents = snapshot?.documents else { return } // document들을 가져옴
+                let posts = documents.map{ Post(documentId: $0.documentID, dictionary: $0.data())}
+                
+                completion(posts)
             }
-            
-            guard let documents = snapshot?.documents else { return } // document들을 가져옴
-            let posts = documents.map{ Post(documentId: $0.documentID, dictionary: $0.data())}
-            
-            completion(posts)
-        }
     }
     
     

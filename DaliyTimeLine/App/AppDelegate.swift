@@ -11,15 +11,14 @@ import GoogleSignIn
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         //Firebase fonfigure
         FirebaseApp.configure()
+        
         let appearance = UITabBarItem.appearance()
+        
         let attributes = [NSAttributedString.Key.font:UIFont(name: "OTSBAggroM", size: 10)]
         appearance.setTitleTextAttributes(attributes as [NSAttributedString.Key : Any], for: .normal)
         return true
@@ -37,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If not handled by this app, return false.
         return false
     }
+    
+
     
     // MARK: UISceneSession Lifecycle
     

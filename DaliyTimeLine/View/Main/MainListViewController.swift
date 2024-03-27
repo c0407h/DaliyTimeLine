@@ -9,9 +9,12 @@ import UIKit
 import Firebase
 import SnapKit
 import FSCalendar
+import RxSwift
+import RxCocoa
 
 protocol MainListViewControllerDelegate: AnyObject {
     func reload()
+    func postUpdate(documentID: String, caption: String)
 }
 
 class MainListViewController: UIViewController {
@@ -107,6 +110,7 @@ class MainListViewController: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<PostSection, Int>!
     var viewModel = MainListViewModel(service: PostService())
     weak var delegate: MainListViewControllerDelegate?
+    let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -327,6 +331,12 @@ extension MainListViewController: MainListViewControllerDelegate {
             self.calendarView.select(Date())
             self.calendarView.reloadData()
             self.cvReload()
+        }
+    }
+    
+    func postUpdate(documentID: String, caption: String) {
+        if let updateIndex = viewModel.posts.firstIndex(where: { $0.documentId == documentID }) {
+            viewModel.posts[updateIndex].caption = caption
         }
     }
 }

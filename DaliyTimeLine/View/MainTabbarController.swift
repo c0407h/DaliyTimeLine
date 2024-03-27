@@ -165,16 +165,17 @@ extension MainTabbarController: UITabBarControllerDelegate {
         } else {
             return true
         }
-    }
-    
-    
+    }    
 }
 
 extension MainTabbarController: MainListViewControllerDelegate {
+    func postUpdate(documentID: String, caption: String) { }
+    
     func reload() {
         
         if let mainListVC = viewControllers?[0] as? MainListViewController {
             mainListVC.updateReload()
         }
     }
+    
 }

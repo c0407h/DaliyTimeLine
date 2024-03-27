@@ -7,49 +7,43 @@
 
 import Foundation
 import Firebase
+import RxSwift
+import RxRelay
+
+protocol MainListViewModelType {
+    //input
+    
+    //output
+    //전체 포스트
+    
+    
+}
 
 enum PostSection: CaseIterable {
     case dailyPost
 }
 
 class MainListViewModel {
+    
     var posts = [Post]()
     var mainPosts = [Post]()
     var service: PostService
-    
+    var selectedDate: Date = Date()
+    var preSelectedDate: Date?
+    var disposeBag = DisposeBag()
+
     var isPostsEmpty: Bool {
         get {
             return posts.count > 0 ? true : false
         }
     }
     
+    
     init(service: PostService) {
         self.service = service
         getAllPost()
     }
-    
-    //    var imageUrl: URL? {
-    //        return URL(string: post.imageUrl)
-    //    }
-    //
-    //    var username: String {
-    //        return post.ownerUsername
-    //    }
-    //
-    //    var caption: String {
-    //        return post.caption
-    //    }
-    //
-    //    var timestampString: String? {
-    //        let formatter = DateComponentsFormatter()
-    //        formatter.allowedUnits = [.second, .minute, .hour, .day, .weekOfMonth, .weekOfYear]
-    //        formatter.maximumUnitCount = 1
-    //        formatter.unitsStyle = .full
-    //        return formatter.string(from: post.timestamp.dateValue(), to: Date())
-    //    }
-    
-    var selectedDate: Date = Date()
-    var preSelectedDate: Date?
+
     
     func getPost(date: Date, completion: @escaping () -> Void) {
         service.getPost(date: date) { posts in
@@ -59,6 +53,7 @@ class MainListViewModel {
             completion()
         }
     }
+
     
     func getAllPost() {
         self.service.getAllPosts { posts in
@@ -123,6 +118,6 @@ class MainListViewModel {
     func updateSelectedDate(_ date: Date) {
         self.preSelectedDate = self.selectedDate
         selectedDate = date
-        
     }
+    
 }

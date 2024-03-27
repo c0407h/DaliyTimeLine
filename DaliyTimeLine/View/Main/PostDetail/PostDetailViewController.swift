@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 import Kingfisher
 
+
+
 class PostDetailViewController: UIViewController {
     
     private var viewModel: PostDetailViewModel
@@ -69,6 +71,20 @@ class PostDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        
+        let backButton = UIBarButtonItem(image: UIImage(named: "navi_left_back"), style: .plain, target: self, action: #selector(popViewController))
+        let deleteButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deletePost))
+        
+        let sharedButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(sharePost))
+        let editButton = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(editPost))
+        
+        
+        self.navigationItem.rightBarButtonItems = [deleteButton, sharedButton, editButton]
+        self.navigationItem.leftBarButtonItem = backButton
+        self.navigationItem.leftItemsSupplementBackButton = false
+        
+        self.navigationController?.navigationBar.tintColor = .black
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:))))
@@ -88,16 +104,22 @@ class PostDetailViewController: UIViewController {
     }
     
     private func configureUI() {
-        let deleteButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deletePost))
-        let sharedButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(sharePost))
-        let editButton = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(editPost))
-        
-        self.navigationItem.rightBarButtonItems = [deleteButton, sharedButton, editButton]
-        self.navigationController?.navigationBar.tintColor = .black
+//        let backButton = UIBarButtonItem(title: "< 뒤로", style: .plain, target: self, action: nil)
+       
         
         postImageView.kf.setImage(with: URL(string: viewModel.post.imageUrl))
         dateLabel.text = viewModel.post.timestamp.dateValue().dateToString()
-        captionTextView.text = viewModel.post.caption
+        
+        if viewModel.post.caption.isEmpty {
+            captionTextView.textColor = .lightGray
+            captionTextView.text = "내용이 없습니다."
+            charaterCountLabel.isHidden = true
+        } else {
+            captionTextView.textColor = .black
+            captionTextView.text = viewModel.post.caption
+            charaterCountLabel.text = "\(captionTextView.text.count)/100"
+            charaterCountLabel.isHidden = false
+        }
         
         self.view.addSubview(scrollView)
         scrollView.snp.makeConstraints {
@@ -117,13 +139,12 @@ class PostDetailViewController: UIViewController {
         self.scrollView.addSubview(dateLabel)
         dateLabel.snp.makeConstraints {
             $0.top.equalTo(postImageView.snp.bottom).offset(10)
-            $0.leading.equalTo(postImageView.snp.leading).offset(16)
-            $0.trailing.equalTo(postImageView.snp.trailing).offset(-16)
-//            $0.bottom.equalTo(postImageView.snp.bottom).offset(-16)
+            $0.leading.equalTo(postImageView.snp.leading)
+            $0.trailing.equalTo(postImageView.snp.trailing)
         }
         
         self.scrollView.addSubview(captionTextView)
-        captionTextView.backgroundColor = .red
+        
         captionTextView.snp.makeConstraints {
             $0.top.equalTo(dateLabel.snp.bottom).offset(10)
             $0.leading.equalTo(self.scrollView.snp.leading).offset(10)
@@ -137,11 +158,14 @@ class PostDetailViewController: UIViewController {
             make.bottom.lessThanOrEqualToSuperview()
         }
                 
-//        captionTextView.translatesAutoresizingMaskIntoConstraints = true
         captionTextView.sizeToFit()
         captionTextView.isScrollEnabled = false
         
-        charaterCountLabel.text = "\(captionTextView.text.count)/100"
+
+    }
+    
+    @objc func popViewController() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func deletePost() {
@@ -165,21 +189,36 @@ class PostDetailViewController: UIViewController {
         let doneButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(editDone))
         self.navigationItem.rightBarButtonItems = [doneButton]
         
-        if captionTextView.text.isEmpty {
+        if self.viewModel.post.caption.isEmpty {
             captionTextView.placeholderText = "내용을 입력해 주세요"
+            captionTextView.text = nil
         } else {
             captionTextView.text = self.viewModel.post.caption
         }
         
         self.captionTextView.isEditable = true
+        self.captionTextView.becomeFirstResponder()
+        
+        captionTextView.textColor = .black
+        charaterCountLabel.text = "\(captionTextView.text.count)/100"
+        charaterCountLabel.isHidden = false
     }
     
     @objc func editDone() {
+        LoadingIndicator.showLoading()
         let deleteButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deletePost))
         let sharedButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(sharePost))
         let editButton = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(editPost))
         
-        self.navigationItem.rightBarButtonItems = [deleteButton, sharedButton, editButton]
+        
+        viewModel.updatePost(documentID: self.viewModel.post.documentId, caption: self.captionTextView.text) {
+            self.delegate?.postUpdate(documentID: self.viewModel.post.documentId, caption: self.captionTextView.text)
+            self.view.endEditing(true)
+            self.captionTextView.isEditable = false
+            self.navigationItem.rightBarButtonItems = [deleteButton, sharedButton, editButton]
+            LoadingIndicator.hideLoading()
+        }
+        
     }
     
     @objc func sharePost() {
@@ -221,8 +260,6 @@ class PostDetailViewController: UIViewController {
             textView.deleteBackward()
         }
     }
-    
-    
 }
 
 //MARK: - UITextViewDelegate
@@ -254,3 +291,11 @@ extension PostDetailViewController: UIScrollViewDelegate {
         self.view.endEditing(true)
     }
 }
+
+
+//extension UIBarButtonItem {
+//    convenience init(image: UIImage?, style: UIBarButtonItem.Style, target:Any?, action: Selector?, menu: UIMenu?) {
+//        self.init(image: image, style: style, target: target, action: action)
+//        self.menu = menu
+//    }
+//}

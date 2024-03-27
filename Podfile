@@ -20,6 +20,8 @@ target 'DaliyTimeLine' do
   pod 'GoogleSignIn'
 
   pod 'FSCalendar'
+  pod 'RxSwift', '6.6.0'
+  pod 'RxCocoa', '6.6.0'
 
   target 'DaliyTimeLineTests' do
     inherit! :search_paths

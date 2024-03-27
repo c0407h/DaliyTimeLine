@@ -43,16 +43,45 @@ class LoginViewController: UIViewController {
         return label
     }()
     
-    private lazy var appleLoginButton: ASAuthorizationAppleIDButton = {
-        let button = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
-        button.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
+//    private lazy var appleLoginButton: ASAuthorizationAppleIDButton = {
+//        let button = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
+//        button.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
+//        return button
+//    }()
+//    
+//    private lazy var googleLoginButton: GIDSignInButton = {
+//        let button = GIDSignInButton()
+//        button.style = .wide
+//        button.addTarget(self, action: #selector(handleAuthorizationGoogleButtonPress), for: .touchUpInside)
+//        return button
+//    }()
+    
+    
+    private lazy var googleLoginButton: UIButton = {
+       let button = UIButton()
+        button.backgroundColor = .white
+        button.setTitle("Google로 로그인", for: .normal)
+        button.setImage(UIImage(named: "google_Logo"), for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.addTarget(self, action: #selector(handleAuthorizationGoogleButtonPress), for: .touchUpInside)
+        button.layer.cornerRadius = 8
+        button.layer.masksToBounds = true
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.lightGray.cgColor
         return button
     }()
     
-    private lazy var googleLoginButton: GIDSignInButton = {
-        let button = GIDSignInButton()
-        button.style = .wide
-        button.addTarget(self, action: #selector(handleAuthorizationGoogleButtonPress), for: .touchUpInside)
+    private lazy var appleLoginButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .black
+        button.setImage(UIImage(named: "apple_Logo"), for: .normal)
+        button.setTitle("Apple로 로그인", for: .normal)
+        button.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
+        button.layer.cornerRadius = 8
+        button.layer.masksToBounds = true
         return button
     }()
     
@@ -78,8 +107,9 @@ class LoginViewController: UIViewController {
         
         logoImageView.snp.makeConstraints { make in
             make.height.width.equalTo(150)
-            make.top.equalToSuperview().offset(150)
+//            make.top.equalToSuperview().offset(150)
             make.centerX.equalTo(self.view)
+            make.centerY.equalTo(self.view).offset(-50)
         }
         
         titleLabel.snp.makeConstraints { make in
@@ -87,6 +117,13 @@ class LoginViewController: UIViewController {
             make.leading.trailing.equalTo(self.view)
         }
         
+//        sampleButton.snp.makeConstraints { make in
+//            make.height.equalTo(50)
+//        }
+//        
+//        sampleGoogleLoginButton.snp.makeConstraints { make in
+//            make.height.equalTo(50)
+//        }
         
         appleLoginButton.snp.makeConstraints { make in
             make.height.equalTo(50)
@@ -102,7 +139,7 @@ class LoginViewController: UIViewController {
         
         view.addSubview(stack)
         stack.snp.makeConstraints { make in
-            make.bottom.equalTo(self.view.safeAreaInsets.bottom).offset(-300)
+            make.bottom.equalTo(self.view.safeAreaInsets.bottom).offset(-150)
             make.centerX.equalTo(self.view)
             make.leading.equalTo(self.view).offset(50)
             make.trailing.equalTo(self.view).offset(-50)
