@@ -9,6 +9,30 @@ import Foundation
 import Firebase
 import RxSwift
 import RxRelay
+import Differentiator
+
+
+struct MySection {
+    var items: [Post]
+
+    init(items: [Post]) {
+        self.items = items
+    }
+}
+
+extension MySection: SectionModelType {
+    
+    typealias Item = Post
+    
+    init(original: MySection, items: [Post]) {
+        self = original
+        self.items = items
+    }
+    
+    
+}
+
+
 
 protocol MainListViewModelType {
     //input
@@ -24,47 +48,62 @@ enum PostSection: CaseIterable {
 }
 
 class MainListViewModel {
+    var mainPost = PublishSubject<[Post]>()
+    var dailyPost = PublishSubject<[Post]>()
+    var dailyPostCount = PublishSubject<Int>()
     
-    var posts = [Post]()
-    var mainPosts = [Post]()
     var service: PostService
-    var selectedDate: Date = Date()
-    var preSelectedDate: Date?
     var disposeBag = DisposeBag()
 
-    var isPostsEmpty: Bool {
-        get {
-            return posts.count > 0 ? true : false
+    
+    
+    func rxGetAllPost() {
+        service.getAllPosts { posts in
+            self.mainPost.onNext(posts)
         }
     }
     
+    func rxGetPost(date: Date) {
+        self.updateSelectedDate(date)
+        service.getPost(date: date) { post in
+            self.dailyPost.onNext(post)
+            self.dailyPostCount.onNext(post.count)
+            
+        }
+    }
+    
+    func postUpdate(documentID: String, caption: String) {
+        
+        dailyPost.subscribe(onNext: { [weak self] posts in
+              if let updateIndex = posts.firstIndex(where: { $0.documentId == documentID }) {
+                  var updatedPosts = posts
+                  updatedPosts[updateIndex].caption = caption
+                  self?.dailyPost.onNext(updatedPosts)
+              }
+            print("updatepost")
+          }).disposed(by: disposeBag)
+    }
+    
+    func rxGetPostImg(date: Date) -> Observable<URL?> {
+        return service.rxGetAllPosts()
+            .map { posts in
+                let filteredPosts = self.filterFirstPostForUniqueTimestamps(posts: posts)
+                let post = filteredPosts.first { post in
+                    let postDateComponents = self.dateComponets(date: post.timestamp.dateValue())
+                    let dateComponents = self.dateComponets(date: date)
+                    return dateComponents == postDateComponents
+                }
+                
+                return URL(string: post?.imageUrl ?? "")
+            }
+    }
     
     init(service: PostService) {
         self.service = service
-        getAllPost()
+        rxGetAllPost()
+        
     }
 
-    
-    func getPost(date: Date, completion: @escaping () -> Void) {
-        service.getPost(date: date) { posts in
-            self.selectedDate = date
-            self.posts = posts
-            
-            completion()
-        }
-    }
-
-    
-    func getAllPost() {
-        self.service.getAllPosts { posts in
-            self.mainPosts = self.filterFirstPostForUniqueTimestamps(posts: posts)
-        }
-    }
-    
-    
-    func getPostData(_ index: Int) -> Post {
-        return self.posts[index]
-    }
     
     func filterFirstPostForUniqueTimestamps(posts: [Post]) -> [Post] {
         // timestamp를 기준으로 중복 제거
@@ -91,33 +130,20 @@ class MainListViewModel {
     }
     
     
-    func getDatePost(date: Date, compltion: @escaping(URL?)->Void) {
-        var imageUrl = ""
-        
-        self.service.getAllPosts { posts in
-            self.filterFirstPostForUniqueTimestamps(posts: posts).forEach { post in
-                let postDateComponents = self.dateComponets(date: post.timestamp.dateValue())
-                let dateComponents = self.dateComponets(date: date)
-                
-                if dateComponents == postDateComponents {
-                    imageUrl = post.imageUrl
-                    compltion(URL(string: imageUrl))
-                }
-            }
-        }
-    }
-    
-    func isCurrentSelected(_ date: Date) -> Bool {
-        let selectDateComponent = self.dateComponets(date: self.selectedDate)
-        let nowDateComponent = self.dateComponets(date: date)
-        
-        return selectDateComponent == nowDateComponent ? true : false
-    }
-    
-    
+    let selectedDateSubject = BehaviorSubject<Date>(value: Date())
+
+    // 선택된 날짜를 업데이트하는 메서드를 추가합니다.
     func updateSelectedDate(_ date: Date) {
-        self.preSelectedDate = self.selectedDate
-        selectedDate = date
+        selectedDateSubject.onNext(date)
+    }
+
+    // 선택된 날짜를 확인하는 메서드를 추가합니다.
+    func isCurrentSelected(_ date: Date) -> Observable<Bool> {
+        return selectedDateSubject.map { selectedDate in
+            let selectDateComponent = self.dateComponets(date: selectedDate)
+            let nowDateComponent = self.dateComponets(date: date)
+            return selectDateComponent == nowDateComponent
+        }
     }
     
 }

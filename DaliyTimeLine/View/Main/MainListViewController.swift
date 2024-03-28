@@ -11,6 +11,8 @@ import SnapKit
 import FSCalendar
 import RxSwift
 import RxCocoa
+import RxDataSources
+
 
 protocol MainListViewControllerDelegate: AnyObject {
     func reload()
@@ -93,7 +95,6 @@ class MainListViewController: UIViewController {
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.showsVerticalScrollIndicator = false
-        cv.dataSource = self
         cv.delegate = self
         return cv
     }()
@@ -115,13 +116,33 @@ class MainListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
-        self.configureCV()
         
-        self.viewModel.getPost(date: Date()) {
-            self.cvReload()
-        }
-    }
+        
+        self.viewModel.dailyPost
+            .subscribe {[weak self] _ in
+                self?.cvReload()
+            }
+            .disposed(by: disposeBag)
+        
+        self.viewModel.dailyPost
+                   .bind(to: postCollectionView.rx.items(cellIdentifier: "FeedCollectionViewCell", cellType: FeedCollectionViewCell.self)) { index, post, cell in
+                       cell.configureUI(post: post)
+                   }
+                   .disposed(by: disposeBag)
+        
+        self.postCollectionView.rx.modelSelected(Post.self)
+                .subscribe(onNext: { [weak self] post in
+                    guard let self = self else { return }
+                    let viewModel = PostDetailViewModel(post: post)
+                    let detailVC = PostDetailViewController(viewModel: viewModel)
+                    detailVC.delegate = self
+                    self.navigationController?.pushViewController(detailVC, animated: true)
+                })
+                .disposed(by: disposeBag)
 
+        self.viewModel.rxGetPost(date: Date())
+            
+    }
     
     
     private func configureUI() {
@@ -151,10 +172,8 @@ class MainListViewController: UIViewController {
     }
     
     func updateReload() {
-        viewModel.getPost(date: Date()) {
-            self.calendarView.select(Date())
-            self.cvReload()
-        }
+        self.calendarView.select(Date())
+        viewModel.rxGetPost(date: Date())
     }
     
     func cvReload() {        
@@ -183,15 +202,20 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         guard let cell = calendar.dequeueReusableCell(withIdentifier: CalendarCell.description(), for: date, at: position) as? CalendarCell else { return FSCalendarCell() }
+
         
-        viewModel.getDatePost(date: date) { url in
-            if let imageUrl = url {
-                cell.backImageView.kf.setImage(with: imageUrl)
+        self.viewModel.rxGetPostImg(date: date)
+            .subscribe { url in
+                cell.backImageView.kf.setImage(with: url)
             }
-        }
+            .disposed(by: disposeBag)
         
         // 현재 선택되어 있는 날짜인지 확인 후 배경 이미지의 alpha값을 조절한다
-        cell.backImageView.alpha = viewModel.isCurrentSelected(date) ? 1 : 0.5
+        self.viewModel.isCurrentSelected(date)
+            .subscribe { bool in
+                cell.backImageView.alpha = bool ? 1 : 0.5
+            }
+            .disposed(by: disposeBag)
         
         return cell
     }
@@ -216,26 +240,21 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         viewModel.updateSelectedDate(date)
         
-        let chgDate = date.dateToString()
-        
-        if let date = chgDate.stringToDate() {
-            viewModel.getPost(date: date) {
-                self.dateLabel.text = date.dateToString()
-                self.cvReload()
-            }
-        }
+        self.dateLabel.text = date.dateToString()
+        self.viewModel.rxGetPost(date: date)
+
         
         // 기존에 선택했던 날짜의 셀 배경의 alpha값을 다시 0.5로 바꿔주고,
         // 새롭게 선택한 날짜의 셀 배경의 alpha값을 1로 바꿔준다
-        if let previous = viewModel.preSelectedDate {
-            if let preCell = calendar.cell(for: previous, at: monthPosition) as? CalendarCell  {
-                preCell.backImageView.alpha = 0.5
-            }
-        }
-        
-        if let currentCell = calendar.cell(for: viewModel.selectedDate, at: monthPosition) as? CalendarCell {
-            currentCell.backImageView.alpha = 1
-        }
+//        if let previous = viewModel.preSelectedDate {
+//            if let preCell = calendar.cell(for: previous, at: monthPosition) as? CalendarCell  {
+//                preCell.backImageView.alpha = 0.5
+//            }
+//        }
+//        
+//        if let currentCell = calendar.cell(for: viewModel.selectedDate, at: monthPosition) as? CalendarCell {
+//            currentCell.backImageView.alpha = 1
+//        }
     }
 
     
@@ -261,54 +280,14 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
             return .label
         }
     }
-
     
 }
 
 
-extension MainListViewController: UICollectionViewDataSource, UICollectionViewDelegate{
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if !self.viewModel.posts.isEmpty {
-            return self.viewModel.posts.count
-        } else {
-            return 1
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCollectionViewCell", for: indexPath) as? FeedCollectionViewCell {
-            
-            if self.viewModel.posts.count == 0 {
-                cell.cofigureTitle()
-            } else {
-                let post = self.viewModel.getPostData(indexPath.row)
-                cell.configureUI(post: post)
-            }
-            return cell
-        }
-        return UICollectionViewCell()
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        if self.viewModel.isPostsEmpty{
-            let viewModel = PostDetailViewModel(post: viewModel.posts[indexPath.row])
-            let detailVC = PostDetailViewController(viewModel: viewModel)
-            detailVC.delegate = self
-            self.navigationController?.pushViewController(detailVC, animated: true)
-        }
-        
-    }
-    
+extension MainListViewController:  UICollectionViewDelegate{
     func configureCV() {
-        let itemSize: CGFloat = viewModel.posts.count > 0 ? 1/3 : 1
-        let groupItemCnt = viewModel.posts.count > 0 ? 3 : 1
+        let itemSize: CGFloat = 1/3
+        let groupItemCnt = 3
         
         let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(itemSize), heightDimension: .fractionalWidth(itemSize))
         let item = NSCollectionLayoutItem(layoutSize: size)
@@ -322,21 +301,34 @@ extension MainListViewController: UICollectionViewDataSource, UICollectionViewDe
         
         postCollectionView.collectionViewLayout = layout
     }
-    
 }
 
 extension MainListViewController: MainListViewControllerDelegate {
     func reload() {
-        viewModel.getPost(date: Date()) {
-            self.calendarView.select(Date())
-            self.calendarView.reloadData()
-            self.cvReload()
-        }
+        viewModel.rxGetPost(date: Date())
+        self.calendarView.select(Date())
+        self.calendarView.reloadData()
     }
     
     func postUpdate(documentID: String, caption: String) {
-        if let updateIndex = viewModel.posts.firstIndex(where: { $0.documentId == documentID }) {
-            viewModel.posts[updateIndex].caption = caption
-        }
+//        if let updateIndex = viewModel.posts.firstIndex(where: { $0.documentId == documentID }) {
+//            viewModel.posts[updateIndex].caption = caption
+//        }
+//        viewModel.postUpdate(documentID: documentID, caption: caption)
+        viewModel.dailyPost
+            .subscribe(onNext: { [weak self] posts in
+            print("update", posts)
+              if let updateIndex = posts.firstIndex(where: { $0.documentId == documentID }) {
+                  var updatedPosts = posts
+                  updatedPosts[updateIndex].caption = caption
+                  self?.viewModel.dailyPost.onNext(updatedPosts)
+              }
+            print("updatepost")
+            }, onDisposed: {
+                print("ondisposed")
+            }).disposed(by: disposeBag)
+        
     }
 }
+
+
