@@ -51,7 +51,6 @@ class MainListViewModel {
     }
     
     func rxGetPost(date: Date) {
-//        self.updateSelectedDate(date)
         service.getPost(date: date) { post in
             self.dailyPost.onNext(post)
             self.dailyPostCount.onNext(post.count)

@@ -70,24 +70,6 @@ struct UploadService {
     }
 }
 
-//struct UploadService {
-//    static func uploadPost(caption: String, image: UIImage, user: User, compltion: @escaping(FirestoreCompletion)) {
-//        guard let uid = Auth.auth().currentUser?.uid else { return }
-//        
-//        ImageUploader.uploadImage(image: image) { imageUrl in
-//            let data = ["caption": caption, "timestamp": Timestamp(date: Date()), "imageUrl": imageUrl, "ownerUid": uid, "ownerUsername": user.username as Any] as [String : Any]
-//            
-//                    
-//            let docRef = COLLECTION_CONTENTS.addDocument(data: data, completion: compltion)
-//            
-//            
-//            COLLECTION_USERS.document(uid).collection("user-feed").document(docRef.documentID).setData([:])
-//            
-//        }
-//    }
-//}
-//
-//
 struct ImageUploader {
     static func uploadImage(image: UIImage, completion: @escaping(String) -> Void) {
         //이미지 업로드 데이터
