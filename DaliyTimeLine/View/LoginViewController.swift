@@ -235,14 +235,9 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 
                 
                 if let error = error {
-                    // Error. If error.code == .MissingOrInvalidNonce, make sure
-                    // you're sending the SHA256-hashed nonce as a hex string with
-                    // your request to Apple.
                     print(error.localizedDescription)
                     return
                 }
-                
-                
                 
                 guard let user = authResult?.user else { return }
                 
@@ -256,10 +251,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
 //                if let auth = authResult {
 //                    self.createUser()
 //                }
-                
-                // User is signed in to Firebase with Apple.
-                // ...
-                
+                                
                 self.moveMain()
             }
         }

@@ -336,23 +336,6 @@ extension MainListViewController: MainListViewControllerDelegate {
     }
     
     func postUpdate(documentID: String, caption: String) {
-//        if let updateIndex = viewModel.posts.firstIndex(where: { $0.documentId == documentID }) {
-//            viewModel.posts[updateIndex].caption = caption
-//        }
-//        viewModel.postUpdate(documentID: documentID, caption: caption)
-//        viewModel.dailyPost
-//            .subscribe(onNext: { [weak self] posts in
-//            print("update", posts)
-//              if let updateIndex = posts.firstIndex(where: { $0.documentId == documentID }) {
-//                  var updatedPosts = posts
-//                  updatedPosts[updateIndex].caption = caption
-//                  self?.viewModel.dailyPost.onNext(updatedPosts)
-//              }
-//            print("updatepost")
-//            }, onDisposed: {
-//                print("ondisposed")
-//            }).disposed(by: disposeBag)
-        
         viewModel.selectedDateSubject
             .subscribe { date in
                 print(date)

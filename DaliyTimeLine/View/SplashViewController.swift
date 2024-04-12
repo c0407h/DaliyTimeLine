@@ -15,7 +15,6 @@ class SplashViewController: UIViewController {
     private let logoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-//        iv.image = UIImage(systemName: "calendar")
         iv.image = UIImage(named: "logoImage.png")
         iv.tintColor = .black
         return iv

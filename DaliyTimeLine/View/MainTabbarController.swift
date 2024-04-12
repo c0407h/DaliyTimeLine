@@ -102,9 +102,7 @@ class MainTabbarController: UITabBarController {
                     guard let user = self.user else { return }
                     let controller = UploadContentViewController(viewModel: UploadViewModel(currentUser: user, originalImage: selectedImage, selectedImage: selectedImage))
                     
-//                    controller.selectedImage = selectedImage
                     controller.delegate = self
-//                    controller.currentUser = user
                     let nav = UINavigationController(rootViewController: controller)
                     nav.modalPresentationStyle = .fullScreen
                     nav.navigationBar.tintColor = .black
@@ -129,8 +127,6 @@ extension MainTabbarController: UITabBarControllerDelegate {
             config.screens = [.photo, .library]
             
             config.colors.tintColor = .darkGray
-            //            config.hidesStatusBar = false
-            //            config.hidesBottomBar = false
             config.library.maxNumberOfItems = 1
             
             config.fonts.pickerTitleFont =  UIFont(name: "OTSBAggroB", size: 17)!
