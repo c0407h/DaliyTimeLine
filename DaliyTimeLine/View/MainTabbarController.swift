@@ -110,9 +110,7 @@ class MainTabbarController: UITabBarController {
                 }
             }
         }
-    }
-    
-    
+    }    
 }
 
 

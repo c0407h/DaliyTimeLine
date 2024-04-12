@@ -278,20 +278,13 @@ class UploadContentViewController: UIViewController {
         viewModel?.caption
             .accept(self.captionTextView.text)
         
-        guard let user = viewModel?.currentUser.value else {
-            LoadingIndicator.hideLoading()
-            return
-        }
-        
         viewModel?.uploadPost()
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 LoadingIndicator.hideLoading()
                 self.dismiss(animated: true) {
                     if let autoSave = UserDefaults.standard.value(forKey: "AutoSave") as? Bool, autoSave {
-                        if let mergedImage = self.photoImageView.image {
-                            UIImageWriteToSavedPhotosAlbum(mergedImage, self, nil, nil)
-                        }
+                        UIImageWriteToSavedPhotosAlbum(mergedImage, self, nil, nil)
                     }
                     self.delegate?.reload()
                 }
