@@ -179,24 +179,13 @@
 		413D75B52B710B95008A67B5 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				4128D1F22B5E94ED00FA78B3 /* UserService.swift */,
 				4128D1F42B5E94FE00FA78B3 /* Constants.swift */,
+				4128D1F22B5E94ED00FA78B3 /* UserService.swift */,
 				4128D1F62B5E953A00FA78B3 /* UploadService.swift */,
 				4128D1F82B5E978A00FA78B3 /* AuthService.swift */,
 				413D75B62B710BC5008A67B5 /* PostService.swift */,
 			);
 			path = Service;
-			sourceTree = "<group>";
-		};
-		413D75B82B720B6D008A67B5 /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				413D75C42B7641DA008A67B5 /* PostDetail */,
-				416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */,
-				413D75AD2B70BE85008A67B5 /* FeedCollectionViewCell.swift */,
-				413D75AF2B710848008A67B5 /* CalendarCell.swift */,
-			);
-			path = Main;
 			sourceTree = "<group>";
 		};
 		413D75B92B752F47008A67B5 /* Resource */ = {
@@ -216,26 +205,6 @@
 				413D75BD2B752F47008A67B5 /* SB 어그로OTF B.otf */,
 			);
 			path = SB_Mac_Font;
-			sourceTree = "<group>";
-		};
-		413D75C12B763A04008A67B5 /* Setting */ = {
-			isa = PBXGroup;
-			children = (
-				416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */,
-				41C4B6CC2B94AEFE00CD8292 /* SettingTableViewCell.swift */,
-				41C4B6CE2B94AF0900CD8292 /* SettingInfoTableViewCell.swift */,
-				41C4B6D02B94B10300CD8292 /* SettingAppInfoTableViewCell.swift */,
-				41B538E22B962F2800160F66 /* SecretSettingViewController.swift */,
-			);
-			path = Setting;
-			sourceTree = "<group>";
-		};
-		413D75C42B7641DA008A67B5 /* PostDetail */ = {
-			isa = PBXGroup;
-			children = (
-				413D75C72B766EDA008A67B5 /* PostDetailViewController.swift */,
-			);
-			path = PostDetail;
 			sourceTree = "<group>";
 		};
 		416F1DE42B5A6DF800F8C2C8 = {
@@ -263,22 +232,27 @@
 		416F1DEF2B5A6DF800F8C2C8 /* DaliyTimeLine */ = {
 			isa = PBXGroup;
 			children = (
-				41F04A3C2BA4A95600A034FA /* Extension */,
-				413D75B92B752F47008A67B5 /* Resource */,
+				419FCC102BC95FF6009E8463 /* MainTab */,
+				419FCC0F2BC95FF1009E8463 /* Upload */,
+				419FCC0E2BC95FE1009E8463 /* Login */,
+				419FCC0D2BC95FD4009E8463 /* Splash */,
+				419FCC0C2BC95FCA009E8463 /* Detail */,
+				419FCC0B2BC95FC1009E8463 /* Main */,
+				419FCC0A2BC95FAC009E8463 /* Setting */,
+				419FCC092BC95F83009E8463 /* Common */,
+				419FCC082BC95F74009E8463 /* CustomView */,
 				413D75B52B710B95008A67B5 /* Service */,
-				41CDCEA22B5A84FC0019C945 /* DaliyTimeLine.entitlements */,
-				416F1E232B5A6E3D00F8C2C8 /* App */,
 				416F1E222B5A6E3400F8C2C8 /* Model */,
-				416F1E212B5A6E2F00F8C2C8 /* ViewModel */,
-				416F1E262B5A6EF600F8C2C8 /* View */,
-				416F1DF42B5A6DF800F8C2C8 /* ViewController.swift */,
-				416F1DF62B5A6DF800F8C2C8 /* Main.storyboard */,
-				416F1DF92B5A6DF900F8C2C8 /* Assets.xcassets */,
-				416F1DFE2B5A6DF900F8C2C8 /* Info.plist */,
+				41F04A3C2BA4A95600A034FA /* Extension */,
+				416F1E232B5A6E3D00F8C2C8 /* App */,
+				413D75B92B752F47008A67B5 /* Resource */,
 				41CDCE9D2B5A78400019C945 /* Plist */,
 				416F1DFB2B5A6DF900F8C2C8 /* LaunchScreen.storyboard */,
-				4128D1ED2B5E755A00FA78B3 /* InputTextView.swift */,
-				41B538E42B96CC5100160F66 /* LoadingIndicator.swift */,
+				416F1DF62B5A6DF800F8C2C8 /* Main.storyboard */,
+				416F1DF42B5A6DF800F8C2C8 /* ViewController.swift */,
+				416F1DF92B5A6DF900F8C2C8 /* Assets.xcassets */,
+				416F1DFE2B5A6DF900F8C2C8 /* Info.plist */,
+				41CDCEA22B5A84FC0019C945 /* DaliyTimeLine.entitlements */,
 			);
 			path = DaliyTimeLine;
 			sourceTree = "<group>";
@@ -300,18 +274,6 @@
 			path = DaliyTimeLineUITests;
 			sourceTree = "<group>";
 		};
-		416F1E212B5A6E2F00F8C2C8 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				41CDCEA52B5AB5070019C945 /* LoginViewModel.swift */,
-				413D75B32B7109A6008A67B5 /* MainListViewModel.swift */,
-				413D75C22B763A58008A67B5 /* SettingViewModel.swift */,
-				413D75C52B766EB3008A67B5 /* PostDetailViewModel.swift */,
-				41F04A432BA4AD0700A034FA /* UploadViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
 		416F1E222B5A6E3400F8C2C8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -330,19 +292,104 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		416F1E262B5A6EF600F8C2C8 /* View */ = {
+		419FCC082BC95F74009E8463 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
-				413D75C12B763A04008A67B5 /* Setting */,
-				413D75B82B720B6D008A67B5 /* Main */,
-				416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */,
+				4128D1ED2B5E755A00FA78B3 /* InputTextView.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
+		419FCC092BC95F83009E8463 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				41B538E42B96CC5100160F66 /* LoadingIndicator.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		419FCC0A2BC95FAC009E8463 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				419FCC122BC965D0009E8463 /* Cell */,
+				413D75C22B763A58008A67B5 /* SettingViewModel.swift */,
+				416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */,
+				41B538E22B962F2800160F66 /* SecretSettingViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		419FCC0B2BC95FC1009E8463 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */,
+				413D75B32B7109A6008A67B5 /* MainListViewModel.swift */,
+				419FCC112BC964DC009E8463 /* Cell */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		419FCC0C2BC95FCA009E8463 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				413D75C52B766EB3008A67B5 /* PostDetailViewModel.swift */,
+				413D75C72B766EDA008A67B5 /* PostDetailViewController.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		419FCC0D2BC95FD4009E8463 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
 				41CDCE9B2B5A72EF0019C945 /* SplashViewController.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		419FCC0E2BC95FE1009E8463 /* Login */ = {
+			isa = PBXGroup;
+			children = (
 				41CDCEA02B5A78C60019C945 /* LoginViewController.swift */,
+				41CDCEA52B5AB5070019C945 /* LoginViewModel.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		419FCC0F2BC95FF1009E8463 /* Upload */ = {
+			isa = PBXGroup;
+			children = (
+				41F04A432BA4AD0700A034FA /* UploadViewModel.swift */,
 				4128D1EB2B5E711600FA78B3 /* UploadContentViewController.swift */,
 			);
-			name = View;
-			path = DaliyTimeLine/View;
-			sourceTree = SOURCE_ROOT;
+			path = Upload;
+			sourceTree = "<group>";
+		};
+		419FCC102BC95FF6009E8463 /* MainTab */ = {
+			isa = PBXGroup;
+			children = (
+				416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */,
+			);
+			path = MainTab;
+			sourceTree = "<group>";
+		};
+		419FCC112BC964DC009E8463 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				413D75AD2B70BE85008A67B5 /* FeedCollectionViewCell.swift */,
+				413D75AF2B710848008A67B5 /* CalendarCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		419FCC122BC965D0009E8463 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				41C4B6CC2B94AEFE00CD8292 /* SettingTableViewCell.swift */,
+				41C4B6CE2B94AF0900CD8292 /* SettingInfoTableViewCell.swift */,
+				41C4B6D02B94B10300CD8292 /* SettingAppInfoTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
 		};
 		41B4B2C72BB69E4C00D2697D /* Image */ = {
 			isa = PBXGroup;

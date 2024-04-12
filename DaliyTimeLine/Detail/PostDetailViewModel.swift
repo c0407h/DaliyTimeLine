@@ -11,6 +11,9 @@ import RxSwift
 struct PostDetailViewModel {
     var post: Post
     let service = PostService()
+    
+    private let textMaxCount = 100
+    
     init(post: Post) {
         self.post = post
     }
@@ -21,5 +24,12 @@ struct PostDetailViewModel {
     
     func rxUpdatePost(documentId: String, caption: String) -> Observable<Bool>{
         return service.updatePost(documentID: documentId, caption: caption)
+    }
+    
+    func textCheckMaxLength(textCount: Int, compltion: @escaping() -> Void) {
+        if textCount > textMaxCount {
+            compltion()
+        }
+        
     }
 }

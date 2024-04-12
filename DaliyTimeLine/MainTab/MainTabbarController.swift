@@ -11,7 +11,6 @@ import YPImagePicker
 import FirebaseAuth
 
 class MainTabbarController: UITabBarController {
-    
     var user: User? {
         didSet {
             guard let user = user else { return }
@@ -166,7 +165,6 @@ extension MainTabbarController: MainListViewControllerDelegate {
     func postUpdate(documentID: String, caption: String) { }
     
     func reload() {
-        
         if let mainListVC = viewControllers?[0] as? MainListViewController {
             mainListVC.updateReload()
         }

@@ -20,7 +20,7 @@ struct AuthCredentials {
 struct AuthService {
     //로그인
     static func logUserIn(withEmail email: String, password: String, compltion:  @escaping (AuthDataResult?, Error?) -> Void) {
-        Auth.auth().signIn(withEmail: email, password: password, completion: compltion)
+        DTL_AUTH.signIn(withEmail: email, password: password, completion: compltion)
     }
     
     
@@ -28,7 +28,7 @@ struct AuthService {
     static func registerUser(withCredential credentials: AuthCredentials, completion: @escaping(Error?) -> Void) {
         //이미지 업로드
         ImageUploader.uploadImage(image: credentials.profileImage) { imageUrl in
-            Auth.auth().createUser(withEmail: credentials.email, password: credentials.password) { result, error in
+            DTL_AUTH.createUser(withEmail: credentials.email, password: credentials.password) { result, error in
                 
                 
                 if let error = error {
@@ -50,7 +50,7 @@ struct AuthService {
     }
     
     static func resetPassword(withEmail email: String, completion: FirestoreCompletion?) {
-        Auth.auth().sendPasswordReset(withEmail: email, completion: completion)
+        DTL_AUTH.sendPasswordReset(withEmail: email, completion: completion)
     }
     
 }

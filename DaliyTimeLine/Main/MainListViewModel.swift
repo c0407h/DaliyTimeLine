@@ -11,25 +11,6 @@ import RxSwift
 import RxRelay
 import Differentiator
 
-
-struct MySection {
-    var items: [Post]
-
-    init(items: [Post]) {
-        self.items = items
-    }
-}
-
-extension MySection: SectionModelType {
-    typealias Item = Post
-    
-    init(original: MySection, items: [Post]) {
-        self = original
-        self.items = items
-    }
-}
-
-
 enum PostSection: CaseIterable {
     case dailyPost
 }
@@ -43,6 +24,11 @@ class MainListViewModel {
     var disposeBag = DisposeBag()
 
     
+    init(service: PostService) {
+        self.service = service
+        rxGetAllPost()
+        
+    }
     
     func rxGetAllPost() {
         service.getAllPosts { posts in
@@ -84,13 +70,6 @@ class MainListViewModel {
             }
     }
     
-    init(service: PostService) {
-        self.service = service
-        rxGetAllPost()
-        
-    }
-
-    
     func filterFirstPostForUniqueTimestamps(posts: [Post]) -> [Post] {
         // timestamp를 기준으로 중복 제거
         let uniqueTimestamps = Set(posts.map { $0.timestamp })
@@ -118,12 +97,12 @@ class MainListViewModel {
     
     let selectedDateSubject = BehaviorSubject<Date>(value: Date())
 
-    // 선택된 날짜를 업데이트하는 메서드를 추가합니다.
+    // 선택된 날짜를 업데이트하는 메서드
     func updateSelectedDate(_ date: Date) {
         selectedDateSubject.onNext(date)
     }
 
-    // 선택된 날짜를 확인하는 메서드를 추가합니다.
+    // 선택된 날짜를 확인하는 메서드
     func isCurrentSelected(_ date: Date) -> Observable<Bool> {
         return selectedDateSubject.map { selectedDate in
             let selectDateComponent = self.dateComponets(date: selectedDate)

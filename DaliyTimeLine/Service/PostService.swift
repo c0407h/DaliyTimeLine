@@ -18,7 +18,7 @@ class PostService {
         let endDate = calendar.date(byAdding: .day, value: 1, to: startDate)! // 오늘 날짜의 다음 날의 시작
         
         return Observable.create { observer in
-            Firestore.firestore().collection("contents")
+            COLLECTION_CONTENTS
                 .whereField("timestamp", isGreaterThanOrEqualTo: Timestamp(date: startDate))
                 .whereField("timestamp", isLessThan: Timestamp(date: endDate))
                 .whereField("ownerUid", isEqualTo: Auth.auth().currentUser?.uid as Any)
@@ -42,7 +42,7 @@ class PostService {
     
     func rxGetAllPosts() -> Observable<[Post]> {
         return Observable.create { observer in
-            Firestore.firestore().collection("contents")
+            COLLECTION_CONTENTS
                 .whereField("ownerUid", isEqualTo: Auth.auth().currentUser?.uid as Any)
                 .getDocuments { snapshot, error in
                     if let error = error {
@@ -113,7 +113,7 @@ class PostService {
     }
     
     func getAllPosts(completion: @escaping([Post]) -> Void) {
-        Firestore.firestore().collection("contents")
+        COLLECTION_CONTENTS
             .whereField("ownerUid", isEqualTo: Auth.auth().currentUser?.uid as Any)
             .getDocuments { snapshot, error in
                 if let error = error {

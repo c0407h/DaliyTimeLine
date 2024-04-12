@@ -9,3 +9,5 @@ import Firebase
 
 let COLLECTION_USERS = Firestore.firestore().collection("users")
 let COLLECTION_CONTENTS = Firestore.firestore().collection("contents")
+let DTL_FIRE_STORAGE = Storage.storage()
+let DTL_AUTH = Auth.auth()

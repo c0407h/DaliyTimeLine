@@ -20,7 +20,7 @@ enum UploadError: Error {
 struct UploadService {
     static func uploadPost(caption: String, image: UIImage, user: User) -> Observable<Void> {
         return Observable.create { observer in
-            guard let uid = Auth.auth().currentUser?.uid else {
+            guard let uid = DTL_AUTH.currentUser?.uid else {
                 observer.onError(UploadError.invalidData)
                 return Disposables.create()
             }
@@ -31,7 +31,7 @@ struct UploadService {
             }
             
             let filename = UUID().uuidString
-            let ref = Storage.storage().reference(withPath: "/contents_images/\(filename)")
+            let ref = DTL_FIRE_STORAGE.reference(withPath: "/contents_images/\(filename)")
             
             ref.putData(imageData, metadata: nil) { (_, error) in
                 if let error = error {
@@ -76,7 +76,7 @@ struct ImageUploader {
         guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
         
         let filename = UUID().uuidString
-        let ref = Storage.storage().reference(withPath: "/contents_images/\(filename)")
+        let ref = DTL_FIRE_STORAGE.reference(withPath: "/contents_images/\(filename)")
         
         ref.putData(imageData, metadata: nil) { (metadata, error) in
             if let error = error {

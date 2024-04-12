@@ -258,19 +258,18 @@ class PostDetailViewController: UIViewController {
         }
         sender.cancelsTouchesInView = false
     }
-    
-    func checkMaxLength(_ textView: UITextView) {
-        if (textView.text.count) > 100 {
-            textView.deleteBackward()
-        }
-    }
+ 
 }
 
 //MARK: - UITextViewDelegate
 extension PostDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        checkMaxLength(textView)
+
         let count = textView.text.count
+        viewModel.textCheckMaxLength(textCount: count) {
+            textView.deleteBackward()
+        }
+        
         charaterCountLabel.text = "\(count)/100"
     }
 }

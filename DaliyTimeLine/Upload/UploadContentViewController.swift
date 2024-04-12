@@ -147,7 +147,6 @@ class UploadContentViewController: UIViewController {
     private let disposeBag = DisposeBag()
     
     
-    
     init(viewModel: UploadViewModel) {
         self.viewModel = viewModel
 
@@ -282,6 +281,7 @@ class UploadContentViewController: UIViewController {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 LoadingIndicator.hideLoading()
+                
                 self.dismiss(animated: true) {
                     if let autoSave = UserDefaults.standard.value(forKey: "AutoSave") as? Bool, autoSave {
                         UIImageWriteToSavedPhotosAlbum(mergedImage, self, nil, nil)
@@ -296,13 +296,7 @@ class UploadContentViewController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
-    
-    
-    func checkMaxLength(_ textView: UITextView) {
-        if (textView.text.count) > 100 {
-            textView.deleteBackward()
-        }
-    }
+
     
     func transfromToImage(view: UIView) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, 0.0)
@@ -341,24 +335,25 @@ class UploadContentViewController: UIViewController {
          scrollView.scrollIndicatorInsets = contentInset
     }
     
-    
     @objc func handleTap(sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             view.endEditing(true)
         }
         sender.cancelsTouchesInView = false
     }
-    
-    
-    
 }
 
 
 //MARK: - UITextViewDelegate
 extension UploadContentViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        checkMaxLength(textView)
+        
         let count = textView.text.count
+        
+        viewModel?.textMaxLength(textCnt: count, completion: {
+            textView.deleteBackward()
+        })
+        
         charaterCountLabel.text = "\(count)/100"
         
         let size = CGSize(width: view.frame.width, height: .infinity)

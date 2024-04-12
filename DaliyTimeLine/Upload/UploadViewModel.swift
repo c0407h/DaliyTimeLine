@@ -21,6 +21,8 @@ class UploadViewModel {
     
     private let disposeBag = DisposeBag()
     
+    private let textMaxCount = 100
+    
     init(currentUser: User? = nil, originalImage: UIImage? = nil, selectedImage: UIImage? = nil) {
         self.currentUser.accept(currentUser)
         self.originalImage.accept(originalImage)
@@ -46,4 +48,11 @@ class UploadViewModel {
             return Disposables.create()
         }
     }
+    
+    func textMaxLength(textCnt: Int, completion: @escaping() -> Void) {
+        if textCnt > textMaxCount {
+            completion()
+        }
+    }
+    
 }

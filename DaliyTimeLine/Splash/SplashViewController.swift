@@ -22,7 +22,7 @@ class SplashViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont(name: "OTSBAggroM", size: 18)
         label.text = "Daily TimeLine"
         label.textAlignment = .center
         label.textColor = .black

@@ -50,8 +50,8 @@ class MainListViewController: UIViewController {
         calendar.appearance.weekdayFont = UIFont(name: "OTSBAggroM", size: 14)
         calendar.appearance.weekdayTextColor = UIColor.darkGray
         
-        calendar.appearance.titleSelectionColor = .red
-        calendar.appearance.titleFont = UIFont(name: "OTSBAggroL", size: 14)
+        calendar.appearance.titleSelectionColor = .systemGreen
+        calendar.appearance.titleFont = UIFont(name: "OTSBAggroM", size: 14)
         
         
         
@@ -218,7 +218,7 @@ class MainListViewController: UIViewController {
     }
     
     
-    //현재 사용하지 않음
+    //TODO: - 현재 사용하지 않음(추후 사용 예정)
     @objc private func calendarSettingTapped() {
         if self.calendarView.scope == .week {
             self.calendarView.scope = .month
@@ -237,9 +237,9 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     }
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
+        
         guard let cell = calendar.dequeueReusableCell(withIdentifier: CalendarCell.description(), for: date, at: position) as? CalendarCell else { return FSCalendarCell() }
 
-        
         self.viewModel.rxGetPostImg(date: date)
             .subscribe { url in
                 cell.backImageView.kf.setImage(with: url)
@@ -336,11 +336,10 @@ extension MainListViewController: MainListViewControllerDelegate {
     func postUpdate(documentID: String, caption: String) {
         viewModel.selectedDateSubject
             .subscribe { date in
-                print(date)
                 self.viewModel.rxGetPost(date: date)
             }
             .disposed(by: disposeBag)
-        
+
     }
 }
 
