@@ -26,6 +26,7 @@ class SettingViewController: UIViewController {
         tv.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.id)
         tv.register(SettingInfoTableViewCell.self, forCellReuseIdentifier: SettingInfoTableViewCell.id)
         tv.register(SettingAppInfoTableViewCell.self, forCellReuseIdentifier: SettingAppInfoTableViewCell.id)
+        
         return tv
     }()
     
@@ -33,7 +34,6 @@ class SettingViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         checkEmailAvailability()
-        
     }
     
     
@@ -172,6 +172,8 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             print(indexPath)
         }
     }
+    
+
 }
 
 extension SKStoreReviewController {

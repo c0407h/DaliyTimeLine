@@ -108,10 +108,26 @@ class MainListViewController: UIViewController {
         return button
     }()
     
+    lazy var emptyView: UIView = {
+       let view = UIView()
+        return view
+    }()
+    
+    lazy var emptyLabel: UILabel = {
+       let label = UILabel()
+        label.text = "등록된 사진이 없습니다."
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.font = UIFont(name: "OTSBAggroM", size: 14)
+        return label
+    }()
+    
     private var dataSource: UICollectionViewDiffableDataSource<PostSection, Int>!
+    private let disposeBag = DisposeBag()
+    
     var viewModel = MainListViewModel(service: PostService())
     weak var delegate: MainListViewControllerDelegate?
-    let disposeBag = DisposeBag()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,8 +135,17 @@ class MainListViewController: UIViewController {
         
         
         self.viewModel.dailyPost
-            .subscribe {[weak self] _ in
-                self?.cvReload()
+            .subscribe {[weak self] a in
+                
+                if (a.element?.isEmpty) == true  {
+                    self?.postCollectionView.isHidden = true
+                    self?.emptyView.isHidden = false
+                } else {
+                    self?.postCollectionView.isHidden = false
+                    self?.emptyView.isHidden = true
+                    self?.cvReload()
+                }
+                
             }
             .disposed(by: disposeBag)
         
@@ -168,6 +193,17 @@ class MainListViewController: UIViewController {
             $0.bottom.trailing.leading.equalTo(view)
         }
         
+        self.view.addSubview(emptyView)
+        emptyView.snp.makeConstraints {
+            $0.top.equalTo(dateLabel.snp.bottom)
+            $0.bottom.trailing.leading.equalTo(view)
+        }
+        
+        self.emptyView.addSubview(emptyLabel)
+        emptyLabel.snp.makeConstraints {
+            $0.centerX.centerY.equalTo(self.emptyView)
+        }
+        
         postCollectionView.register(FeedCollectionViewCell.self, forCellWithReuseIdentifier: "FeedCollectionViewCell")
     }
     
@@ -184,6 +220,7 @@ class MainListViewController: UIViewController {
     }
     
     
+    //현재 사용하지 않음
     @objc private func calendarSettingTapped() {
         if self.calendarView.scope == .week {
             self.calendarView.scope = .month
@@ -191,6 +228,7 @@ class MainListViewController: UIViewController {
             self.calendarView.scope = .week
         }
     }
+
 }
 
 extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
@@ -242,19 +280,6 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         self.dateLabel.text = date.dateToString()
         self.viewModel.rxGetPost(date: date)
-
-        
-        // 기존에 선택했던 날짜의 셀 배경의 alpha값을 다시 0.5로 바꿔주고,
-        // 새롭게 선택한 날짜의 셀 배경의 alpha값을 1로 바꿔준다
-//        if let previous = viewModel.preSelectedDate {
-//            if let preCell = calendar.cell(for: previous, at: monthPosition) as? CalendarCell  {
-//                preCell.backImageView.alpha = 0.5
-//            }
-//        }
-//        
-//        if let currentCell = calendar.cell(for: viewModel.selectedDate, at: monthPosition) as? CalendarCell {
-//            currentCell.backImageView.alpha = 1
-//        }
     }
 
     
@@ -315,18 +340,25 @@ extension MainListViewController: MainListViewControllerDelegate {
 //            viewModel.posts[updateIndex].caption = caption
 //        }
 //        viewModel.postUpdate(documentID: documentID, caption: caption)
-        viewModel.dailyPost
-            .subscribe(onNext: { [weak self] posts in
-            print("update", posts)
-              if let updateIndex = posts.firstIndex(where: { $0.documentId == documentID }) {
-                  var updatedPosts = posts
-                  updatedPosts[updateIndex].caption = caption
-                  self?.viewModel.dailyPost.onNext(updatedPosts)
-              }
-            print("updatepost")
-            }, onDisposed: {
-                print("ondisposed")
-            }).disposed(by: disposeBag)
+//        viewModel.dailyPost
+//            .subscribe(onNext: { [weak self] posts in
+//            print("update", posts)
+//              if let updateIndex = posts.firstIndex(where: { $0.documentId == documentID }) {
+//                  var updatedPosts = posts
+//                  updatedPosts[updateIndex].caption = caption
+//                  self?.viewModel.dailyPost.onNext(updatedPosts)
+//              }
+//            print("updatepost")
+//            }, onDisposed: {
+//                print("ondisposed")
+//            }).disposed(by: disposeBag)
+        
+        viewModel.selectedDateSubject
+            .subscribe { date in
+                print(date)
+                self.viewModel.rxGetPost(date: date)
+            }
+            .disposed(by: disposeBag)
         
     }
 }

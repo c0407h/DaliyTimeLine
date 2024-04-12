@@ -21,27 +21,14 @@ struct MySection {
 }
 
 extension MySection: SectionModelType {
-    
     typealias Item = Post
     
     init(original: MySection, items: [Post]) {
         self = original
         self.items = items
     }
-    
-    
 }
 
-
-
-protocol MainListViewModelType {
-    //input
-    
-    //output
-    //전체 포스트
-    
-    
-}
 
 enum PostSection: CaseIterable {
     case dailyPost
@@ -64,7 +51,7 @@ class MainListViewModel {
     }
     
     func rxGetPost(date: Date) {
-        self.updateSelectedDate(date)
+//        self.updateSelectedDate(date)
         service.getPost(date: date) { post in
             self.dailyPost.onNext(post)
             self.dailyPostCount.onNext(post.count)

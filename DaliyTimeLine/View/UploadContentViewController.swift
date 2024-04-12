@@ -7,20 +7,10 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 class UploadContentViewController: UIViewController {
-    
-//    var currentUser: User?
-//    var originalImage: UIImage?
-//    var selectedImage: UIImage? {
-//        didSet {
-//            if let image = selectedImage{
-//                originalImage = image
-//                photoImageView.image = image
-//            }
-//        }
-//    }
-    
+
     private let viewModel: UploadViewModel?
     weak var delegate: MainListViewControllerDelegate?
     
@@ -154,7 +144,7 @@ class UploadContentViewController: UIViewController {
         button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
         return button
     }()
-    
+    private let disposeBag = DisposeBag()
     
     
     
@@ -162,6 +152,10 @@ class UploadContentViewController: UIViewController {
         self.viewModel = viewModel
 
         super.init(nibName: nil, bundle: nil)
+        
+        viewModel.selectedImage
+                .bind(to: photoImageView.rx.image)
+                .disposed(by: disposeBag)
     }
     
     required init?(coder: NSCoder) {
@@ -172,11 +166,6 @@ class UploadContentViewController: UIViewController {
         super.viewDidLoad()
         self.configureUI()
         
-        DispatchQueue.main.async {
-            self.photoImageView.image = self.viewModel?.selectedImage
-        }
-        
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:))))
@@ -185,6 +174,7 @@ class UploadContentViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        
     }
     
     
@@ -272,7 +262,7 @@ class UploadContentViewController: UIViewController {
     @objc func didTapCancel() {
         dismiss(animated: true)
     }
-    
+
     @objc func didTapDone() {
         LoadingIndicator.showLoading()
         
@@ -282,24 +272,36 @@ class UploadContentViewController: UIViewController {
             return
         }
         
-        guard let caption = captionTextView.text else { return }
-        guard let user = self.viewModel?.currentUser else { return }
+        viewModel?.mergeImage
+            .accept(mergedImage)
         
-        DispatchQueue.global().async {
-            self.viewModel?.uploadPost(caption: caption, image: mergedImage, user: user) {
+        viewModel?.caption
+            .accept(self.captionTextView.text)
+        
+        guard let user = viewModel?.currentUser.value else {
+            LoadingIndicator.hideLoading()
+            return
+        }
+        
+        viewModel?.uploadPost()
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
                 LoadingIndicator.hideLoading()
-                
                 self.dismiss(animated: true) {
-                    if let autoSave = UserDefaults.standard.value(forKey: "AutoSave") as? Bool {
-                        if autoSave {
+                    if let autoSave = UserDefaults.standard.value(forKey: "AutoSave") as? Bool, autoSave {
+                        if let mergedImage = self.photoImageView.image {
                             UIImageWriteToSavedPhotosAlbum(mergedImage, self, nil, nil)
                         }
                     }
-                    
                     self.delegate?.reload()
                 }
-            }
-        }
+            }, onError: { error in
+                LoadingIndicator.hideLoading()
+                // 에러 처리
+                print("Error: \(error.localizedDescription)")
+                
+            })
+            .disposed(by: disposeBag)
     }
     
     
@@ -337,49 +339,13 @@ class UploadContentViewController: UIViewController {
         scrollView.contentInset.bottom = keyboardFrame.size.height
         scrollView.scrollRectToVisible(captionTextView.frame, animated: true)
         
-        
-        
-//        guard let userInfo = notification.userInfo as NSDictionary?,
-//                      let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-//                          return
-//                      }
-//                /// 키보드의 높이
-//                let keyboardHeight = keyboardFrame.size.height
-//                
-//                scrollView.contentOffset.y = keyboardHeight
-//                
-//                UIView.animate(withDuration: 0.3,
-//                               animations: { self.view.layoutIfNeeded()},
-//                               completion: nil)
-
-        
-//        if let keyboardFrame:NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-//            let keyboardRectangle = keyboardFrame.cgRectValue
-//            UIView.animate(withDuration: 0.5, animations: {
-//                self.bottomView.snp.updateConstraints {
-//                    $0.height.equalTo(keyboardRectangle.height)
-//                }
-//                
-//                let offset = CGPoint(x: 0,y: self.scrollView.contentSize.height - self.scrollView.bounds.height)
-//                self.scrollView.setContentOffset(offset, animated: false)
-//                
-//                
-//            })
-//        }
+ 
     }
     
     @objc func keyboardWillHide(_ notification:NSNotification) {
         let contentInset = UIEdgeInsets.zero
          scrollView.contentInset = contentInset
          scrollView.scrollIndicatorInsets = contentInset
-        
-//
-//        scrollView.contentOffset.y = .zero
-//             scrollView.scrollIndicatorInsets = self.scrollView.contentInset
-//             
-//             UIView.animate(withDuration: 0.3,
-//                            animations: { self.view.layoutIfNeeded()},
-//                            completion: nil)
     }
     
     
@@ -418,10 +384,3 @@ extension UploadContentViewController: UITextViewDelegate {
         }
     }
 }
-
-
-//extension UploadContentViewController: UIScrollViewDelegate {
-//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        self.view.endEditing(true)
-//    }
-//}

@@ -6,33 +6,20 @@
 //
 
 import Foundation
-
+import RxSwift
 
 struct PostDetailViewModel {
     var post: Post
-    
+    let service = PostService()
     init(post: Post) {
         self.post = post
     }
     
-    func deletePost(documentID: String, completion: @escaping() -> Void) {
-        COLLECTION_CONTENTS.document(documentID).delete() { error in
-            if let _ = error {
-                
-            } else {
-                completion()
-            }
-        }
+    func rxDeletePost(documentID: String) -> Observable<Bool>{
+        return service.deletePost(documentID: documentID)
     }
     
-    func updatePost(documentID: String, caption: String,completion: @escaping() -> Void) {
-        COLLECTION_CONTENTS.document(documentID).updateData(["caption": caption]) { error in
-            if let _ = error {
-                
-            } else {
-                completion()
-            }
-        }
+    func rxUpdatePost(documentId: String, caption: String) -> Observable<Bool>{
+        return service.updatePost(documentID: documentId, caption: caption)
     }
-    
 }

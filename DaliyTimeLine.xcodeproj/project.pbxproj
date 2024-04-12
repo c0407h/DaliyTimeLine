@@ -41,6 +41,7 @@
 		416F1E2A2B5A6F5A00F8C2C8 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */; };
 		416F1E2C2B5A6F6100F8C2C8 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */; };
 		41AB41202B98435B005F42C4 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41AB411F2B98435B005F42C4 /* LocalAuthentication.framework */; };
+		41B4B2C92BB69E5800D2697D /* logoImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B4B2C82BB69E5800D2697D /* logoImage.png */; };
 		41B538E32B962F2800160F66 /* SecretSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B538E22B962F2800160F66 /* SecretSettingViewController.swift */; };
 		41B538E52B96CC5100160F66 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B538E42B96CC5100160F66 /* LoadingIndicator.swift */; };
 		41C4B6CD2B94AEFE00CD8292 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C4B6CC2B94AEFE00CD8292 /* SettingTableViewCell.swift */; };
@@ -112,6 +113,7 @@
 		416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
 		416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		41AB411F2B98435B005F42C4 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		41B4B2C82BB69E5800D2697D /* logoImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logoImage.png; sourceTree = "<group>"; };
 		41B538E22B962F2800160F66 /* SecretSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretSettingViewController.swift; sourceTree = "<group>"; };
 		41B538E42B96CC5100160F66 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		41C4B6CC2B94AEFE00CD8292 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
@@ -174,20 +176,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		4128D1F12B5E94E400FA78B3 /* Repository */ = {
+		413D75B52B710B95008A67B5 /* Service */ = {
 			isa = PBXGroup;
 			children = (
 				4128D1F22B5E94ED00FA78B3 /* UserService.swift */,
 				4128D1F42B5E94FE00FA78B3 /* Constants.swift */,
 				4128D1F62B5E953A00FA78B3 /* UploadService.swift */,
 				4128D1F82B5E978A00FA78B3 /* AuthService.swift */,
-			);
-			path = Repository;
-			sourceTree = "<group>";
-		};
-		413D75B52B710B95008A67B5 /* Service */ = {
-			isa = PBXGroup;
-			children = (
 				413D75B62B710BC5008A67B5 /* PostService.swift */,
 			);
 			path = Service;
@@ -207,6 +202,7 @@
 		413D75B92B752F47008A67B5 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				41B4B2C72BB69E4C00D2697D /* Image */,
 				413D75BA2B752F47008A67B5 /* SB_Mac_Font */,
 			);
 			path = Resource;
@@ -270,7 +266,6 @@
 				41F04A3C2BA4A95600A034FA /* Extension */,
 				413D75B92B752F47008A67B5 /* Resource */,
 				413D75B52B710B95008A67B5 /* Service */,
-				4128D1F12B5E94E400FA78B3 /* Repository */,
 				41CDCEA22B5A84FC0019C945 /* DaliyTimeLine.entitlements */,
 				416F1E232B5A6E3D00F8C2C8 /* App */,
 				416F1E222B5A6E3400F8C2C8 /* Model */,
@@ -348,6 +343,14 @@
 			name = View;
 			path = DaliyTimeLine/View;
 			sourceTree = SOURCE_ROOT;
+		};
+		41B4B2C72BB69E4C00D2697D /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				41B4B2C82BB69E5800D2697D /* logoImage.png */,
+			);
+			path = Image;
+			sourceTree = "<group>";
 		};
 		41CDCE9D2B5A78400019C945 /* Plist */ = {
 			isa = PBXGroup;
@@ -493,6 +496,7 @@
 				416F1DFD2B5A6DF900F8C2C8 /* LaunchScreen.storyboard in Resources */,
 				41CDCE9F2B5A78400019C945 /* GoogleService-Info.plist in Resources */,
 				413D75BE2B752F47008A67B5 /* SB 어그로OTF M.otf in Resources */,
+				41B4B2C92BB69E5800D2697D /* logoImage.png in Resources */,
 				416F1DFA2B5A6DF900F8C2C8 /* Assets.xcassets in Resources */,
 				413D75BF2B752F47008A67B5 /* SB 어그로OTF L.otf in Resources */,
 				416F1DF82B5A6DF800F8C2C8 /* Main.storyboard in Resources */,
@@ -839,6 +843,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = DaliyTimeLine/DaliyTimeLine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.00.00;
@@ -879,6 +884,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = DaliyTimeLine/DaliyTimeLine.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.00.00;

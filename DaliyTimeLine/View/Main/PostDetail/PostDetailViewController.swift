@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 import Kingfisher
-
+import RxSwift
 
 
 class PostDetailViewController: UIViewController {
@@ -104,8 +104,6 @@ class PostDetailViewController: UIViewController {
     }
     
     private func configureUI() {
-//        let backButton = UIBarButtonItem(title: "< 뒤로", style: .plain, target: self, action: nil)
-       
         
         postImageView.kf.setImage(with: URL(string: viewModel.post.imageUrl))
         dateLabel.text = viewModel.post.timestamp.dateValue().dateToString()
@@ -168,16 +166,21 @@ class PostDetailViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    let disposeBag = DisposeBag()
+    
     @objc func deletePost() {
-        
         let sheet = UIAlertController(title: "삭제하시겠습니까??", message: nil, preferredStyle: .alert)
         sheet.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: {[weak self] _ in
             guard let self = self else { return }
             
-            self.viewModel.deletePost(documentID: self.viewModel.post.documentId) {
-                self.delegate?.reload()
-                self.navigationController?.popViewController(animated: true)
-            }
+            self.viewModel.rxDeletePost(documentID: self.viewModel.post.documentId)
+                .subscribe { bool in
+                    if bool {
+                        self.delegate?.reload()
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+                .disposed(by: disposeBag)
         }))
         
         sheet.addAction(UIAlertAction(title: "아니요", style: .cancel, handler: { _ in }))
@@ -211,14 +214,15 @@ class PostDetailViewController: UIViewController {
         let editButton = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(editPost))
         
         
-        viewModel.updatePost(documentID: self.viewModel.post.documentId, caption: self.captionTextView.text) {
-            self.delegate?.postUpdate(documentID: self.viewModel.post.documentId, caption: self.captionTextView.text)
-            self.view.endEditing(true)
-            self.captionTextView.isEditable = false
-            self.navigationItem.rightBarButtonItems = [deleteButton, sharedButton, editButton]
-            LoadingIndicator.hideLoading()
-        }
-        
+        viewModel.rxUpdatePost(documentId: self.viewModel.post.documentId, caption: self.captionTextView.text)
+            .subscribe { bool in
+                self.delegate?.postUpdate(documentID: self.viewModel.post.documentId, caption: self.captionTextView.text)
+                self.view.endEditing(true)
+                self.captionTextView.isEditable = false
+                self.navigationItem.rightBarButtonItems = [deleteButton, sharedButton, editButton]
+                LoadingIndicator.hideLoading()
+            }
+            .disposed(by: disposeBag)
     }
     
     @objc func sharePost() {
@@ -268,21 +272,6 @@ extension PostDetailViewController: UITextViewDelegate {
         checkMaxLength(textView)
         let count = textView.text.count
         charaterCountLabel.text = "\(count)/100"
-        
-//        let size = CGSize(width: view.frame.width, height: .infinity)
-//        let estimatedSize = textView.sizeThatFits(size)
-//        
-//        textView.constraints.forEach { (constraint) in
-//            // 더 이상 줄어들지 않게하기
-//            if estimatedSize.height <= 64 {
-//            } else if estimatedSize.height >= 180 {
-//            } else {
-//                if constraint.firstAttribute == .height {
-//                    constraint.constant = estimatedSize.height
-//                }
-//                scrollView.scrollRectToVisible(captionTextView.frame, animated: true)
-//            }
-//        }
     }
 }
 
@@ -292,10 +281,3 @@ extension PostDetailViewController: UIScrollViewDelegate {
     }
 }
 
-
-//extension UIBarButtonItem {
-//    convenience init(image: UIImage?, style: UIBarButtonItem.Style, target:Any?, action: Selector?, menu: UIMenu?) {
-//        self.init(image: image, style: style, target: target, action: action)
-//        self.menu = menu
-//    }
-//}

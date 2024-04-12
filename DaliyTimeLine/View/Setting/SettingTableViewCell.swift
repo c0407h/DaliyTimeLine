@@ -48,6 +48,7 @@ class SettingTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        configureUI()
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -89,7 +90,6 @@ class SettingTableViewCell: UITableViewCell {
     }
     
     @objc func onClickSwitch(sender: UISwitch) {
-        print(cellType)
         switch cellType {
         case .autoSave:
             UserDefaults.standard.setValue(sender.isOn, forKey: "AutoSave")

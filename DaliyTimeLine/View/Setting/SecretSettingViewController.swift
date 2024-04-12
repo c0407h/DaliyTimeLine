@@ -557,23 +557,3 @@ class SecretSettingViewController: UIViewController {
     
 }
 
-
-//import SwiftUI
-//struct HomeViewControllerPreViews: PreviewProvider {
-//    static var previews: some View {
-//        Container().edgesIgnoringSafeArea(.all)
-//    }
-//
-//    struct Container: UIViewControllerRepresentable {
-//        func makeUIViewController(context: Context) -> UIViewController {
-//            let homeVC = SecretSettingViewController()
-//            return homeVC
-//        }
-//
-//        func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-//        }
-//
-//        typealias UIViewControllerType = UIViewController
-//    }
-//}
-//

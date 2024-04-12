@@ -16,10 +16,6 @@ struct User {
     let username: String?
     let uid: String
     
-//    var isFollowed = false
-
-//    var stats: UserStats!
-    
     //현재사용자인지 상대방인지 확인하는 프로퍼티
     var isCurrentUser: Bool { return Auth.auth().currentUser?.uid == uid}
     
@@ -30,16 +26,6 @@ struct User {
         self.username = username
         self.uid = uid
     }
-    
-//    init(dictionary: [String: Any]) {
-//        self.email = dictionary["email"] as? String ?? ""
-//        self.fullname = dictionary["fullname"] as? String ?? ""
-//        self.profileImageUrl = dictionary["profileImageUrl"] as? String ?? ""
-//        self.username = dictionary["username"] as? String ?? ""
-//        self.uid = dictionary["uid"] as? String ?? ""
-////        self.stats = UserStats(followers: 0, following: 0, posts: 0)
-//    }
-    
     
 }
 

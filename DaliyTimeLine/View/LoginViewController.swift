@@ -43,19 +43,6 @@ class LoginViewController: UIViewController {
         return label
     }()
     
-//    private lazy var appleLoginButton: ASAuthorizationAppleIDButton = {
-//        let button = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
-//        button.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
-//        return button
-//    }()
-//    
-//    private lazy var googleLoginButton: GIDSignInButton = {
-//        let button = GIDSignInButton()
-//        button.style = .wide
-//        button.addTarget(self, action: #selector(handleAuthorizationGoogleButtonPress), for: .touchUpInside)
-//        return button
-//    }()
-    
     
     private lazy var googleLoginButton: UIButton = {
        let button = UIButton()
@@ -107,7 +94,6 @@ class LoginViewController: UIViewController {
         
         logoImageView.snp.makeConstraints { make in
             make.height.width.equalTo(150)
-//            make.top.equalToSuperview().offset(150)
             make.centerX.equalTo(self.view)
             make.centerY.equalTo(self.view).offset(-50)
         }
@@ -116,14 +102,6 @@ class LoginViewController: UIViewController {
             make.top.equalTo(logoImageView.snp.bottom).offset(10)
             make.leading.trailing.equalTo(self.view)
         }
-        
-//        sampleButton.snp.makeConstraints { make in
-//            make.height.equalTo(50)
-//        }
-//        
-//        sampleGoogleLoginButton.snp.makeConstraints { make in
-//            make.height.equalTo(50)
-//        }
         
         appleLoginButton.snp.makeConstraints { make in
             make.height.equalTo(50)

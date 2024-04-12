@@ -15,7 +15,8 @@ class SplashViewController: UIViewController {
     private let logoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.image = UIImage(systemName: "calendar")
+//        iv.image = UIImage(systemName: "calendar")
+        iv.image = UIImage(named: "logoImage.png")
         iv.tintColor = .black
         return iv
     }()
@@ -34,54 +35,43 @@ class SplashViewController: UIViewController {
         super.viewDidLoad()
         counfigureUI()
        
-//          UserDefaults확인
-//        for (key, value) in UserDefaults.standard.dictionaryRepresentation() {
-//          print("\(key) = \(value) \n")
-//        }
-        
-        if let _ = Auth.auth().currentUser {
-            if UserDefaults.standard.string(forKey: "LoginSecret") != nil {
-                let secertView = SecretSettingViewController(isLogin: true)
-                secertView.modalPresentationStyle = .fullScreen
-                secertView.delegate = self
-                self.present(secertView, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+            if let _ = Auth.auth().currentUser {
+                if UserDefaults.standard.string(forKey: "LoginSecret") != nil {
+                    let secertView = SecretSettingViewController(isLogin: true)
+                    secertView.modalPresentationStyle = .fullScreen
+                    secertView.delegate = self
+                    self.present(secertView, animated: true)
+                } else {
+                    self.goToMain()
+                }
             } else {
-                goToMain()
+                let loginView = LoginViewController(viewModel: LoginViewModel())
+                loginView.modalPresentationStyle = .fullScreen
+                loginView.delegate = self
+                self.present(loginView, animated: true)
             }
-        } else {
-            let loginView = LoginViewController(viewModel: LoginViewModel())
-            loginView.modalPresentationStyle = .fullScreen
-            loginView.delegate = self
-            self.present(loginView, animated: true)
         }
-        
     }
     
     func counfigureUI() {
         view.backgroundColor = .white
-        
-        [logoImageView, titleLabel].forEach { view.addSubview($0) }
+        [logoImageView].forEach { view.addSubview($0) }
         
         logoImageView.snp.makeConstraints { make in
-            make.height.width.equalTo(150)
+            make.height.width.equalTo(180)
             make.centerX.centerY.equalTo(self.view)
         }
-        
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(logoImageView.snp.bottom).offset(10)
-            make.leading.trailing.equalTo(self.view)
-        }
-        
-        
     }
     
 }
 extension SplashViewController: LoginDelegate, SecretSettingViewDelegate {
     func goToMain() {
+        
         if let navigationController = self.navigationController {
-            let viewControllerB = MainTabbarController() // YourBViewController는 B 뷰 컨트롤러의 클래스명으로 대체되어야 합니다.
+            let viewControllerB = MainTabbarController() 
             navigationController.navigationBar.isHidden = true
-            navigationController.pushViewController(viewControllerB, animated: true)
+            navigationController.pushViewController(viewControllerB, animated: false)
         }
     }
 }

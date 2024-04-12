@@ -59,6 +59,34 @@ class PostService {
         }
     }
     
+    func deletePost(documentID: String) -> Observable<Bool> {
+        return Observable.create { observer in
+            COLLECTION_CONTENTS.document(documentID).delete() { error in
+                if let error = error {
+                    observer.onError(error)
+                } else {
+                    observer.onNext(true)
+                    observer.onCompleted()
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    
+    func updatePost(documentID: String, caption: String) -> Observable<Bool> {
+        return Observable.create { observer in
+            COLLECTION_CONTENTS.document(documentID).updateData(["caption": caption]) { error in
+                if let error = error {
+                    observer.onError(error)
+                } else {
+                    observer.onNext(true)
+                    observer.onCompleted()
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    
     func getPost(date: Date, completion: @escaping([Post]) -> Void) {
         let calendar = Calendar.current
         let startDate = calendar.startOfDay(for: date) // 오늘 날짜의 시작
