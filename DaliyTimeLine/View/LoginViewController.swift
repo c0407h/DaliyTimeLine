@@ -29,14 +29,15 @@ class LoginViewController: UIViewController {
     private let logoImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.image = UIImage(systemName: "calendar")
+        iv.image = UIImage(named: "logoImage")
         iv.tintColor = .black
         return iv
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont(name: "OTSBAggroM", size: 18)
+//        label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textColor = .black
         label.text = "Daily TimeLine"
         label.textAlignment = .center
@@ -93,7 +94,7 @@ class LoginViewController: UIViewController {
         [logoImageView, titleLabel].forEach { view.addSubview($0) }
         
         logoImageView.snp.makeConstraints { make in
-            make.height.width.equalTo(150)
+            make.height.width.equalTo(200)
             make.centerX.equalTo(self.view)
             make.centerY.equalTo(self.view).offset(-50)
         }

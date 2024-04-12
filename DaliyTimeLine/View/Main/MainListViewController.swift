@@ -135,9 +135,8 @@ class MainListViewController: UIViewController {
         
         
         self.viewModel.dailyPost
-            .subscribe {[weak self] a in
-                
-                if (a.element?.isEmpty) == true  {
+            .subscribe {[weak self] post in
+                if (post.element?.isEmpty) == true  {
                     self?.postCollectionView.isHidden = true
                     self?.emptyView.isHidden = false
                 } else {
@@ -166,7 +165,6 @@ class MainListViewController: UIViewController {
                 .disposed(by: disposeBag)
 
         self.viewModel.rxGetPost(date: Date())
-            
     }
     
     
