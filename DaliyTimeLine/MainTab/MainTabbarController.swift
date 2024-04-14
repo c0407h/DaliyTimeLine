@@ -22,8 +22,15 @@ class MainTabbarController: UITabBarController {
         super.viewDidLoad()
         fetchUser()
         configureUI()
+
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        
+    }
     
     //MARK: - API
     func fetchUser() {
