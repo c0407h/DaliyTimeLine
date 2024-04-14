@@ -216,7 +216,9 @@ class PostDetailViewController: UIViewController {
         
         viewModel.rxUpdatePost(documentId: self.viewModel.post.documentId, caption: self.captionTextView.text)
             .subscribe { bool in
+                
                 self.delegate?.postUpdate(documentID: self.viewModel.post.documentId, caption: self.captionTextView.text)
+                
                 self.view.endEditing(true)
                 self.captionTextView.isEditable = false
                 self.navigationItem.rightBarButtonItems = [deleteButton, sharedButton, editButton]

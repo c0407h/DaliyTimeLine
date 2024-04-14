@@ -20,9 +20,11 @@ class MainListViewModel {
     var dailyPost = PublishSubject<[Post]>()
     var dailyPostCount = PublishSubject<Int>()
     
+    var postUpdate = PublishSubject<Bool>()
+    
     var service: PostService
     var disposeBag = DisposeBag()
-
+    
     
     init(service: PostService) {
         self.service = service
@@ -40,7 +42,6 @@ class MainListViewModel {
         service.getPost(date: date) { post in
             self.dailyPost.onNext(post)
             self.dailyPostCount.onNext(post.count)
-            
         }
     }
     

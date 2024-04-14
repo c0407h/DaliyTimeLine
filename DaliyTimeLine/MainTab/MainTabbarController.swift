@@ -63,10 +63,16 @@ class MainTabbarController: UITabBarController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tabbarSetup()
+        if safeAreaBottomInset() != 0 {
+            haveSAtabbarSetup()
+        } else {
+            noHaveSAtabbarSetup()
+        }
+        
     }
     
-    func tabbarSetup() {
+    func haveSAtabbarSetup() {
+        print(#function, safeAreaBottomInset())
         self.tabBar.frame.size.height = 83
         self.tabBar.frame.origin.y = self.view.frame.height - 83
         self.tabBar.frame.origin.x = 0
@@ -76,6 +82,29 @@ class MainTabbarController: UITabBarController {
         self.tabBar.layer.borderWidth = 1
         self.tabBar.layer.borderColor = UIColor.lightGray.cgColor
         self.tabBar.layer.cornerRadius = 24
+        self.tabBar.layer.masksToBounds = true
+        
+        self.tabBar.itemPositioning = .fill
+        self.tabBar.itemSpacing = self.tabBar.frame.width / 3
+        self.tabBar.isTranslucent = true
+        self.tabBar.tintColor = .black
+        self.tabBar.unselectedItemTintColor = .lightGray
+        self.tabBar.barTintColor = .white
+        
+    }
+    
+    func noHaveSAtabbarSetup() {
+        print(#function, safeAreaBottomInset())
+        self.tabBar.frame.size.height = 49
+        self.tabBar.frame.origin.y = self.view.frame.height - 49
+        self.tabBar.frame.origin.x = 0
+        self.tabBar.frame.size.width = tabBar.bounds.width
+        
+        self.tabBar.backgroundColor = .white
+        self.tabBar.layer.borderWidth = 1
+        self.tabBar.layer.borderColor = UIColor.lightGray.cgColor
+        self.tabBar.layer.cornerRadius = 24
+        self.tabBar.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMinYCorner, .layerMaxXMinYCorner)
         self.tabBar.layer.masksToBounds = true
         
         self.tabBar.itemPositioning = .fill
@@ -159,6 +188,16 @@ extension MainTabbarController: UITabBarControllerDelegate {
             return true
         }
     }    
+    
+    func safeAreaBottomInset() -> CGFloat {
+        if #available(iOS 11.0, *) {
+            let window = UIApplication.shared.keyWindow
+            let bottomPadding = window?.safeAreaInsets.bottom
+            return bottomPadding ??  0.0
+        } else {
+            return 0.0
+        }
+    }
 }
 
 extension MainTabbarController: MainListViewControllerDelegate {

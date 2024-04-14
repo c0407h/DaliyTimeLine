@@ -133,7 +133,6 @@ class MainListViewController: UIViewController {
         super.viewDidLoad()
         self.configureUI()
         
-        
         self.viewModel.dailyPost
             .subscribe {[weak self] post in
                 if (post.element?.isEmpty) == true  {
@@ -163,7 +162,18 @@ class MainListViewController: UIViewController {
                     self.navigationController?.pushViewController(detailVC, animated: true)
                 })
                 .disposed(by: disposeBag)
-
+        
+        
+        self.viewModel.postUpdate
+            .subscribe { isChanged in
+                if isChanged {
+                    self.viewModel.rxGetPost(date: try! self.viewModel.selectedDateSubject.value())
+                    self.viewModel.postUpdate
+                        .onNext(false)
+                }
+            }
+            .disposed(by: disposeBag)
+        
         self.viewModel.rxGetPost(date: Date())
     }
     
@@ -334,12 +344,8 @@ extension MainListViewController: MainListViewControllerDelegate {
     }
     
     func postUpdate(documentID: String, caption: String) {
-        viewModel.selectedDateSubject
-            .subscribe { date in
-                self.viewModel.rxGetPost(date: date)
-            }
-            .disposed(by: disposeBag)
-
+        viewModel.postUpdate
+            .onNext(true)
     }
 }
 
