@@ -58,7 +58,7 @@ struct UploadService {
                             }
                         }
                         
-                        COLLECTION_USERS.document(uid).collection("user-feed").document(docRef.documentID).setData([:])
+//                        COLLECTION_USERS.document(uid).collection("user-feed").document(docRef.documentID).setData([:])
                     } else if let error = error {
                         observer.onError(error)
                     }
