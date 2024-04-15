@@ -270,7 +270,7 @@ class UploadContentViewController: UIViewController {
             LoadingIndicator.hideLoading()
             return
         }
-        
+        view.endEditing(true)
         viewModel?.mergeImage
             .accept(mergedImage)
         

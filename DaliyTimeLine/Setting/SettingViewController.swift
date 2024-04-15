@@ -13,7 +13,7 @@ import MessageUI
 
 
 class SettingViewController: UIViewController {
-    
+    let reviewUrlString = "https://apps.apple.com/app/id6478968261?action=write-review"
     var viewModel = SettingViewModel()
     
     

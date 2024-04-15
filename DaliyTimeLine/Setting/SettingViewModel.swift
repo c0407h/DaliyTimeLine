@@ -56,8 +56,9 @@ class SettingViewModel {
     
     func getAppVersion() -> String {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
-        print(version)
-        return "v \(Bundle.main.infoDictionary?["CFBundleVersion"] as! String)"
+        let bundlever = Bundle.main.infoDictionary?["CFBundleVersion"] as! String //
+        print(version, bundlever)
+        return "v \(version)"
     }
     
 }
