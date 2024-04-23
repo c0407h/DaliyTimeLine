@@ -10,7 +10,6 @@ import SnapKit
 import RxSwift
 
 class UploadContentViewController: UIViewController {
-
     private let viewModel: UploadViewModel?
     weak var delegate: MainListViewControllerDelegate?
     
@@ -19,7 +18,6 @@ class UploadContentViewController: UIViewController {
         sv.delegate = self
         return sv
     }()
-
     
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
@@ -149,12 +147,12 @@ class UploadContentViewController: UIViewController {
     
     init(viewModel: UploadViewModel) {
         self.viewModel = viewModel
-
+        
         super.init(nibName: nil, bundle: nil)
         
         viewModel.selectedImage
-                .bind(to: photoImageView.rx.image)
-                .disposed(by: disposeBag)
+            .bind(to: photoImageView.rx.image)
+            .disposed(by: disposeBag)
     }
     
     required init?(coder: NSCoder) {
@@ -165,9 +163,24 @@ class UploadContentViewController: UIViewController {
         super.viewDidLoad()
         self.configureUI()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:))))
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                         action: #selector(handleTap(sender:))))
+        
+        scrollView.canCancelContentTouches = true
+        let panGesture = UIPanGestureRecognizer(target: self, 
+                                                action: #selector(handlePanGesture(_:)))
+        dateLabel.isUserInteractionEnabled = true // dateLabel이 터치 이벤트를 받을 수 있도록 설정
+        dateLabel.addGestureRecognizer(panGesture)
+    }
+    
+    @objc func checkFrame(sender: UITapGestureRecognizer) {
+        print("checkFram")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -180,8 +193,14 @@ class UploadContentViewController: UIViewController {
     func configureUI() {
         view.backgroundColor = .white
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "등록", style: .done, target: self, action: #selector(didTapDone))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                           target: self,
+                                                           action: #selector(didTapCancel))
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "등록",
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(didTapDone))
         
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints {
@@ -197,16 +216,17 @@ class UploadContentViewController: UIViewController {
             
             make.width.height.equalTo(UIScreen.main.bounds.size.width - 32)
             make.centerX.equalTo(scrollView.snp.centerX)
-            
         }
         
-        photoImageView.addSubview(dateLabel)
+        
+        //        photoImageView.addSubview(dateLabel)
+        scrollView.addSubview(dateLabel)
         dateLabel.snp.makeConstraints { make in
             make.leading.equalTo(photoImageView.snp.leading).offset(16)
-            make.trailing.equalTo(photoImageView.snp.trailing).offset(-16)
+            //            make.trailing.equalTo(photoImageView.snp.trailing).offset(-16)
             make.bottom.equalTo(photoImageView.snp.bottom).offset(-16)
         }
-        
+        dateLabel.sizeToFit()
         
         
         scrollView.addSubview(colorSelectLabel)
@@ -231,11 +251,13 @@ class UploadContentViewController: UIViewController {
             $0.height.equalTo(50)
         }
         
-        [whiteColorButton, grayColorButton, blackColorButton, redColorButton, yellowColorButton, greenColorButton, blueColorButton].forEach {
+        [whiteColorButton, grayColorButton, blackColorButton, redColorButton, yellowColorButton,
+         greenColorButton, blueColorButton].forEach {
             colorStackView.addArrangedSubview($0)
         }
         
-        [whiteColorButton, grayColorButton, blackColorButton, redColorButton, yellowColorButton, greenColorButton, blueColorButton].forEach {
+        [whiteColorButton, grayColorButton, blackColorButton, redColorButton, yellowColorButton,
+         greenColorButton, blueColorButton].forEach {
             $0.snp.makeConstraints {
                 $0.height.width.equalTo(30)
             }
@@ -257,11 +279,38 @@ class UploadContentViewController: UIViewController {
         }
     }
     
+    @objc func handlePanGesture(_ recognizer: UIPanGestureRecognizer) {
+        guard let view = recognizer.view else { return }
+        let translation = recognizer.translation(in: view.superview)
+        
+        switch recognizer.state {
+        case .changed:
+            // 이동 후의 새로운 위치
+            let newX = view.center.x + translation.x
+            let newY = view.center.y + translation.y
+            
+            let halfWidth = view.frame.width/2
+            let halfHeight = view.frame.height/2
+            
+            let newFrame = CGRect(x: photoImageView.frame.origin.x,
+                                  y: photoImageView.frame.origin.y,
+                                  width: photoImageView.frame.width,
+                                  height: photoImageView.frame.height)
+            
+            
+            if newX <= newFrame.maxX - halfWidth && newX >= newFrame.minX + halfWidth && newY <= newFrame.maxY - halfHeight && newY >= newFrame.minY + halfHeight{
+                view.center = CGPoint(x: newX, y: newY)
+                recognizer.setTranslation(CGPoint.zero, in: view.superview)
+            }
+        default:
+            break
+        }
+    }
     
     @objc func didTapCancel() {
         dismiss(animated: true)
     }
-
+    
     @objc func didTapDone() {
         LoadingIndicator.showLoading()
         
@@ -283,7 +332,8 @@ class UploadContentViewController: UIViewController {
                 LoadingIndicator.hideLoading()
                 
                 self.dismiss(animated: true) {
-                    if let autoSave = UserDefaults.standard.value(forKey: "AutoSave") as? Bool, autoSave {
+                    if let autoSave = UserDefaults.standard.value(forKey: "AutoSave") as? Bool,
+                       autoSave {
                         UIImageWriteToSavedPhotosAlbum(mergedImage, self, nil, nil)
                     }
                     self.delegate?.reload()
@@ -296,7 +346,7 @@ class UploadContentViewController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
-
+    
     
     func transfromToImage(view: UIView) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, 0.0)
@@ -319,20 +369,20 @@ class UploadContentViewController: UIViewController {
     @objc func keyboardWillShow(_ notification:NSNotification) {
         
         guard let userInfo = notification.userInfo,
-               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-                   return
-           }
-           
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        
         scrollView.contentInset.bottom = keyboardFrame.size.height
         scrollView.scrollRectToVisible(captionTextView.frame, animated: true)
         
- 
+        
     }
     
     @objc func keyboardWillHide(_ notification:NSNotification) {
         let contentInset = UIEdgeInsets.zero
-         scrollView.contentInset = contentInset
-         scrollView.scrollIndicatorInsets = contentInset
+        scrollView.contentInset = contentInset
+        scrollView.scrollIndicatorInsets = contentInset
     }
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
@@ -341,7 +391,14 @@ class UploadContentViewController: UIViewController {
         }
         sender.cancelsTouchesInView = false
     }
+    
+    
+    
+    
 }
+
+
+
 
 
 //MARK: - UITextViewDelegate
