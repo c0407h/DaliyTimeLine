@@ -13,6 +13,14 @@ class UploadContentViewController: UIViewController {
     private let viewModel: UploadViewModel?
     weak var delegate: MainListViewControllerDelegate?
     
+    let textColorWell: UIColorWell =  {
+        let colorWell = UIColorWell()
+        colorWell.supportsAlpha = true
+        colorWell.selectedColor = .black
+        colorWell.title = "텍스트 색상 선택"
+        return colorWell
+    }()
+    
     private lazy var scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.delegate = self
@@ -58,7 +66,7 @@ class UploadContentViewController: UIViewController {
         label.numberOfLines = 0
         label.text = dateString
         label.font = UIFont(name: "OTSBAggroM", size: 20) ?? UIFont.boldSystemFont(ofSize: 20)
-        label.textColor = .white
+        label.textColor = .black
         return label
     }()
     
@@ -69,79 +77,6 @@ class UploadContentViewController: UIViewController {
         return label
     }()
     
-    private let colorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGray6
-        return view
-    }()
-    
-    private let colorStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.spacing = 10
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
-        return stackView
-    }()
-    
-    private lazy var whiteColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .white
-        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
-        return button
-    }()
-    private lazy var grayColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .gray
-        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
-        return button
-    }()
-    private lazy var blackColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .black
-        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
-        return button
-    }()
-    private lazy var redColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .red
-        button.addTarget(self, action: #selector(colorSelect), for: .touchUpInside)
-        return button
-    }()
-    private lazy var yellowColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .yellow
-        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var greenColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .green
-        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
-        return button
-    }()
-    private lazy var blueColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .blue
-        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
-        return button
-    }()
     private let disposeBag = DisposeBag()
     
     
@@ -233,39 +168,18 @@ class UploadContentViewController: UIViewController {
         colorSelectLabel.snp.makeConstraints {
             $0.top.equalTo(photoImageView.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(16)
+//            $0.trailing.equalToSuperview().offset(-16)
+        }
+        scrollView.addSubview(textColorWell)
+        textColorWell.snp.makeConstraints {
+            $0.top.equalTo(photoImageView.snp.bottom).offset(10)
             $0.trailing.equalToSuperview().offset(-16)
         }
-        
-        scrollView.addSubview(colorView)
-        colorView.snp.makeConstraints {
-            $0.top.equalTo(colorSelectLabel.snp.bottom).offset(10)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(50)
-        }
-        
-        colorView.addSubview(colorStackView)
-        colorStackView.snp.makeConstraints {
-            $0.top.equalTo(colorSelectLabel.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.lessThanOrEqualToSuperview()
-            $0.height.equalTo(50)
-        }
-        
-        [whiteColorButton, grayColorButton, blackColorButton, redColorButton, yellowColorButton,
-         greenColorButton, blueColorButton].forEach {
-            colorStackView.addArrangedSubview($0)
-        }
-        
-        [whiteColorButton, grayColorButton, blackColorButton, redColorButton, yellowColorButton,
-         greenColorButton, blueColorButton].forEach {
-            $0.snp.makeConstraints {
-                $0.height.width.equalTo(30)
-            }
-        }
-        
+        textColorWell.addTarget(self, action: #selector(textColorChanged), for: .valueChanged)
+
         scrollView.addSubview(captionTextView)
         captionTextView.snp.makeConstraints { make in
-            make.top.equalTo(colorView.snp.bottom).offset(10)
+            make.top.equalTo(colorSelectLabel.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(12)
             make.trailing.equalToSuperview().offset(-12)
             make.height.equalTo(64)
@@ -298,7 +212,7 @@ class UploadContentViewController: UIViewController {
                                   height: photoImageView.frame.height)
             
             
-            if newX <= newFrame.maxX - halfWidth && newX >= newFrame.minX + halfWidth && 
+            if newX <= newFrame.maxX - halfWidth && newX >= newFrame.minX + halfWidth &&
                 newY <= newFrame.maxY - halfHeight && newY >= newFrame.minY + halfHeight{
                 view.center = CGPoint(x: newX, y: newY)
                 recognizer.setTranslation(CGPoint.zero, in: view.superview)
@@ -352,7 +266,7 @@ class UploadContentViewController: UIViewController {
     func transfromToImage() -> UIImage? {
         // photoImageView와 dateLabel을 포함할 UIView
         let combinedView = UIView(frame: CGRect(x: 0, y: 0, 
-                                                width: photoImageView.frame.width, 
+                                                width: photoImageView.frame.width,
                                                 height: photoImageView.frame.height))
         photoImageView.contentMode = .scaleAspectFill
         
@@ -361,7 +275,8 @@ class UploadContentViewController: UIViewController {
         combinedView.addSubview(photoImageView)
         
         // dateLabel의 frame을 photoImageView 내의 좌표로 변환하여 추가
-        let dateLabelInImageViewFrame = photoImageView.convert(dateLabel.frame, 
+
+        let dateLabelInImageViewFrame = photoImageView.convert(dateLabel.frame,
                                                                from: dateLabel.superview)
         dateLabel.frame = dateLabelInImageViewFrame
         combinedView.addSubview(dateLabel)
@@ -376,12 +291,7 @@ class UploadContentViewController: UIViewController {
         }
         return nil
     }
-    
-    @objc func colorSelect(sender: UIButton) {
-        DispatchQueue.main.async {
-            self.dateLabel.textColor = sender.backgroundColor
-        }
-    }
+
     
     @objc func keyboardWillShow(_ notification:NSNotification) {
         
@@ -410,8 +320,12 @@ class UploadContentViewController: UIViewController {
     }
     
     
-    
-    
+
+    @objc func textColorChanged() {
+        DispatchQueue.main.async {
+            self.dateLabel.textColor = self.textColorWell.selectedColor
+        }
+    }
 }
 
 
