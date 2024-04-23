@@ -280,18 +280,18 @@ class SecretSettingViewController: UIViewController {
         self.view.backgroundColor = .white
         configureUI()
         
+        //로그인시
         if isLogin {
             if UserDefaults.standard.string(forKey: "LoginSecret") != nil {
                 authContext.localizedFallbackTitle = ""
                 
-                self.authContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "잠금을 위해 인증을 해주세요.") { success, error in
+                self.authContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, 
+                                                localizedReason: "잠금을 위해 인증을 해주세요.") { success, error in
                     if success {
                         DispatchQueue.main.async {
                             self.delegate?.goToMain()
                             self.dismiss(animated: true)
                         }
-                        
-                    } else {
                     }
                 }
             }
@@ -513,6 +513,7 @@ class SecretSettingViewController: UIViewController {
             passCodeFouthView.backgroundColor = .white
         }
         
+        //잠금 설정 시
         //처음입력 비밀번호와 재입력 비밀번호코드가 맞을 때
         if secondPassCode.count == 4 && isSecondPassCode {
             if secondPassCode == passCode {
@@ -520,7 +521,8 @@ class SecretSettingViewController: UIViewController {
                 
                 authContext.localizedFallbackTitle = ""
  
-                self.authContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "잠금을 위해 인증을 해주세요.") { success, error in
+                self.authContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, 
+                                                localizedReason: "잠금을 위해 인증을 해주세요.") { success, error in
                     
                     if let error = error {
                         DispatchQueue.main.async {

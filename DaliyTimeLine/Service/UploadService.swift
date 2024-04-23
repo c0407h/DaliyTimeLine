@@ -49,7 +49,7 @@ struct UploadService {
                             "ownerUsername": user.username as Any
                         ]
                         
-                        let docRef = COLLECTION_CONTENTS.addDocument(data: data) { error in
+                        let _ = COLLECTION_CONTENTS.addDocument(data: data) { error in
                             if let error = error {
                                 observer.onError(error)
                             } else {
@@ -57,8 +57,6 @@ struct UploadService {
                                 observer.onCompleted()
                             }
                         }
-                        
-//                        COLLECTION_USERS.document(uid).collection("user-feed").document(docRef.documentID).setData([:])
                     } else if let error = error {
                         observer.onError(error)
                     }
