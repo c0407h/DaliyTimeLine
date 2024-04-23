@@ -173,7 +173,7 @@ class UploadContentViewController: UIViewController {
                                                          action: #selector(handleTap(sender:))))
         
         scrollView.canCancelContentTouches = true
-        let panGesture = UIPanGestureRecognizer(target: self, 
+        let panGesture = UIPanGestureRecognizer(target: self,
                                                 action: #selector(handlePanGesture(_:)))
         dateLabel.isUserInteractionEnabled = true // dateLabel이 터치 이벤트를 받을 수 있도록 설정
         dateLabel.addGestureRecognizer(panGesture)
@@ -298,7 +298,8 @@ class UploadContentViewController: UIViewController {
                                   height: photoImageView.frame.height)
             
             
-            if newX <= newFrame.maxX - halfWidth && newX >= newFrame.minX + halfWidth && newY <= newFrame.maxY - halfHeight && newY >= newFrame.minY + halfHeight{
+            if newX <= newFrame.maxX - halfWidth && newX >= newFrame.minX + halfWidth && 
+                newY <= newFrame.maxY - halfHeight && newY >= newFrame.minY + halfHeight{
                 view.center = CGPoint(x: newX, y: newY)
                 recognizer.setTranslation(CGPoint.zero, in: view.superview)
             }
@@ -314,7 +315,7 @@ class UploadContentViewController: UIViewController {
     @objc func didTapDone() {
         LoadingIndicator.showLoading()
         
-        guard let mergedImage = self.transfromToImage(view: photoImageView) else {
+        guard let mergedImage = self.transfromToImage() else {
             print("Error: Failed to merge text to image")
             LoadingIndicator.hideLoading()
             return
@@ -348,13 +349,29 @@ class UploadContentViewController: UIViewController {
     }
     
     
-    func transfromToImage(view: UIView) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, 0.0)
+    func transfromToImage() -> UIImage? {
+        // photoImageView와 dateLabel을 포함할 UIView
+        let combinedView = UIView(frame: CGRect(x: 0, y: 0, 
+                                                width: photoImageView.frame.width, 
+                                                height: photoImageView.frame.height))
+        photoImageView.contentMode = .scaleAspectFill
+        
+        // photoImageView의 크기를 combinedView와 일치시킴
+        photoImageView.frame = combinedView.bounds
+        combinedView.addSubview(photoImageView)
+        
+        // dateLabel의 frame을 photoImageView 내의 좌표로 변환하여 추가
+        let dateLabelInImageViewFrame = photoImageView.convert(dateLabel.frame, 
+                                                               from: dateLabel.superview)
+        dateLabel.frame = dateLabelInImageViewFrame
+        combinedView.addSubview(dateLabel)
+        
+        UIGraphicsBeginImageContextWithOptions(combinedView.bounds.size, true, 0.0)
         defer {
             UIGraphicsEndImageContext()
         }
         if let context = UIGraphicsGetCurrentContext() {
-            view.layer.render(in: context)
+            combinedView.layer.render(in: context)
             return UIGraphicsGetImageFromCurrentImageContext()
         }
         return nil
