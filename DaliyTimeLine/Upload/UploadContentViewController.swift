@@ -10,16 +10,22 @@ import SnapKit
 import RxSwift
 
 class UploadContentViewController: UIViewController {
-
     private let viewModel: UploadViewModel?
     weak var delegate: MainListViewControllerDelegate?
+    
+    let textColorWell: UIColorWell =  {
+        let colorWell = UIColorWell()
+        colorWell.supportsAlpha = true
+        colorWell.selectedColor = .black
+        colorWell.title = "텍스트 색상 선택"
+        return colorWell
+    }()
     
     private lazy var scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.delegate = self
         return sv
     }()
-
     
     private let photoImageView: UIImageView = {
         let iv = UIImageView()
@@ -71,90 +77,17 @@ class UploadContentViewController: UIViewController {
         return label
     }()
     
-    private let colorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGray6
-        return view
-    }()
-    
-    private let colorStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.spacing = 10
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10)
-        return stackView
-    }()
-    
-    private lazy var whiteColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .white
-        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
-        return button
-    }()
-    private lazy var grayColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .gray
-        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
-        return button
-    }()
-    private lazy var blackColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .black
-        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
-        return button
-    }()
-    private lazy var redColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .red
-        button.addTarget(self, action: #selector(colorSelect), for: .touchUpInside)
-        return button
-    }()
-    private lazy var yellowColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .yellow
-        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var greenColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .green
-        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
-        return button
-    }()
-    private lazy var blueColorButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 15
-        button.layer.masksToBounds = true
-        button.backgroundColor = .blue
-        button.addTarget(self, action: #selector(colorSelect(sender:)), for: .touchUpInside)
-        return button
-    }()
     private let disposeBag = DisposeBag()
     
     
     init(viewModel: UploadViewModel) {
         self.viewModel = viewModel
-
+        
         super.init(nibName: nil, bundle: nil)
         
         viewModel.selectedImage
-                .bind(to: photoImageView.rx.image)
-                .disposed(by: disposeBag)
+            .bind(to: photoImageView.rx.image)
+            .disposed(by: disposeBag)
     }
     
     required init?(coder: NSCoder) {
@@ -165,9 +98,24 @@ class UploadContentViewController: UIViewController {
         super.viewDidLoad()
         self.configureUI()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:))))
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                         action: #selector(handleTap(sender:))))
+        
+        scrollView.canCancelContentTouches = true
+        let panGesture = UIPanGestureRecognizer(target: self,
+                                                action: #selector(handlePanGesture(_:)))
+        dateLabel.isUserInteractionEnabled = true // dateLabel이 터치 이벤트를 받을 수 있도록 설정
+        dateLabel.addGestureRecognizer(panGesture)
+    }
+    
+    @objc func checkFrame(sender: UITapGestureRecognizer) {
+        print("checkFram")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -180,8 +128,14 @@ class UploadContentViewController: UIViewController {
     func configureUI() {
         view.backgroundColor = .white
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "등록", style: .done, target: self, action: #selector(didTapDone))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
+                                                           target: self,
+                                                           action: #selector(didTapCancel))
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "등록",
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(didTapDone))
         
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints {
@@ -197,53 +151,35 @@ class UploadContentViewController: UIViewController {
             
             make.width.height.equalTo(UIScreen.main.bounds.size.width - 32)
             make.centerX.equalTo(scrollView.snp.centerX)
-            
         }
         
-        photoImageView.addSubview(dateLabel)
+        
+        //        photoImageView.addSubview(dateLabel)
+        scrollView.addSubview(dateLabel)
         dateLabel.snp.makeConstraints { make in
             make.leading.equalTo(photoImageView.snp.leading).offset(16)
-            make.trailing.equalTo(photoImageView.snp.trailing).offset(-16)
+            //            make.trailing.equalTo(photoImageView.snp.trailing).offset(-16)
             make.bottom.equalTo(photoImageView.snp.bottom).offset(-16)
         }
-        
+        dateLabel.sizeToFit()
         
         
         scrollView.addSubview(colorSelectLabel)
         colorSelectLabel.snp.makeConstraints {
             $0.top.equalTo(photoImageView.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(16)
+//            $0.trailing.equalToSuperview().offset(-16)
+        }
+        scrollView.addSubview(textColorWell)
+        textColorWell.snp.makeConstraints {
+            $0.top.equalTo(photoImageView.snp.bottom).offset(10)
             $0.trailing.equalToSuperview().offset(-16)
         }
-        
-        scrollView.addSubview(colorView)
-        colorView.snp.makeConstraints {
-            $0.top.equalTo(colorSelectLabel.snp.bottom).offset(10)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(50)
-        }
-        
-        colorView.addSubview(colorStackView)
-        colorStackView.snp.makeConstraints {
-            $0.top.equalTo(colorSelectLabel.snp.bottom).offset(10)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.lessThanOrEqualToSuperview()
-            $0.height.equalTo(50)
-        }
-        
-        [whiteColorButton, grayColorButton, blackColorButton, redColorButton, yellowColorButton, greenColorButton, blueColorButton].forEach {
-            colorStackView.addArrangedSubview($0)
-        }
-        
-        [whiteColorButton, grayColorButton, blackColorButton, redColorButton, yellowColorButton, greenColorButton, blueColorButton].forEach {
-            $0.snp.makeConstraints {
-                $0.height.width.equalTo(30)
-            }
-        }
-        
+        textColorWell.addTarget(self, action: #selector(textColorChanged), for: .valueChanged)
+
         scrollView.addSubview(captionTextView)
         captionTextView.snp.makeConstraints { make in
-            make.top.equalTo(colorView.snp.bottom).offset(10)
+            make.top.equalTo(colorSelectLabel.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(12)
             make.trailing.equalToSuperview().offset(-12)
             make.height.equalTo(64)
@@ -257,15 +193,43 @@ class UploadContentViewController: UIViewController {
         }
     }
     
+    @objc func handlePanGesture(_ recognizer: UIPanGestureRecognizer) {
+        guard let view = recognizer.view else { return }
+        let translation = recognizer.translation(in: view.superview)
+        
+        switch recognizer.state {
+        case .changed:
+            // 이동 후의 새로운 위치
+            let newX = view.center.x + translation.x
+            let newY = view.center.y + translation.y
+            
+            let halfWidth = view.frame.width/2
+            let halfHeight = view.frame.height/2
+            
+            let newFrame = CGRect(x: photoImageView.frame.origin.x,
+                                  y: photoImageView.frame.origin.y,
+                                  width: photoImageView.frame.width,
+                                  height: photoImageView.frame.height)
+            
+            
+            if newX <= newFrame.maxX - halfWidth && newX >= newFrame.minX + halfWidth &&
+                newY <= newFrame.maxY - halfHeight && newY >= newFrame.minY + halfHeight{
+                view.center = CGPoint(x: newX, y: newY)
+                recognizer.setTranslation(CGPoint.zero, in: view.superview)
+            }
+        default:
+            break
+        }
+    }
     
     @objc func didTapCancel() {
         dismiss(animated: true)
     }
-
+    
     @objc func didTapDone() {
         LoadingIndicator.showLoading()
         
-        guard let mergedImage = self.transfromToImage(view: photoImageView) else {
+        guard let mergedImage = self.transfromToImage() else {
             print("Error: Failed to merge text to image")
             LoadingIndicator.hideLoading()
             return
@@ -283,7 +247,8 @@ class UploadContentViewController: UIViewController {
                 LoadingIndicator.hideLoading()
                 
                 self.dismiss(animated: true) {
-                    if let autoSave = UserDefaults.standard.value(forKey: "AutoSave") as? Bool, autoSave {
+                    if let autoSave = UserDefaults.standard.value(forKey: "AutoSave") as? Bool,
+                       autoSave {
                         UIImageWriteToSavedPhotosAlbum(mergedImage, self, nil, nil)
                     }
                     self.delegate?.reload()
@@ -296,43 +261,54 @@ class UploadContentViewController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
-
     
-    func transfromToImage(view: UIView) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, 0.0)
+    
+    func transfromToImage() -> UIImage? {
+        // photoImageView와 dateLabel을 포함할 UIView
+        let combinedView = UIView(frame: CGRect(x: 0, y: 0,
+                                                width: photoImageView.frame.width,
+                                                height: photoImageView.frame.height))
+        photoImageView.contentMode = .scaleAspectFill
+        
+        // photoImageView의 크기를 combinedView와 일치시킴
+        photoImageView.frame = combinedView.bounds
+        combinedView.addSubview(photoImageView)
+        
+        // dateLabel의 frame을 photoImageView 내의 좌표로 변환하여 추가
+        let dateLabelInImageViewFrame = photoImageView.convert(dateLabel.frame,
+                                                               from: dateLabel.superview)
+        dateLabel.frame = dateLabelInImageViewFrame
+        combinedView.addSubview(dateLabel)
+        
+        UIGraphicsBeginImageContextWithOptions(combinedView.bounds.size, true, 0.0)
         defer {
             UIGraphicsEndImageContext()
         }
         if let context = UIGraphicsGetCurrentContext() {
-            view.layer.render(in: context)
+            combinedView.layer.render(in: context)
             return UIGraphicsGetImageFromCurrentImageContext()
         }
         return nil
     }
-    
-    @objc func colorSelect(sender: UIButton) {
-        DispatchQueue.main.async {
-            self.dateLabel.textColor = sender.backgroundColor
-        }
-    }
+
     
     @objc func keyboardWillShow(_ notification:NSNotification) {
         
         guard let userInfo = notification.userInfo,
-               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-                   return
-           }
-           
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        
         scrollView.contentInset.bottom = keyboardFrame.size.height
         scrollView.scrollRectToVisible(captionTextView.frame, animated: true)
         
- 
+        
     }
     
     @objc func keyboardWillHide(_ notification:NSNotification) {
         let contentInset = UIEdgeInsets.zero
-         scrollView.contentInset = contentInset
-         scrollView.scrollIndicatorInsets = contentInset
+        scrollView.contentInset = contentInset
+        scrollView.scrollIndicatorInsets = contentInset
     }
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
@@ -341,7 +317,18 @@ class UploadContentViewController: UIViewController {
         }
         sender.cancelsTouchesInView = false
     }
+    
+    
+    @objc func textColorChanged() {
+        DispatchQueue.main.async {
+            self.dateLabel.textColor = self.textColorWell.selectedColor
+        }
+    }
+    
 }
+
+
+
 
 
 //MARK: - UITextViewDelegate
