@@ -114,14 +114,10 @@ class UploadContentViewController: UIViewController {
         dateLabel.addGestureRecognizer(panGesture)
     }
     
-    @objc func checkFrame(sender: UITapGestureRecognizer) {
-        print("checkFram")
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
-        
+            
     }
     
     
@@ -234,6 +230,7 @@ class UploadContentViewController: UIViewController {
             LoadingIndicator.hideLoading()
             return
         }
+        
         view.endEditing(true)
         viewModel?.mergeImage
             .accept(mergedImage)
@@ -277,7 +274,7 @@ class UploadContentViewController: UIViewController {
         // dateLabel의 frame을 photoImageView 내의 좌표로 변환하여 추가
 
         let dateLabelInImageViewFrame = photoImageView.convert(dateLabel.frame,
-                                                               from: dateLabel.superview)
+                                                               from: photoImageView.superview)
         dateLabel.frame = dateLabelInImageViewFrame
         combinedView.addSubview(dateLabel)
         
@@ -292,7 +289,6 @@ class UploadContentViewController: UIViewController {
         return nil
     }
 
-    
     @objc func keyboardWillShow(_ notification:NSNotification) {
         
         guard let userInfo = notification.userInfo,
