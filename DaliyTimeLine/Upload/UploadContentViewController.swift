@@ -282,33 +282,6 @@ class UploadContentViewController: UIViewController {
         
         return mergedImage
     }
-   
-//   위의 transfromToImage() 메서드와 차이 -> 사진과 텍스트를 합성한다는것은 같은 동작을 함 그러나
-//      등록과정에서 ScrollView 하위 객체들이 사라지는 현상이 있어서 변경시킴
-//          -> 정확하게 이유를 파악하지는 못했음
-//
-//    func transfromToImage() -> UIImage? {
-//        let combinedView = UIView(frame: photoImageView.frame)
-//        // photoImageView의 크기를 combinedView와 일치
-//        photoImageView.frame = combinedView.bounds
-//        combinedView.addSubview(photoImageView)
-//        
-//        // dateLabel의 frame을 photoImageView 내의 좌표로 변환하여 추가
-//        let dateLabelInImageViewFrame = combinedView.convert(dateLabel.frame,
-//                                                             from: photoImageView.superview)
-//        dateLabel.frame = dateLabelInImageViewFrame
-//        combinedView.addSubview(dateLabel)
-//        
-//        UIGraphicsBeginImageContextWithOptions(combinedView.bounds.size, true, 0.0)
-//        defer {
-//            UIGraphicsEndImageContext()
-//        }
-//        if let context = UIGraphicsGetCurrentContext() {
-//            combinedView.layer.render(in: context)
-//            return UIGraphicsGetImageFromCurrentImageContext()
-//        }
-//        return nil
-//    }
     
     @objc func keyboardWillShow(_ notification:NSNotification) {
         
