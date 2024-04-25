@@ -33,15 +33,15 @@ class MainListViewModel {
     }
     
     func rxGetAllPost() {
-        service.getAllPosts { posts in
-            self.mainPost.onNext(posts)
+        service.getAllPosts {[weak self] posts in
+            self?.mainPost.onNext(posts)
         }
     }
     
     func rxGetPost(date: Date) {
-        service.getPost(date: date) { post in
-            self.dailyPost.onNext(post)
-            self.dailyPostCount.onNext(post.count)
+        service.getPost(date: date) { [weak self] post in
+            self?.dailyPost.onNext(post)
+            self?.dailyPostCount.onNext(post.count)
         }
     }
     
@@ -59,11 +59,11 @@ class MainListViewModel {
     
     func rxGetPostImg(date: Date) -> Observable<URL?> {
         return service.rxGetAllPosts()
-            .map { posts in
-                let filteredPosts = self.filterFirstPostForUniqueTimestamps(posts: posts)
-                let post = filteredPosts.first { post in
-                    let postDateComponents = self.dateComponets(date: post.timestamp.dateValue())
-                    let dateComponents = self.dateComponets(date: date)
+            .map { [weak self] posts in
+                let filteredPosts = self?.filterFirstPostForUniqueTimestamps(posts: posts)
+                let post = filteredPosts?.first { post in
+                    let postDateComponents = self?.dateComponets(date: post.timestamp.dateValue())
+                    let dateComponents = self?.dateComponets(date: date)
                     return dateComponents == postDateComponents
                 }
                 
@@ -105,9 +105,9 @@ class MainListViewModel {
 
     // 선택된 날짜를 확인하는 메서드
     func isCurrentSelected(_ date: Date) -> Observable<Bool> {
-        return selectedDateSubject.map { selectedDate in
-            let selectDateComponent = self.dateComponets(date: selectedDate)
-            let nowDateComponent = self.dateComponets(date: date)
+        return selectedDateSubject.map {[weak self] selectedDate in
+            let selectDateComponent = self?.dateComponets(date: selectedDate)
+            let nowDateComponent = self?.dateComponets(date: date)
             return selectDateComponent == nowDateComponent
         }
     }

@@ -42,20 +42,43 @@ class PostService {
     
     func rxGetAllPosts() -> Observable<[Post]> {
         return Observable.create { observer in
-            COLLECTION_CONTENTS
-                .whereField("ownerUid", isEqualTo: Auth.auth().currentUser?.uid as Any)
-                .getDocuments { snapshot, error in
-                    if let error = error {
-                        print("DEBUG: \(error.localizedDescription)")
-                        observer.onError(error)
-                    }
-                    
-                    guard let documents = snapshot?.documents else { return } // document들을 가져옴
-                    let posts = documents.map{ Post(documentId: $0.documentID, dictionary: $0.data())}
-                    
-                    observer.onNext(posts)
-                }
-            return Disposables.create()
+//            COLLECTION_CONTENTS
+//                .whereField("ownerUid", isEqualTo: Auth.auth().currentUser?.uid as Any)
+//                .getDocuments { snapshot, error in
+//                    if let error = error {
+//                        print("DEBUG: \(error.localizedDescription)")
+//                        observer.onError(error)
+//                    }
+//                    
+//                    guard let documents = snapshot?.documents else { return } // document들을 가져옴
+//                    let posts = documents.map{ Post(documentId: $0.documentID, dictionary: $0.data())}
+//                    
+//                    observer.onNext(posts)
+//                }
+//            return Disposables.create()
+            guard let currentUserUid = Auth.auth().currentUser?.uid else {
+                       
+                       return Disposables.create()
+                   }
+                   
+                   let query = COLLECTION_CONTENTS
+                       .whereField("ownerUid", isEqualTo: currentUserUid)
+                   
+                   let listener = query.addSnapshotListener { snapshot, error in
+                       if let error = error {
+                           print("DEBUG: \(error.localizedDescription)")
+                           observer.onError(error)
+                           return
+                       }
+                       
+                       guard let documents = snapshot?.documents else { return } // document들을 가져옴
+                       let posts = documents.map { Post(documentId: $0.documentID, dictionary: $0.data()) }
+                       observer.onNext(posts)
+                   }
+                   
+                   return Disposables.create {
+                       listener.remove()
+                   }
         }
     }
     

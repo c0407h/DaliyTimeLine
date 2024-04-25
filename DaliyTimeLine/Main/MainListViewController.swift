@@ -165,10 +165,13 @@ class MainListViewController: UIViewController {
         
         
         self.viewModel.postUpdate
-            .subscribe { isChanged in
+            .subscribe { [weak self] event in
+                guard let isChanged = event.element else { return }
                 if isChanged {
-                    self.viewModel.rxGetPost(date: try! self.viewModel.selectedDateSubject.value())
-                    self.viewModel.postUpdate
+                    if let selectedDate = try? self?.viewModel.selectedDateSubject.value() {
+                                  self?.viewModel.rxGetPost(date: selectedDate)
+                              }
+                    self?.viewModel.postUpdate
                         .onNext(false)
                 }
             }
@@ -251,15 +254,15 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         guard let cell = calendar.dequeueReusableCell(withIdentifier: CalendarCell.description(), for: date, at: position) as? CalendarCell else { return FSCalendarCell() }
 
         self.viewModel.rxGetPostImg(date: date)
-            .subscribe { url in
-                cell.backImageView.kf.setImage(with: url)
+            .subscribe {[weak cell] url in
+                cell?.backImageView.kf.setImage(with: url)
             }
             .disposed(by: disposeBag)
         
         // 현재 선택되어 있는 날짜인지 확인 후 배경 이미지의 alpha값을 조절한다
         self.viewModel.isCurrentSelected(date)
-            .subscribe { bool in
-                cell.backImageView.alpha = bool ? 1 : 0.5
+            .subscribe {[weak cell] bool in
+                cell?.backImageView.alpha = bool ? 1 : 0.5
             }
             .disposed(by: disposeBag)
         
