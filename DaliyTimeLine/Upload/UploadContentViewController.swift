@@ -117,7 +117,7 @@ class UploadContentViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
-            
+        
     }
     
     
@@ -164,7 +164,7 @@ class UploadContentViewController: UIViewController {
         colorSelectLabel.snp.makeConstraints {
             $0.top.equalTo(photoImageView.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(16)
-//            $0.trailing.equalToSuperview().offset(-16)
+            //            $0.trailing.equalToSuperview().offset(-16)
         }
         scrollView.addSubview(textColorWell)
         textColorWell.snp.makeConstraints {
@@ -172,7 +172,7 @@ class UploadContentViewController: UIViewController {
             $0.trailing.equalToSuperview().offset(-16)
         }
         textColorWell.addTarget(self, action: #selector(textColorChanged), for: .valueChanged)
-
+        
         scrollView.addSubview(captionTextView)
         captionTextView.snp.makeConstraints { make in
             make.top.equalTo(colorSelectLabel.snp.bottom).offset(20)
@@ -241,7 +241,6 @@ class UploadContentViewController: UIViewController {
         viewModel?.uploadPost()
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
-                LoadingIndicator.hideLoading()
                 
                 self.dismiss(animated: true) {
                     if let autoSave = UserDefaults.standard.value(forKey: "AutoSave") as? Bool,
@@ -249,6 +248,7 @@ class UploadContentViewController: UIViewController {
                         UIImageWriteToSavedPhotosAlbum(mergedImage, self, nil, nil)
                     }
                     self.delegate?.reload()
+                    LoadingIndicator.hideLoading()
                 }
             }, onError: { error in
                 LoadingIndicator.hideLoading()
@@ -259,36 +259,57 @@ class UploadContentViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    
     func transfromToImage() -> UIImage? {
-        // photoImageView와 dateLabel을 포함할 UIView
-        let combinedView = UIView(frame: CGRect(x: 0, y: 0, 
-                                                width: photoImageView.frame.width,
-                                                height: photoImageView.frame.height))
-        photoImageView.contentMode = .scaleAspectFill
-        
-        // photoImageView의 크기를 combinedView와 일치시킴
-        photoImageView.frame = combinedView.bounds
-        combinedView.addSubview(photoImageView)
-        
-        // dateLabel의 frame을 photoImageView 내의 좌표로 변환하여 추가
+        // 그려낼 이미지 사이즈 -> photoImageView 사이즈와 같게
+        let imageSize = CGSize(width: photoImageView.frame.width,
+                               height: photoImageView.frame.height)
 
-        let dateLabelInImageViewFrame = photoImageView.convert(dateLabel.frame,
-                                                               from: photoImageView.superview)
-        dateLabel.frame = dateLabelInImageViewFrame
-        combinedView.addSubview(dateLabel)
+        let renderer = UIGraphicsImageRenderer(size: imageSize)
         
-        UIGraphicsBeginImageContextWithOptions(combinedView.bounds.size, true, 0.0)
-        defer {
-            UIGraphicsEndImageContext()
+        // UIImage 렌더
+        let mergedImage = renderer.image { context in
+            //  photoImageView 렌더
+            photoImageView.drawHierarchy(in: CGRect(origin: .zero, size: imageSize), 
+                                         afterScreenUpdates: true)
+            
+            // dateLabel 위치와 함게 렌더
+            dateLabel.drawHierarchy(in: CGRect(x: dateLabel.frame.minX,
+                                               y: dateLabel.frame.minY,
+                                               width: dateLabel.frame.width,
+                                               height: dateLabel.frame.height),
+                                    afterScreenUpdates: true)
         }
-        if let context = UIGraphicsGetCurrentContext() {
-            combinedView.layer.render(in: context)
-            return UIGraphicsGetImageFromCurrentImageContext()
-        }
-        return nil
+        
+        return mergedImage
     }
-
+   
+//   위의 transfromToImage() 메서드와 차이 -> 사진과 텍스트를 합성한다는것은 같은 동작을 함 그러나
+//      등록과정에서 ScrollView 하위 객체들이 사라지는 현상이 있어서 변경시킴
+//          -> 정확하게 이유를 파악하지는 못했음
+//
+//    func transfromToImage() -> UIImage? {
+//        let combinedView = UIView(frame: photoImageView.frame)
+//        // photoImageView의 크기를 combinedView와 일치
+//        photoImageView.frame = combinedView.bounds
+//        combinedView.addSubview(photoImageView)
+//        
+//        // dateLabel의 frame을 photoImageView 내의 좌표로 변환하여 추가
+//        let dateLabelInImageViewFrame = combinedView.convert(dateLabel.frame,
+//                                                             from: photoImageView.superview)
+//        dateLabel.frame = dateLabelInImageViewFrame
+//        combinedView.addSubview(dateLabel)
+//        
+//        UIGraphicsBeginImageContextWithOptions(combinedView.bounds.size, true, 0.0)
+//        defer {
+//            UIGraphicsEndImageContext()
+//        }
+//        if let context = UIGraphicsGetCurrentContext() {
+//            combinedView.layer.render(in: context)
+//            return UIGraphicsGetImageFromCurrentImageContext()
+//        }
+//        return nil
+//    }
+    
     @objc func keyboardWillShow(_ notification:NSNotification) {
         
         guard let userInfo = notification.userInfo,
@@ -316,7 +337,7 @@ class UploadContentViewController: UIViewController {
     }
     
     
-
+    
     @objc func textColorChanged() {
         DispatchQueue.main.async {
             self.dateLabel.textColor = self.textColorWell.selectedColor
@@ -354,5 +375,17 @@ extension UploadContentViewController: UITextViewDelegate {
                 scrollView.scrollRectToVisible(captionTextView.frame, animated: true)
             }
         }
+    }
+}
+extension UIView {
+    func asImage() -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0.0)
+        defer { UIGraphicsEndImageContext() }
+        if let context = UIGraphicsGetCurrentContext() {
+            layer.render(in: context)
+            let image = UIGraphicsGetImageFromCurrentImageContext()
+            return image
+        }
+        return nil
     }
 }
