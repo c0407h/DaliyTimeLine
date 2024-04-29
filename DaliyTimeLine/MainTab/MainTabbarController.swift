@@ -128,13 +128,14 @@ class MainTabbarController: UITabBarController {
     }
     
     func didFinishPickingMedia(_ picker: YPImagePicker) {
-        picker.didFinishPicking { items, cancel in
+        picker.didFinishPicking {[unowned picker] items, cancel in
             if cancel {
                 picker.dismiss(animated: true)
             } else {
                 picker.dismiss(animated: false) {
                     guard let selectedImage = items.singlePhoto?.image else { return }
                     guard let user = self.user else { return }
+                    
                     let controller = UploadContentViewController(viewModel: UploadViewModel(currentUser: user, originalImage: selectedImage, selectedImage: selectedImage))
                     
                     controller.delegate = self

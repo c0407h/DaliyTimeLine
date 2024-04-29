@@ -18,7 +18,7 @@ enum PostSection: CaseIterable {
 class MainListViewModel {
     var mainPost = PublishSubject<[Post]>()
     var dailyPost = PublishSubject<[Post]>()
-    var dailyPostCount = PublishSubject<Int>()
+//    var dailyPostCount = PublishSubject<Int>()
     
     var postUpdate = PublishSubject<Bool>()
     
@@ -39,9 +39,17 @@ class MainListViewModel {
     }
     
     func rxGetPost(date: Date) {
+        service.rxGetPost(date: date)
+            .subscribe {[weak self] post in
+                if let posts = post.element {
+                    self?.dailyPost.onNext(posts)
+                }
+            }
+            .disposed(by: disposeBag)
+        
         service.getPost(date: date) { [weak self] post in
             self?.dailyPost.onNext(post)
-            self?.dailyPostCount.onNext(post.count)
+//            self?.dailyPostCount.onNext(post.count)
         }
     }
     
@@ -53,7 +61,6 @@ class MainListViewModel {
                   updatedPosts[updateIndex].caption = caption
                   self?.dailyPost.onNext(updatedPosts)
               }
-            print("updatepost")
           }).disposed(by: disposeBag)
     }
     

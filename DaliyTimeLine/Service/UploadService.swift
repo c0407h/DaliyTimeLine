@@ -65,6 +65,56 @@ struct UploadService {
             
             return Disposables.create()
         }
+//        return Observable.create { observer in
+//               
+//               
+//               guard let uid = DTL_AUTH.currentUser?.uid else {
+//                   observer.onError(UploadError.invalidData)
+//                   return Disposables.create()
+//               }
+//               
+//               guard let imageData = image.jpegData(compressionQuality: 0.75) else {
+//                   observer.onError(UploadError.invalidImageData)
+//                   return Disposables.create()
+//               }
+//               
+//               let filename = UUID().uuidString
+//               let ref = DTL_FIRE_STORAGE.reference(withPath: "/contents_images/\(filename)")
+//               
+//               ref.putData(imageData, metadata: nil) { _, error in
+//                   
+//                   if let error = error {
+//                       observer.onError(error)
+//                       return
+//                   }
+//                   
+//                   ref.downloadURL {  url, error in
+//                       
+//                       if let imageUrl = url?.absoluteString {
+//                           let data: [String: Any] = [
+//                               "caption": caption,
+//                               "timestamp": Timestamp(date: Date()),
+//                               "imageUrl": imageUrl,
+//                               "ownerUid": uid,
+//                               "ownerUsername": user.username as Any
+//                           ]
+//                           
+//                           let _ = COLLECTION_CONTENTS.addDocument(data: data) { error in
+//                               if let error = error {
+//                                   observer.onError(error)
+//                               } else {
+//                                   observer.onNext(())
+//                                   observer.onCompleted()
+//                               }
+//                           }
+//                       } else if let error = error {
+//                           observer.onError(error)
+//                       }
+//                   }
+//               }
+//               
+//               return Disposables.create()
+//           }
     }
 }
 
