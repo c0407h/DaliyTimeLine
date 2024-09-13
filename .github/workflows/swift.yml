@@ -19,8 +19,8 @@ jobs:
     - name: Build Xcode
       run: |
         pod install
-        xcodebuild clean test -workspace DaliyTimeLine.xcworkspace
-        -scheme DaliyTimeLine 
+        xcodebuild clean test -workspace DaliyTimeLine.xcworkspace \
+        -scheme DaliyTimeLine \
         -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=latest'
 
     
