@@ -21,12 +21,12 @@ jobs:
       run: pod install
 
     - name: Create Plist directory
-      run: mkdir -p $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
+      run: mkdir -p $GITHUB_WORKSPACE/DaliyTimeLine/Plist
 
 
       
     - name: Check if Plist directory exists
-      run: ls -la DaliyTimeLine/DaliyTimeLine/Plist
+      run: ls -la DaliyTimeLine/Plist
 
     - name: Print working directory
       run: pwd
@@ -39,20 +39,20 @@ jobs:
 
 
     - name: Decode GoogleService-Info.plist
-      run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
+      run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/Plist/GoogleService-Info.plist
 
 
 
 
     - name: Check GoogleService-Info.plist exists
-      run: ls -la $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
+      run: ls -la $GITHUB_WORKSPACE/DaliyTimeLine/Plist
 
     - name: Print GoogleService-Info.plist content
-      run: cat $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
+      run: cat $GITHUB_WORKSPACE/DaliyTimeLine/Plist/GoogleService-Info.plist
 
       
     - name: Decode Info.plist
-      run: echo "${{ secrets.Info_plist }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Info.plist
+      run: echo "${{ secrets.Info_plist }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/Info.plist
 
     - name: Build Xcode
       run: |
