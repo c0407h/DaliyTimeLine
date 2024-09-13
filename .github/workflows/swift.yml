@@ -1,0 +1,26 @@
+# This workflow will build a Swift project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
+
+name: PullRequest Test
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build Xcode
+      run: |
+        pod install
+        xcodebuild clean test -workspace DaliyTimeLine.xcworkspace
+        -scheme DaliyTimeLine 
+        -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=latest'
+
+    
