@@ -20,36 +20,36 @@ jobs:
     - name: Set up CocoaPods
       run: pod install
 
+    # 현재 작업 디렉토리 확인
     - name: Print working directory
       run: pwd
-      
+
+    # 리포지토리 전체 디렉토리 구조 확인
     - name: List directory structure
       run: ls -R
-      
 
-
-
-
+    # GoogleService-Info.plist 디코딩 후 생성
     - name: Decode GoogleService-Info.plist
-      run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/GoogleService-Info.plist
+      run: |
+        mkdir -p $GITHUB_WORKSPACE/DaliyTimeLine
+        echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/GoogleService-Info.plist
 
-
-
-
+    # GoogleService-Info.plist가 제대로 생성되었는지 확인
     - name: Check GoogleService-Info.plist exists
       run: ls -la $GITHUB_WORKSPACE/DaliyTimeLine
 
+    # GoogleService-Info.plist 파일 내용 출력 (디버깅용)
     - name: Print GoogleService-Info.plist content
       run: cat $GITHUB_WORKSPACE/DaliyTimeLine/GoogleService-Info.plist
 
-      
+    # Info.plist 디코딩 후 생성
     - name: Decode Info.plist
-      run: echo "${{ secrets.Info_plist }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/Info.plist
+      run: |
+        echo "${{ secrets.Info_plist }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/Info.plist
 
+    # Xcode 빌드 및 테스트 실행
     - name: Build Xcode
       run: |
         xcodebuild clean test -workspace DaliyTimeLine.xcworkspace \
         -scheme DaliyTimeLine \
         -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=latest'
-
-    
