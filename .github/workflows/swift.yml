@@ -20,6 +20,9 @@ jobs:
     - name: Set up CocoaPods
       run: pod install
 
+    - name: Create Plist directory
+      run: mkdir -p ./DaliyTimeLine/DaliyTimeLine/Plis
+
     - name: Decode GoogleService-Info.plist
       run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > ./DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
 
