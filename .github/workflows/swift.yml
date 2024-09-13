@@ -21,7 +21,7 @@ jobs:
       run: pod install
 
     - name: Create Plist directory
-      run: mkdir -p DaliyTimeLine/DaliyTimeLine/Plis
+      run: mkdir -p DaliyTimeLine/DaliyTimeLine/Plist
 
     - name: Check if Plist directory exists
       run: ls -la DaliyTimeLine/DaliyTimeLine/Plist
@@ -30,12 +30,12 @@ jobs:
       run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > ./DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
 
     - name: Decode Info.plist
-      run: echo "${{ secrets.Info_plist }}" | base64 --decode > ./DaliyTimeLine/DaliyTimeLine/Info_plist
+      run: echo "${{ secrets.Info_plist }}" | base64 --decode > ./DaliyTimeLine/DaliyTimeLine/Info.plist
 
     - name: Build Xcode
       run: |
         xcodebuild clean test -workspace DaliyTimeLine.xcworkspace \
         -scheme DaliyTimeLine \
-        -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=latest
+        -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=latest'
 
     
