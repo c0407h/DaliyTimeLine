@@ -22,13 +22,35 @@ jobs:
 
     - name: Create Plist directory
       run: mkdir -p $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
+
+
       
     - name: Check if Plist directory exists
       run: ls -la DaliyTimeLine/DaliyTimeLine/Plist
 
+    - name: Print working directory
+      run: pwd
+      
+    - name: List directory structure
+      run: ls -R
+      
+
+
+
+
     - name: Decode GoogleService-Info.plist
       run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
 
+
+
+
+    - name: Check GoogleService-Info.plist exists
+      run: ls -la $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
+
+    - name: Print GoogleService-Info.plist content
+      run: cat $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
+
+      
     - name: Decode Info.plist
       run: echo "${{ secrets.Info_plist }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Info.plist
 
