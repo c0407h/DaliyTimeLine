@@ -21,16 +21,19 @@ jobs:
       run: pod install
 
     - name: Create Plist directory
-      run: mkdir -p DaliyTimeLine/DaliyTimeLine/Plist
-
+      run: mkdir -p $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
+      
     - name: Check if Plist directory exists
       run: ls -la DaliyTimeLine/DaliyTimeLine/Plist
 
     - name: Decode GoogleService-Info.plist
-      run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > ./DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
-
+      run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
+    
+    - name: Debug GoogleService-Info.plist content
+      run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}"
+      
     - name: Decode Info.plist
-      run: echo "${{ secrets.Info_plist }}" | base64 --decode > ./DaliyTimeLine/DaliyTimeLine/Info.plist
+      run: echo "${{ secrets.Info_plist }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Info.plist
 
     - name: Build Xcode
       run: |
