@@ -286,4 +286,3 @@ extension LoginViewController: ASAuthorizationControllerPresentationContextProvi
     }
 }
 
-

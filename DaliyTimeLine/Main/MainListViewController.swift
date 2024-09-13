@@ -36,7 +36,7 @@ class MainListViewController: UIViewController {
         calendar.firstWeekday = 1
         calendar.select(Date())
         calendar.placeholderType = .none
-
+        
         calendar.appearance.weekdayTextColor = .black
         
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0
@@ -64,7 +64,7 @@ class MainListViewController: UIViewController {
         
         calendar.appearance.todayColor = .clear
         calendar.appearance.selectionColor = .clear
-
+        
         calendar.calendarWeekdayView.weekdayLabels.last!.textColor = .blue
         calendar.calendarWeekdayView.weekdayLabels.first!.textColor = .red
         
@@ -100,7 +100,7 @@ class MainListViewController: UIViewController {
     }()
     
     lazy var calendarSettingButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("주/월", for: .normal)
         button.titleLabel?.font = UIFont(name: "OTSBAggroL", size: 14)
         button.setTitleColor(UIColor.darkGray, for: .normal)
@@ -109,12 +109,12 @@ class MainListViewController: UIViewController {
     }()
     
     lazy var emptyView: UIView = {
-       let view = UIView()
+        let view = UIView()
         return view
     }()
     
     lazy var emptyLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "등록된 사진이 없습니다."
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -148,20 +148,20 @@ class MainListViewController: UIViewController {
             .disposed(by: disposeBag)
         
         self.viewModel.dailyPost
-                   .bind(to: postCollectionView.rx.items(cellIdentifier: "FeedCollectionViewCell", cellType: FeedCollectionViewCell.self)) { index, post, cell in
-                       cell.configureUI(post: post)
-                   }
-                   .disposed(by: disposeBag)
+            .bind(to: postCollectionView.rx.items(cellIdentifier: "FeedCollectionViewCell", cellType: FeedCollectionViewCell.self)) { index, post, cell in
+                cell.configureUI(post: post)
+            }
+            .disposed(by: disposeBag)
         
         self.postCollectionView.rx.modelSelected(Post.self)
-                .subscribe(onNext: { [weak self] post in
-                    guard let self = self else { return }
-                    let viewModel = PostDetailViewModel(post: post)
-                    let detailVC = PostDetailViewController(viewModel: viewModel)
-                    detailVC.delegate = self
-                    self.navigationController?.pushViewController(detailVC, animated: true)
-                })
-                .disposed(by: disposeBag)
+            .subscribe(onNext: { [weak self] post in
+                guard let self = self else { return }
+                let viewModel = PostDetailViewModel(post: post)
+                let detailVC = PostDetailViewController(viewModel: viewModel)
+                detailVC.delegate = self
+                self.navigationController?.pushViewController(detailVC, animated: true)
+            })
+            .disposed(by: disposeBag)
         
         
         self.viewModel.postUpdate
@@ -169,8 +169,8 @@ class MainListViewController: UIViewController {
                 guard let isChanged = event.element else { return }
                 if isChanged {
                     if let selectedDate = try? self?.viewModel.selectedDateSubject.value() {
-                                  self?.viewModel.rxGetPost(date: selectedDate)
-                              }
+                        self?.viewModel.rxGetPost(date: selectedDate)
+                    }
                     self?.viewModel.postUpdate
                         .onNext(false)
                 }
@@ -223,7 +223,7 @@ class MainListViewController: UIViewController {
         viewModel.rxGetPost(date: Date())
     }
     
-    func cvReload() {        
+    func cvReload() {
         DispatchQueue.main.async {
             self.configureCV()
             self.postCollectionView.reloadData()
@@ -239,7 +239,7 @@ class MainListViewController: UIViewController {
             self.calendarView.scope = .week
         }
     }
-
+    
 }
 
 extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
@@ -252,7 +252,7 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         
         guard let cell = calendar.dequeueReusableCell(withIdentifier: CalendarCell.description(), for: date, at: position) as? CalendarCell else { return FSCalendarCell() }
-
+        
         self.viewModel.rxGetPostImg(date: date)
             .subscribe {[weak cell] url in
                 cell?.backImageView.kf.setImage(with: url)
@@ -282,7 +282,7 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         UIView.animate(withDuration: 0.5) {
             self.view.layoutIfNeeded()
         }
-
+        
     }
     
     // 날짜 선택 시 콜백 메소드
@@ -292,7 +292,7 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         self.dateLabel.text = date.dateToString()
         self.viewModel.rxGetPost(date: date)
     }
-
+    
     
     //날자 하단 subtitle string으로 변환
     func calendar(_ calendar: FSCalendar, subtitleFor date: Date) -> String? {
