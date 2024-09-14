@@ -5,9 +5,9 @@ name: PullRequest Test
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "dev" ]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -20,19 +20,42 @@ jobs:
     - name: Set up CocoaPods
       run: pod install
 
+    # 현재 작업 디렉토리 확인
+    - name: Print working directory
+      run: pwd
+
+    # 리포지토리 전체 디렉토리 구조 확인
+    - name: List directory structure
+      run: ls -R
+
+    # Plist 디렉토리 생성
     - name: Create Plist directory
-      run: mkdir -p ./DaliyTimeLine/DaliyTimeLine/Plis
+      run: mkdir -p $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
 
+    # GoogleService-Info.plist 파일 생성 (GitHub Secrets에서 base64 디코딩)
     - name: Decode GoogleService-Info.plist
-      run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > ./DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
+      run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
+    
+    # GoogleService-Info.plist가 잘 생성되었는지 확인
+    - name: Check GoogleService-Info.plist exists
+      run: ls -la $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
 
+    # Info.plist 파일 생성 (GitHub Secrets에서 base64 디코딩)
     - name: Decode Info.plist
-      run: echo "${{ secrets.Info_plist }}" | base64 --decode > ./DaliyTimeLine/DaliyTimeLine/Info_plist
+      run: echo "${{ secrets.Info_plist }}" | base64 --decode > $GITHUB_WORKSPACE/Info.plist
 
+    # 생성된 Info.plist가 존재하는지 확인
+    - name: Check Info.plist exists
+      run: ls -la $GITHUB_WORKSPACE
+
+    # 파일 권한 수정 (권한 문제가 있을 수 있으므로)
+    #- name: Set file permissions for GoogleService-Info.plist
+     # run: chmod 644 $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
+
+    # Xcode 빌드 및 테스트 실행
     - name: Build Xcode
       run: |
         xcodebuild clean test -workspace DaliyTimeLine.xcworkspace \
         -scheme DaliyTimeLine \
-        -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=latest
-
-    
+        -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=latest' \
+        | xcpretty
