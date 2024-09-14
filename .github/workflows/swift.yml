@@ -31,15 +31,25 @@ jobs:
 
     - name: Create Plist directory
       run: mkdir -p $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
+
+
+    - name: Create secret file
+      env:
+        FIREBASE_SECRET: ${{ secrets.GOOGLE_SERVICE_INFO }}
+        API_SECRET: ${{ secrets.Info_plist }}
+        run: |
+          echo $GOOGLE_SERVICE_INFO | base64 -D -o ${{ env.PROJECT }}/GoogleService-Info.plist
+          echo $Info_plist | base64 -D -o ${{ env.PROJECT }}/Info_plist
+          ls -al ${{ env.PROJECT }}
+      
+    #- name: Check if Plist directory exists
+    #  run: ls -la $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
     
-    - name: Check if Plist directory exists
-      run: ls -la $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
+    #- name: Decode GoogleService-Info.plist
+    #  run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
     
-    - name: Decode GoogleService-Info.plist
-      run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
-    
-    - name: Check GoogleService-Info.plist exists
-      run: ls -la $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
+    #- name: Check GoogleService-Info.plist exists
+    #  run: ls -la $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
 
 
     #- name: Create Plist directory
@@ -60,9 +70,9 @@ jobs:
      # run: cat $GITHUB_WORKSPACE/Plist/GoogleService-Info.plist
 
     # Info.plist 디코딩 후 생성
-    - name: Decode Info.plist
-      run: |
-        echo "${{ secrets.Info_plist }}" | base64 --decode > $GITHUB_WORKSPACE/Info.plist
+    #- name: Decode Info.plist
+     # run: |
+      #  echo "${{ secrets.Info_plist }}" | base64 --decode > $GITHUB_WORKSPACE/Info.plist
 
     # Xcode 빌드 및 테스트 실행
     - name: Build Xcode
