@@ -32,7 +32,7 @@ jobs:
     - name: Decode GoogleService-Info.plist
       run: |
         mkdir -p $GITHUB_WORKSPACE/DaliyTimeLine
-        echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/GoogleService-Info.plist
+        echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/Plist/GoogleService-Info.plist
 
     # GoogleService-Info.plist가 제대로 생성되었는지 확인
     - name: Check GoogleService-Info.plist exists
@@ -40,7 +40,7 @@ jobs:
 
     # GoogleService-Info.plist 파일 내용 출력 (디버깅용)
     - name: Print GoogleService-Info.plist content
-      run: cat $GITHUB_WORKSPACE/DaliyTimeLine/GoogleService-Info.plist
+      run: cat $GITHUB_WORKSPACE/DaliyTimeLine/Plist/GoogleService-Info.plist
 
     # Info.plist 디코딩 후 생성
     - name: Decode Info.plist
