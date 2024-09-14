@@ -49,8 +49,8 @@ jobs:
       run: ls -la $GITHUB_WORKSPACE
 
     # 파일 권한 수정 (권한 문제가 있을 수 있으므로)
-    - name: Set file permissions for GoogleService-Info.plist
-      run: chmod 644 $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
+    #- name: Set file permissions for GoogleService-Info.plist
+     # run: chmod 644 $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
 
     # Xcode 빌드 및 테스트 실행
     - name: Build Xcode
