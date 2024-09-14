@@ -31,20 +31,33 @@ jobs:
 
     - name: Create Plist directory
       run: mkdir -p $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
+    
+    - name: Check if Plist directory exists
+      run: ls -la $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
+    
+    - name: Decode GoogleService-Info.plist
+      run: echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist/GoogleService-Info.plist
+    
+    - name: Check GoogleService-Info.plist exists
+      run: ls -la $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
+
+
+    #- name: Create Plist directory
+     # run: mkdir -p $GITHUB_WORKSPACE/DaliyTimeLine/DaliyTimeLine/Plist
       
     # GoogleService-Info.plist 디코딩 후 생성
-    - name: Decode GoogleService-Info.plist
-      run: |
-        mkdir -p $GITHUB_WORKSPACE/DaliyTimeLine
-        echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/Plist/GoogleService-Info.plist
+    #- name: Decode GoogleService-Info.plist
+     # run: |
+      #  mkdir -p $GITHUB_WORKSPACE/DaliyTimeLine
+       # echo "${{ secrets.GOOGLE_SERVICE_INFO }}" | base64 --decode > $GITHUB_WORKSPACE/Plist/GoogleService-Info.plist
 
     # GoogleService-Info.plist가 제대로 생성되었는지 확인
-    - name: Check GoogleService-Info.plist exists
-      run: ls -la $GITHUB_WORKSPACE/DaliyTimeLine/Plist
+    #- name: Check GoogleService-Info.plist exists
+    #  run: ls -la $GITHUB_WORKSPACE/DaliyTimeLine/Plist
 
     # GoogleService-Info.plist 파일 내용 출력 (디버깅용)
-    - name: Print GoogleService-Info.plist content
-      run: cat $GITHUB_WORKSPACE/Plist/GoogleService-Info.plist
+    #- name: Print GoogleService-Info.plist content
+     # run: cat $GITHUB_WORKSPACE/Plist/GoogleService-Info.plist
 
     # Info.plist 디코딩 후 생성
     - name: Decode Info.plist
