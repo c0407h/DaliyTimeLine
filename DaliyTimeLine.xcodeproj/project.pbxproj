@@ -39,6 +39,10 @@
 		416F1E282B5A6EF600F8C2C8 /* MainTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */; };
 		416F1E2A2B5A6F5A00F8C2C8 /* MainListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */; };
 		416F1E2C2B5A6F6100F8C2C8 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */; };
+		4172BC112C95DAB6002EC9A4 /* RootRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172BC102C95DAB6002EC9A4 /* RootRouter.swift */; };
+		4172BC132C95E4E6002EC9A4 /* SplashRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172BC122C95E4E6002EC9A4 /* SplashRouter.swift */; };
+		4172BC152C95E5D6002EC9A4 /* SplashPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172BC142C95E5D6002EC9A4 /* SplashPresenter.swift */; };
+		4172BC172C95E5DC002EC9A4 /* SplashInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172BC162C95E5DC002EC9A4 /* SplashInteractor.swift */; };
 		41AB41202B98435B005F42C4 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41AB411F2B98435B005F42C4 /* LocalAuthentication.framework */; };
 		41B4B2C92BB69E5800D2697D /* logoImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B4B2C82BB69E5800D2697D /* logoImage.png */; };
 		41B538E32B962F2800160F66 /* SecretSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B538E22B962F2800160F66 /* SecretSettingViewController.swift */; };
@@ -110,6 +114,10 @@
 		416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabbarController.swift; sourceTree = "<group>"; };
 		416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListViewController.swift; sourceTree = "<group>"; };
 		416F1E2B2B5A6F6100F8C2C8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		4172BC102C95DAB6002EC9A4 /* RootRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootRouter.swift; sourceTree = "<group>"; };
+		4172BC122C95E4E6002EC9A4 /* SplashRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashRouter.swift; sourceTree = "<group>"; };
+		4172BC142C95E5D6002EC9A4 /* SplashPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashPresenter.swift; sourceTree = "<group>"; };
+		4172BC162C95E5DC002EC9A4 /* SplashInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashInteractor.swift; sourceTree = "<group>"; };
 		41AB411F2B98435B005F42C4 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		41B4B2C82BB69E5800D2697D /* logoImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logoImage.png; sourceTree = "<group>"; };
 		41B538E22B962F2800160F66 /* SecretSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretSettingViewController.swift; sourceTree = "<group>"; };
@@ -229,10 +237,11 @@
 		416F1DEF2B5A6DF800F8C2C8 /* DaliyTimeLine */ = {
 			isa = PBXGroup;
 			children = (
+				416F1E232B5A6E3D00F8C2C8 /* App */,
+				419FCC0D2BC95FD4009E8463 /* Splash */,
 				419FCC102BC95FF6009E8463 /* MainTab */,
 				419FCC0F2BC95FF1009E8463 /* Upload */,
 				419FCC0E2BC95FE1009E8463 /* Login */,
-				419FCC0D2BC95FD4009E8463 /* Splash */,
 				419FCC0C2BC95FCA009E8463 /* Detail */,
 				419FCC0B2BC95FC1009E8463 /* Main */,
 				419FCC0A2BC95FAC009E8463 /* Setting */,
@@ -241,7 +250,6 @@
 				413D75B52B710B95008A67B5 /* Service */,
 				416F1E222B5A6E3400F8C2C8 /* Model */,
 				41F04A3C2BA4A95600A034FA /* Extension */,
-				416F1E232B5A6E3D00F8C2C8 /* App */,
 				413D75B92B752F47008A67B5 /* Resource */,
 				41CDCE9D2B5A78400019C945 /* Plist */,
 				416F1DFB2B5A6DF900F8C2C8 /* LaunchScreen.storyboard */,
@@ -284,6 +292,7 @@
 			children = (
 				416F1DF02B5A6DF800F8C2C8 /* AppDelegate.swift */,
 				416F1DF22B5A6DF800F8C2C8 /* SceneDelegate.swift */,
+				4172BC102C95DAB6002EC9A4 /* RootRouter.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -338,6 +347,9 @@
 			isa = PBXGroup;
 			children = (
 				41CDCE9B2B5A72EF0019C945 /* SplashViewController.swift */,
+				4172BC162C95E5DC002EC9A4 /* SplashInteractor.swift */,
+				4172BC122C95E4E6002EC9A4 /* SplashRouter.swift */,
+				4172BC142C95E5D6002EC9A4 /* SplashPresenter.swift */,
 			);
 			path = Splash;
 			sourceTree = "<group>";
@@ -670,6 +682,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				416F1E2C2B5A6F6100F8C2C8 /* SettingViewController.swift in Sources */,
+				4172BC152C95E5D6002EC9A4 /* SplashPresenter.swift in Sources */,
 				41F04A442BA4AD0700A034FA /* UploadViewModel.swift in Sources */,
 				41C4B6CD2B94AEFE00CD8292 /* SettingTableViewCell.swift in Sources */,
 				413D75C82B766EDA008A67B5 /* PostDetailViewController.swift in Sources */,
@@ -688,15 +701,18 @@
 				41B538E32B962F2800160F66 /* SecretSettingViewController.swift in Sources */,
 				416F1E2A2B5A6F5A00F8C2C8 /* MainListViewController.swift in Sources */,
 				4128D1F02B5E940000FA78B3 /* User.swift in Sources */,
+				4172BC112C95DAB6002EC9A4 /* RootRouter.swift in Sources */,
 				416F1DF32B5A6DF800F8C2C8 /* SceneDelegate.swift in Sources */,
 				413D75B02B710848008A67B5 /* CalendarCell.swift in Sources */,
 				41C4B6CF2B94AF0900CD8292 /* SettingInfoTableViewCell.swift in Sources */,
 				4128D1F52B5E94FE00FA78B3 /* Constants.swift in Sources */,
 				41CDCEA62B5AB5070019C945 /* LoginViewModel.swift in Sources */,
+				4172BC132C95E4E6002EC9A4 /* SplashRouter.swift in Sources */,
 				41B538E52B96CC5100160F66 /* LoadingIndicator.swift in Sources */,
 				413D75B72B710BC5008A67B5 /* PostService.swift in Sources */,
 				413D75C62B766EB3008A67B5 /* PostDetailViewModel.swift in Sources */,
 				413D75B22B7108E3008A67B5 /* Post.swift in Sources */,
+				4172BC172C95E5DC002EC9A4 /* SplashInteractor.swift in Sources */,
 				41CDCE9C2B5A72EF0019C945 /* SplashViewController.swift in Sources */,
 				413D75C32B763A58008A67B5 /* SettingViewModel.swift in Sources */,
 				4128D1F92B5E978A00FA78B3 /* AuthService.swift in Sources */,
