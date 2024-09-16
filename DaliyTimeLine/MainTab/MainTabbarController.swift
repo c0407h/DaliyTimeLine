@@ -10,7 +10,7 @@ import Firebase
 import FirebaseAuth
 
 protocol MainTabbarViewProtocol: AnyObject {
-    func configureTabbar(user: User)
+    func configureTabbar()
     func reloadMainListView()
 }
 
@@ -21,16 +21,15 @@ class MainTabbarController: UITabBarController, MainTabbarViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
+        configureTabbar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        presenter?.viewDidLoad()
     }
     
-    func configureTabbar(user: User) {
+    func configureTabbar() {
         let mainListController = MainListViewController()
         mainListController.tabBarItem.tag = 0
         mainListController.tabBarItem = UITabBarItem(title: "캘린더", image: UIImage(systemName:  "calendar"), selectedImage: nil)

@@ -14,11 +14,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     
     func goToSplashScreen() {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-        let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = UINavigationController(rootViewController: SplashViewController())
-        self.window = window
-        self.window?.makeKeyAndVisible()
+//        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+//        let window = UIWindow(windowScene: windowScene)
+//        window.rootViewController = UINavigationController(rootViewController: SplashViewController())
+//        self.window = window
+//        self.window?.makeKeyAndVisible()
     }
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -27,8 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         
-        rootRouter = RootRouter()  // rootRouter 초기화
-        print("RootRouter initialized")  // 이 부분 추가
+        rootRouter = RootRouter()
         rootRouter?.setRootViewControllerToSplash(in: window)
     }
     

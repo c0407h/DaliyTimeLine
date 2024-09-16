@@ -9,21 +9,15 @@ import Foundation
 import UIKit
 
 protocol MainTabbarPresenterProtocol: AnyObject {
-    func viewDidLoad()
     func didSelectUpload()
     func didFinishPickingMedia(selectedImage: UIImage)
     func reloadMainList()
-    func didFetchUser(user: User)
 }
 
 class MainTabbarPresenter: MainTabbarPresenterProtocol {
     weak var view: MainTabbarViewProtocol?
     var interactor: MainTabbarInteractorProtocol?
     var router: MainTabbarRouterProtocol?
-    
-    func viewDidLoad() {
-        interactor?.fetchUser()
-    }
     
     func didSelectUpload() {
         router?.presentYPImagePicker()
@@ -37,8 +31,5 @@ class MainTabbarPresenter: MainTabbarPresenterProtocol {
     func reloadMainList() {
         view?.reloadMainListView()
     }
-    
-    func didFetchUser(user: User) {
-        view?.configureTabbar(user: user)
-    }
+
 }
