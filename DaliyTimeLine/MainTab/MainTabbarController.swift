@@ -7,38 +7,27 @@
 
 import UIKit
 import Firebase
-import YPImagePicker
 import FirebaseAuth
 
-class MainTabbarController: UITabBarController {
-    var user: User? {
-        didSet {
-            guard let user = user else { return }
-            configureTabbar(user: user)
-        }
-    }
+protocol MainTabbarViewProtocol: AnyObject {
+    func configureTabbar(user: User)
+    func reloadMainListView()
+}
+
+
+class MainTabbarController: UITabBarController, MainTabbarViewProtocol {
+    var presenter: MainTabbarPresenterProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchUser()
         configureUI()
-
+        
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        
-    }
-    
-    //MARK: - API
-    func fetchUser() {
-        guard let currentUser = Auth.auth().currentUser else { return }
-        guard let email = currentUser.email else { return }
-      
-        let user = User(email: email, fullname: currentUser.displayName, profileImageUrl: currentUser.photoURL, username: currentUser.displayName, uid: currentUser.uid)
-        self.user = user
+        presenter?.viewDidLoad()
     }
     
     func configureTabbar(user: User) {
@@ -55,7 +44,7 @@ class MainTabbarController: UITabBarController {
         } else {
             uploadViewController.tabBarItem.image = UIImage(systemName:  "camera.circle", withConfiguration: UIImage.SymbolConfiguration(font: .systemFont(ofSize: 30)))?.withBaselineOffset(fromBottom: 25)
         }
-    
+        
         let settingViewController = UINavigationController(rootViewController: SettingViewController())
         settingViewController.tabBarItem = UITabBarItem(title: "설정", image: UIImage(systemName: "gearshape.fill"), selectedImage: nil)
         settingViewController.tabBarItem.tag = 2
@@ -75,11 +64,9 @@ class MainTabbarController: UITabBarController {
         } else {
             noHaveSAtabbarSetup()
         }
-        
     }
     
     func haveSAtabbarSetup() {
-        print(#function, safeAreaBottomInset())
         self.tabBar.frame.size.height = 83
         self.tabBar.frame.origin.y = self.view.frame.height - 83
         self.tabBar.frame.origin.x = 0
@@ -101,7 +88,6 @@ class MainTabbarController: UITabBarController {
     }
     
     func noHaveSAtabbarSetup() {
-        print(#function, safeAreaBottomInset())
         self.tabBar.frame.size.height = 49
         self.tabBar.frame.origin.y = self.view.frame.height - 49
         self.tabBar.frame.origin.x = 0
@@ -120,33 +106,17 @@ class MainTabbarController: UITabBarController {
         self.tabBar.tintColor = .black
         self.tabBar.unselectedItemTintColor = .lightGray
         self.tabBar.barTintColor = .white
-        
     }
     
     func configureUI() {
         view.backgroundColor = .white
     }
     
-    func didFinishPickingMedia(_ picker: YPImagePicker) {
-        picker.didFinishPicking {[unowned picker] items, cancel in
-            if cancel {
-                picker.dismiss(animated: true)
-            } else {
-                picker.dismiss(animated: false) {
-                    guard let selectedImage = items.singlePhoto?.image else { return }
-                    guard let user = self.user else { return }
-                    
-                    let controller = UploadContentViewController(viewModel: UploadViewModel(currentUser: user, originalImage: selectedImage, selectedImage: selectedImage))
-                    
-                    controller.delegate = self
-                    let nav = UINavigationController(rootViewController: controller)
-                    nav.modalPresentationStyle = .fullScreen
-                    nav.navigationBar.tintColor = .black
-                    self.present(nav, animated: false)
-                }
-            }
+    func reloadMainListView() {
+        if let mainListVC = viewControllers?[0] as? MainListViewController {
+            mainListVC.updateReload()
         }
-    }    
+    }
 }
 
 
@@ -154,67 +124,17 @@ extension MainTabbarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         
         if viewController is UploadContentViewController {
-            var config = YPImagePickerConfiguration()
-            config.library.mediaType = .photo
-            config.shouldSaveNewPicturesToAlbum = false
-            config.startOnScreen = .photo
-            config.screens = [.photo, .library]
-            
-            config.colors.tintColor = .darkGray
-            config.library.maxNumberOfItems = 1
-            
-            config.fonts.pickerTitleFont =  UIFont(name: "OTSBAggroB", size: 17)!
-            config.fonts.libaryWarningFont = UIFont(name: "OTSBAggroM", size: 14)!
-            config.fonts.durationFont = UIFont(name: "OTSBAggroM", size: 12)!
-            config.fonts.multipleSelectionIndicatorFont = UIFont(name: "OTSBAggroM", size: 12)!
-            config.fonts.albumCellTitleFont = UIFont(name: "OTSBAggroM", size: 16)!
-            config.fonts.albumCellNumberOfItemsFont = UIFont(name: "OTSBAggroM", size: 12)!
-            config.fonts.menuItemFont = UIFont(name: "OTSBAggroL", size: 12)!
-            config.fonts.filterNameFont = UIFont(name: "OTSBAggroM", size: 11)!
-            config.fonts.filterSelectionSelectedFont = UIFont(name: "OTSBAggroL", size: 11)!
-            config.fonts.filterSelectionUnSelectedFont = UIFont(name: "OTSBAggroM", size: 11)!
-            config.fonts.cameraTimeElapsedFont = UIFont(name: "OTSBAggroM", size: 13)!
-            config.fonts.navigationBarTitleFont = UIFont(name: "OTSBAggroM", size: 17)!
-            config.fonts.rightBarButtonFont = UIFont(name: "OTSBAggroL", size: 17)
-            config.fonts.leftBarButtonFont = UIFont(name: "OTSBAggroL", size: 17)
-            
-            let newCapturePhotoImage = config.icons.captureVideoImage
-            config.icons.capturePhotoImage = newCapturePhotoImage
-            
-            let picker = YPImagePicker(configuration: config)
-            
-            picker.modalPresentationStyle = .fullScreen
-            picker.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "OTSBAggroM", size: 17)!]
-            
-            
-            present(picker, animated: true)
-            
-            didFinishPickingMedia(picker)
-            
+            presenter?.didSelectUpload()
             return false
         } else {
             return true
         }
-    }    
+    }
     
     func safeAreaBottomInset() -> CGFloat {
-        if #available(iOS 11.0, *) {
-            let window = UIApplication.shared.keyWindow
-            let bottomPadding = window?.safeAreaInsets.bottom
-            return bottomPadding ??  0.0
-        } else {
-            return 0.0
+        if let window = view.window {
+            return window.safeAreaInsets.bottom
         }
+        return 0.0
     }
-}
-
-extension MainTabbarController: MainListViewControllerDelegate {
-    func postUpdate(documentID: String, caption: String) { }
-    
-    func reload() {
-        if let mainListVC = viewControllers?[0] as? MainListViewController {
-            mainListVC.updateReload()
-        }
-    }
-    
 }

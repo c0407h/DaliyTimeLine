@@ -43,6 +43,9 @@
 		4172BC132C95E4E6002EC9A4 /* SplashRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172BC122C95E4E6002EC9A4 /* SplashRouter.swift */; };
 		4172BC152C95E5D6002EC9A4 /* SplashPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172BC142C95E5D6002EC9A4 /* SplashPresenter.swift */; };
 		4172BC172C95E5DC002EC9A4 /* SplashInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172BC162C95E5DC002EC9A4 /* SplashInteractor.swift */; };
+		4172BC192C970D31002EC9A4 /* MainTabbarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172BC182C970D31002EC9A4 /* MainTabbarRouter.swift */; };
+		4172BC1B2C970D40002EC9A4 /* MainTabbarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172BC1A2C970D40002EC9A4 /* MainTabbarInteractor.swift */; };
+		4172BC1D2C970D48002EC9A4 /* MainTabbarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172BC1C2C970D48002EC9A4 /* MainTabbarPresenter.swift */; };
 		41AB41202B98435B005F42C4 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41AB411F2B98435B005F42C4 /* LocalAuthentication.framework */; };
 		41B4B2C92BB69E5800D2697D /* logoImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B4B2C82BB69E5800D2697D /* logoImage.png */; };
 		41B538E32B962F2800160F66 /* SecretSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B538E22B962F2800160F66 /* SecretSettingViewController.swift */; };
@@ -118,6 +121,9 @@
 		4172BC122C95E4E6002EC9A4 /* SplashRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashRouter.swift; sourceTree = "<group>"; };
 		4172BC142C95E5D6002EC9A4 /* SplashPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashPresenter.swift; sourceTree = "<group>"; };
 		4172BC162C95E5DC002EC9A4 /* SplashInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashInteractor.swift; sourceTree = "<group>"; };
+		4172BC182C970D31002EC9A4 /* MainTabbarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarRouter.swift; sourceTree = "<group>"; };
+		4172BC1A2C970D40002EC9A4 /* MainTabbarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarInteractor.swift; sourceTree = "<group>"; };
+		4172BC1C2C970D48002EC9A4 /* MainTabbarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarPresenter.swift; sourceTree = "<group>"; };
 		41AB411F2B98435B005F42C4 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		41B4B2C82BB69E5800D2697D /* logoImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logoImage.png; sourceTree = "<group>"; };
 		41B538E22B962F2800160F66 /* SecretSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretSettingViewController.swift; sourceTree = "<group>"; };
@@ -376,6 +382,9 @@
 			isa = PBXGroup;
 			children = (
 				416F1E272B5A6EF600F8C2C8 /* MainTabbarController.swift */,
+				4172BC182C970D31002EC9A4 /* MainTabbarRouter.swift */,
+				4172BC1A2C970D40002EC9A4 /* MainTabbarInteractor.swift */,
+				4172BC1C2C970D48002EC9A4 /* MainTabbarPresenter.swift */,
 			);
 			path = MainTab;
 			sourceTree = "<group>";
@@ -702,13 +711,16 @@
 				416F1E2A2B5A6F5A00F8C2C8 /* MainListViewController.swift in Sources */,
 				4128D1F02B5E940000FA78B3 /* User.swift in Sources */,
 				4172BC112C95DAB6002EC9A4 /* RootRouter.swift in Sources */,
+				4172BC1B2C970D40002EC9A4 /* MainTabbarInteractor.swift in Sources */,
 				416F1DF32B5A6DF800F8C2C8 /* SceneDelegate.swift in Sources */,
 				413D75B02B710848008A67B5 /* CalendarCell.swift in Sources */,
 				41C4B6CF2B94AF0900CD8292 /* SettingInfoTableViewCell.swift in Sources */,
 				4128D1F52B5E94FE00FA78B3 /* Constants.swift in Sources */,
 				41CDCEA62B5AB5070019C945 /* LoginViewModel.swift in Sources */,
+				4172BC192C970D31002EC9A4 /* MainTabbarRouter.swift in Sources */,
 				4172BC132C95E4E6002EC9A4 /* SplashRouter.swift in Sources */,
 				41B538E52B96CC5100160F66 /* LoadingIndicator.swift in Sources */,
+				4172BC1D2C970D48002EC9A4 /* MainTabbarPresenter.swift in Sources */,
 				413D75B72B710BC5008A67B5 /* PostService.swift in Sources */,
 				413D75C62B766EB3008A67B5 /* PostDetailViewModel.swift in Sources */,
 				413D75B22B7108E3008A67B5 /* Post.swift in Sources */,

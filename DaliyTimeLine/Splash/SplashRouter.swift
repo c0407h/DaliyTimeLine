@@ -13,8 +13,8 @@ protocol SplashRouterProtocol: AnyObject {
 }
 
 class SplashRouter: SplashRouterProtocol {
-    weak var viewController: UIViewController?
-
+    var viewController: UIViewController?
+    
     static func createModule() -> UIViewController {
         let view = SplashViewController()
         let presenter = SplashPresenter()
@@ -28,6 +28,7 @@ class SplashRouter: SplashRouterProtocol {
         interactor.presenter = presenter
         router.viewController = view
 
+        print("splash view: \(view), presenter: \(presenter), interactor: \(interactor), router: \(router)")
         return view
     }
 
@@ -39,8 +40,24 @@ class SplashRouter: SplashRouterProtocol {
 
     func navigateToMainTab() {
         //메인 Router로 실행해야함.
-        let mainTabBarVC = MainTabbarController()
-        viewController?.navigationController?.pushViewController(mainTabBarVC, animated: false)
+        
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            sceneDelegate.goToMain()
+        }
+        
+//        if let sceneDelegate = UIApplication.shared.connectedScenes
+//            .first?.delegate as? SceneDelegate {
+//            print(sceneDelegate.window, "check")
+//            let mainTabBarVC = MainTabbarRouter.createModule()
+//            sceneDelegate.window?.rootViewController = mainTabBarVC
+//            sceneDelegate.window?.makeKeyAndVisible()
+//        }
+        
+//        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+//        let window = UIWindow(windowScene: windowScene)
+//        let mainTabBarVC = MainTabbarRouter.createModule()
+//        window.rootViewController = UINavigationController(rootViewController: mainTabBarVC)
+//        window.makeKeyAndVisible()
     }
 
     func navigateToSecretSetting() {

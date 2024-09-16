@@ -8,7 +8,7 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
     var rootRouter: RootWireframe?
     
@@ -20,40 +20,39 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         self.window?.makeKeyAndVisible()
     }
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        guard let scene = (scene as? UIWindowScene) else { return }
-        let window = UIWindow(windowScene: scene)
-        rootRouter = RootRouter(window: window)
+        let window = UIWindow(windowScene: windowScene)
+        self.window = window
+        
+        rootRouter = RootRouter()  // rootRouter 초기화
+        print("RootRouter initialized")  // 이 부분 추가
         rootRouter?.setRootViewControllerToSplash(in: window)
-        
-        self.window?.makeKeyAndVisible()
     }
     
     func goToMain() {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-        let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = UINavigationController(rootViewController: SplashViewController())
-        self.window = window
-        self.window?.makeKeyAndVisible()
+        guard let window = self.window else { return }
+        
+        rootRouter?.setRootViewControllerToMain(in: window)
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
     }
-
+    
     func sceneDidBecomeActive(_ scene: UIScene) {
     }
-
+    
     func sceneWillResignActive(_ scene: UIScene) {
     }
-
+    
     func sceneWillEnterForeground(_ scene: UIScene) {
     }
-
+    
     func sceneDidEnterBackground(_ scene: UIScene) {
     }
-
-
+    
+    
 }
 
