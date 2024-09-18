@@ -46,10 +46,15 @@
 		4172BC192C970D31002EC9A4 /* MainTabbarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172BC182C970D31002EC9A4 /* MainTabbarRouter.swift */; };
 		4172BC1B2C970D40002EC9A4 /* MainTabbarInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172BC1A2C970D40002EC9A4 /* MainTabbarInteractor.swift */; };
 		4172BC1D2C970D48002EC9A4 /* MainTabbarPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4172BC1C2C970D48002EC9A4 /* MainTabbarPresenter.swift */; };
+		419EB75E2C9973CD0068219F /* LoginCheckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 419EB75D2C9973CD0068219F /* LoginCheckTests.swift */; };
 		41AB41202B98435B005F42C4 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41AB411F2B98435B005F42C4 /* LocalAuthentication.framework */; };
 		41B4B2C92BB69E5800D2697D /* logoImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 41B4B2C82BB69E5800D2697D /* logoImage.png */; };
 		41B538E32B962F2800160F66 /* SecretSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B538E22B962F2800160F66 /* SecretSettingViewController.swift */; };
 		41B538E52B96CC5100160F66 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B538E42B96CC5100160F66 /* LoadingIndicator.swift */; };
+		41BFEFB82C9977BA000EAD05 /* MainListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BFEFB72C9977BA000EAD05 /* MainListPresenter.swift */; };
+		41BFEFBA2C9977C1000EAD05 /* MainListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BFEFB92C9977C1000EAD05 /* MainListRouter.swift */; };
+		41BFEFBC2C9977CA000EAD05 /* MainListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BFEFBB2C9977CA000EAD05 /* MainListInteractor.swift */; };
+		41BFEFBE2C997801000EAD05 /* MainListModulesProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BFEFBD2C997801000EAD05 /* MainListModulesProtocols.swift */; };
 		41C4B6CD2B94AEFE00CD8292 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C4B6CC2B94AEFE00CD8292 /* SettingTableViewCell.swift */; };
 		41C4B6CF2B94AF0900CD8292 /* SettingInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C4B6CE2B94AF0900CD8292 /* SettingInfoTableViewCell.swift */; };
 		41C4B6D12B94B10300CD8292 /* SettingAppInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C4B6D02B94B10300CD8292 /* SettingAppInfoTableViewCell.swift */; };
@@ -124,10 +129,15 @@
 		4172BC182C970D31002EC9A4 /* MainTabbarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarRouter.swift; sourceTree = "<group>"; };
 		4172BC1A2C970D40002EC9A4 /* MainTabbarInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarInteractor.swift; sourceTree = "<group>"; };
 		4172BC1C2C970D48002EC9A4 /* MainTabbarPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabbarPresenter.swift; sourceTree = "<group>"; };
+		419EB75D2C9973CD0068219F /* LoginCheckTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCheckTests.swift; sourceTree = "<group>"; };
 		41AB411F2B98435B005F42C4 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		41B4B2C82BB69E5800D2697D /* logoImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logoImage.png; sourceTree = "<group>"; };
 		41B538E22B962F2800160F66 /* SecretSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretSettingViewController.swift; sourceTree = "<group>"; };
 		41B538E42B96CC5100160F66 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
+		41BFEFB72C9977BA000EAD05 /* MainListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListPresenter.swift; sourceTree = "<group>"; };
+		41BFEFB92C9977C1000EAD05 /* MainListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListRouter.swift; sourceTree = "<group>"; };
+		41BFEFBB2C9977CA000EAD05 /* MainListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListInteractor.swift; sourceTree = "<group>"; };
+		41BFEFBD2C997801000EAD05 /* MainListModulesProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainListModulesProtocols.swift; sourceTree = "<group>"; };
 		41C4B6CC2B94AEFE00CD8292 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
 		41C4B6CE2B94AF0900CD8292 /* SettingInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingInfoTableViewCell.swift; sourceTree = "<group>"; };
 		41C4B6D02B94B10300CD8292 /* SettingAppInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAppInfoTableViewCell.swift; sourceTree = "<group>"; };
@@ -246,9 +256,9 @@
 				416F1E232B5A6E3D00F8C2C8 /* App */,
 				419FCC0D2BC95FD4009E8463 /* Splash */,
 				419FCC102BC95FF6009E8463 /* MainTab */,
+				419FCC0C2BC95FCA009E8463 /* Detail */,
 				419FCC0F2BC95FF1009E8463 /* Upload */,
 				419FCC0E2BC95FE1009E8463 /* Login */,
-				419FCC0C2BC95FCA009E8463 /* Detail */,
 				419FCC0B2BC95FC1009E8463 /* Main */,
 				419FCC0A2BC95FAC009E8463 /* Setting */,
 				419FCC092BC95F83009E8463 /* Common */,
@@ -271,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				416F1E072B5A6DF900F8C2C8 /* DaliyTimeLineTests.swift */,
+				419EB75D2C9973CD0068219F /* LoginCheckTests.swift */,
 			);
 			path = DaliyTimeLineTests;
 			sourceTree = "<group>";
@@ -336,6 +347,10 @@
 				416F1E292B5A6F5A00F8C2C8 /* MainListViewController.swift */,
 				413D75B32B7109A6008A67B5 /* MainListViewModel.swift */,
 				419FCC112BC964DC009E8463 /* Cell */,
+				41BFEFB72C9977BA000EAD05 /* MainListPresenter.swift */,
+				41BFEFB92C9977C1000EAD05 /* MainListRouter.swift */,
+				41BFEFBB2C9977CA000EAD05 /* MainListInteractor.swift */,
+				41BFEFBD2C997801000EAD05 /* MainListModulesProtocols.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -693,9 +708,13 @@
 				416F1E2C2B5A6F6100F8C2C8 /* SettingViewController.swift in Sources */,
 				4172BC152C95E5D6002EC9A4 /* SplashPresenter.swift in Sources */,
 				41F04A442BA4AD0700A034FA /* UploadViewModel.swift in Sources */,
+				41BFEFBC2C9977CA000EAD05 /* MainListInteractor.swift in Sources */,
+				41BFEFB82C9977BA000EAD05 /* MainListPresenter.swift in Sources */,
+				41BFEFBE2C997801000EAD05 /* MainListModulesProtocols.swift in Sources */,
 				41C4B6CD2B94AEFE00CD8292 /* SettingTableViewCell.swift in Sources */,
 				413D75C82B766EDA008A67B5 /* PostDetailViewController.swift in Sources */,
 				413D75AE2B70BE85008A67B5 /* FeedCollectionViewCell.swift in Sources */,
+				41BFEFBA2C9977C1000EAD05 /* MainListRouter.swift in Sources */,
 				416F1DF52B5A6DF800F8C2C8 /* ViewController.swift in Sources */,
 				416F1DF12B5A6DF800F8C2C8 /* AppDelegate.swift in Sources */,
 				416F1E282B5A6EF600F8C2C8 /* MainTabbarController.swift in Sources */,
@@ -736,6 +755,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				419EB75E2C9973CD0068219F /* LoginCheckTests.swift in Sources */,
 				416F1E082B5A6DF900F8C2C8 /* DaliyTimeLineTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -992,7 +1012,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9UU59NTC96;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chung.DaliyTimeLineTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1013,7 +1033,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9UU59NTC96;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chung.DaliyTimeLineTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

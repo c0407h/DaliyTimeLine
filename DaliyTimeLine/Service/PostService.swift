@@ -38,43 +38,6 @@ class PostService {
                 }
             return Disposables.create()
         }
-//        return Observable.create { [weak self] observer in
-//               guard let self = self else {
-//                   
-//                   return Disposables.create()
-//               }
-//               
-//               guard let currentUserUID = Auth.auth().currentUser?.uid else {
-//                   
-//                   return Disposables.create()
-//               }
-//               
-//               let query = COLLECTION_CONTENTS
-//                   .whereField("timestamp", isGreaterThanOrEqualTo: Timestamp(date: startDate))
-//                   .whereField("timestamp", isLessThan: Timestamp(date: endDate))
-//                   .whereField("ownerUid", isEqualTo: currentUserUID)
-//               
-//               let listener = query.addSnapshotListener { snapshot, error in
-//                   if let error = error {
-//                       print("DEBUG: \(error.localizedDescription)")
-//                       observer.onError(error)
-//                       return
-//                   }
-//                   
-//                   guard let documents = snapshot?.documents else { return } // document들을 가져옴
-//                   
-//                   let posts = documents.map {
-//                       Post(documentId: $0.documentID, dictionary: $0.data())
-//                   }
-//                   
-//                   observer.onNext(posts)
-//               }
-//               
-//               // Observable이 dispose될 때 리스너를 제거
-//               return Disposables.create {
-//                   listener.remove()
-//               }
-//           }
     }
     
     func rxGetAllPosts() -> Observable<[Post]> {
@@ -93,29 +56,6 @@ class PostService {
                     observer.onNext(posts)
                 }
             return Disposables.create()
-//            guard let currentUserUid = Auth.auth().currentUser?.uid else {
-//                       
-//                       return Disposables.create()
-//                   }
-//                   
-//                   let query = COLLECTION_CONTENTS
-//                       .whereField("ownerUid", isEqualTo: currentUserUid)
-//                   
-//                   let listener = query.addSnapshotListener { snapshot, error in
-//                       if let error = error {
-//                           print("DEBUG: \(error.localizedDescription)")
-//                           observer.onError(error)
-//                           return
-//                       }
-//                       
-//                       guard let documents = snapshot?.documents else { return } // document들을 가져옴
-//                       let posts = documents.map { Post(documentId: $0.documentID, dictionary: $0.data()) }
-//                       observer.onNext(posts)
-//                   }
-//                   
-//                   return Disposables.create {
-//                       listener.remove()
-//                   }
         }
     }
     
@@ -170,36 +110,6 @@ class PostService {
                 
                 completion(posts)
             }
-//        let query = Firestore.firestore().collection("contents")
-//            .whereField("timestamp", isGreaterThanOrEqualTo: Timestamp(date: startDate))
-//            .whereField("timestamp", isLessThan: Timestamp(date: endDate))
-//            .whereField("ownerUid", isEqualTo: Auth.auth().currentUser?.uid as Any)
-//
-//        var listener: ListenerRegistration?
-//        
-//        listener = query.addSnapshotListener { snapshot, error in
-//            defer {
-//                // 리스너 해제
-//                listener?.remove()
-//            }
-//            
-//            if let error = error {
-//                print("DEBUG: \(error.localizedDescription)")
-//                completion([])
-//                return
-//            }
-//            
-//            guard let documents = snapshot?.documents else {
-//                completion([])
-//                return
-//            }
-//            
-//            let posts = documents.map {
-//                Post(documentId: $0.documentID, dictionary: $0.data())
-//            }
-//            
-//            completion(posts)
-//        }
     }
     
     func getAllPosts(completion: @escaping([Post]) -> Void) {

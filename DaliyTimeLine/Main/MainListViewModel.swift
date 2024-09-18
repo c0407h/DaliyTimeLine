@@ -78,6 +78,9 @@ class MainListViewModel {
             }
     }
     
+    
+    
+    // Presenter에 해당
     func filterFirstPostForUniqueTimestamps(posts: [Post]) -> [Post] {
         // timestamp를 기준으로 중복 제거
         let uniqueTimestamps = Set(posts.map { $0.timestamp })
@@ -94,6 +97,7 @@ class MainListViewModel {
         return filteredPosts
     }
     
+    // Presenter에 해당
     //년월일로 바꿔주는 메서드
     func dateComponets(date: Date) -> DateComponents {
         let calendar = Calendar.current
@@ -110,6 +114,7 @@ class MainListViewModel {
         selectedDateSubject.onNext(date)
     }
 
+    // Presenter에 해당
     // 선택된 날짜를 확인하는 메서드
     func isCurrentSelected(_ date: Date) -> Observable<Bool> {
         return selectedDateSubject.map {[weak self] selectedDate in

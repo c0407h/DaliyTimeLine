@@ -19,7 +19,12 @@ protocol MainListViewControllerDelegate: AnyObject {
     func postUpdate(documentID: String, caption: String)
 }
 
-class MainListViewController: UIViewController {
+class MainListViewController: UIViewController, MainListViewProtocol {
+    
+    var presenter: MainListPresenterProtocol!
+    private let disposeBag = DisposeBag()
+    
+    
     lazy var calendarView: FSCalendar = {
         let calendar = FSCalendar()
         
@@ -123,63 +128,66 @@ class MainListViewController: UIViewController {
     }()
     
     private var dataSource: UICollectionViewDiffableDataSource<PostSection, Int>!
-    private let disposeBag = DisposeBag()
+//    private let disposeBag = DisposeBag()
     
-    var viewModel = MainListViewModel(service: PostService())
+//    var viewModel = MainListViewModel(service: PostService())
     weak var delegate: MainListViewControllerDelegate?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureUI()
+        print("mainListViewController presenter: \(presenter)")
+        presenter.viewDidLoad()
+        setSubscrib()
+        setBind()
         
-        self.viewModel.dailyPost
-            .subscribe {[weak self] post in
-                if (post.element?.isEmpty) == true  {
-                    self?.postCollectionView.isHidden = true
-                    self?.emptyView.isHidden = false
-                } else {
-                    self?.postCollectionView.isHidden = false
-                    self?.emptyView.isHidden = true
-                    self?.cvReload()
-                }
-                
-            }
-            .disposed(by: disposeBag)
+//        self.viewModel.dailyPost
+//            .subscribe {[weak self] post in
+//                if (post.element?.isEmpty) == true  {
+//                    self?.postCollectionView.isHidden = true
+//                    self?.emptyView.isHidden = false
+//                } else {
+//                    self?.postCollectionView.isHidden = false
+//                    self?.emptyView.isHidden = true
+//                    self?.cvReload()
+//                }
+//                
+//            }
+//            .disposed(by: disposeBag)
         
-        self.viewModel.dailyPost
-            .bind(to: postCollectionView.rx.items(cellIdentifier: "FeedCollectionViewCell", cellType: FeedCollectionViewCell.self)) { index, post, cell in
-                cell.configureUI(post: post)
-            }
-            .disposed(by: disposeBag)
+//        self.viewModel.dailyPost
+//            .bind(to: postCollectionView.rx.items(cellIdentifier: "FeedCollectionViewCell", cellType: FeedCollectionViewCell.self)) { index, post, cell in
+//                cell.configureUI(post: post)
+//            }
+//            .disposed(by: disposeBag)
         
-        self.postCollectionView.rx.modelSelected(Post.self)
-            .subscribe(onNext: { [weak self] post in
-                guard let self = self else { return }
-                let viewModel = PostDetailViewModel(post: post)
-                let detailVC = PostDetailViewController(viewModel: viewModel)
-                detailVC.delegate = self
-                self.navigationController?.pushViewController(detailVC, animated: true)
-            })
-            .disposed(by: disposeBag)
+//        self.postCollectionView.rx.modelSelected(Post.self)
+//            .subscribe(onNext: { [weak self] post in
+//                guard let self = self else { return }
+//                let viewModel = PostDetailViewModel(post: post)
+//                let detailVC = PostDetailViewController(viewModel: viewModel)
+//                detailVC.delegate = self
+//                self.navigationController?.pushViewController(detailVC, animated: true)
+//            })
+//            .disposed(by: disposeBag)
         
         
-        self.viewModel.postUpdate
-            .subscribe { [weak self] event in
-                guard let isChanged = event.element else { return }
-                if isChanged {
-                    if let selectedDate = try? self?.viewModel.selectedDateSubject.value() {
-                        self?.viewModel.rxGetPost(date: selectedDate)
-                    }
-                    self?.viewModel.postUpdate
-                        .onNext(false)
-                }
-            }
-            .disposed(by: disposeBag)
+//        self.viewModel.postUpdate
+//            .subscribe { [weak self] event in
+//                guard let isChanged = event.element else { return }
+//                if isChanged {
+//                    if let selectedDate = try? self?.viewModel.selectedDateSubject.value() {
+//                        self?.viewModel.rxGetPost(date: selectedDate)
+//                    }
+//                    self?.viewModel.postUpdate
+//                        .onNext(false)
+//                }
+//            }
+//            .disposed(by: disposeBag)
         
-        self.viewModel.rxGetPost(date: Date())
+//        self.viewModel.rxGetPost(date: Date())
     }
-    
     
     private func configureUI() {
         self.delegate = self
@@ -218,9 +226,60 @@ class MainListViewController: UIViewController {
         postCollectionView.register(FeedCollectionViewCell.self, forCellWithReuseIdentifier: "FeedCollectionViewCell")
     }
     
+    private func setSubscrib() {
+        self.presenter?.dailyPost
+            .subscribe {[weak self] post in
+                if (post.element?.isEmpty) == true  {
+                    self?.postCollectionView.isHidden = true
+                    self?.emptyView.isHidden = false
+                } else {
+                    self?.postCollectionView.isHidden = false
+                    self?.emptyView.isHidden = true
+                    self?.cvReload()
+                }
+                
+            }
+            .disposed(by: disposeBag)
+
+        self.postCollectionView.rx.modelSelected(Post.self)
+            .subscribe(onNext: { [weak self] post in
+                guard let self = self else { return }
+                let viewModel = PostDetailViewModel(post: post)
+                let detailVC = PostDetailViewController(viewModel: viewModel)
+                detailVC.delegate = self
+                self.navigationController?.pushViewController(detailVC, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        self.presenter?.postUpdateSubject
+            .subscribe { [weak self] event in
+                guard let isChanged = event.element else { return }
+                if isChanged {
+                    if let selectedDate = try? self?.presenter.selectedDateSubject.value() {
+                        self?.presenter.didSelectDate(selectedDate)
+                    }
+                    
+                    self?.presenter.postUpdateSubject.onNext(false)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        self.presenter.didSelectDate(Date())
+    }
+    
+    private func setBind() {
+        self.presenter?.dailyPost
+            .bind(to: postCollectionView.rx.items(cellIdentifier: "FeedCollectionViewCell", cellType: FeedCollectionViewCell.self)) { index, post, cell in
+                cell.configureUI(post: post)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    
     func updateReload() {
         self.calendarView.select(Date())
-        viewModel.rxGetPost(date: Date())
+        self.presenter?.didSelectDate(Date())
+//        viewModel.rxGetPost(date: Date())
     }
     
     func cvReload() {
@@ -253,18 +312,31 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         guard let cell = calendar.dequeueReusableCell(withIdentifier: CalendarCell.description(), for: date, at: position) as? CalendarCell else { return FSCalendarCell() }
         
-        self.viewModel.rxGetPostImg(date: date)
-            .subscribe {[weak cell] url in
+        self.presenter?.getPostImg(date: date)
+        self.presenter?.imageURL
+            .subscribe(onNext: { [weak cell] url in
                 cell?.backImageView.kf.setImage(with: url)
-            }
+            })
             .disposed(by: disposeBag)
         
-        // 현재 선택되어 있는 날짜인지 확인 후 배경 이미지의 alpha값을 조절한다
-        self.viewModel.isCurrentSelected(date)
+        self.presenter?.getCurrentDateCheck(date: date)
+        self.presenter?.currentSelectedDateSubject
             .subscribe {[weak cell] bool in
                 cell?.backImageView.alpha = bool ? 1 : 0.5
             }
             .disposed(by: disposeBag)
+//        self.viewModel.rxGetPostImg(date: date)
+//            .subscribe {[weak cell] url in
+//                cell?.backImageView.kf.setImage(with: url)
+//            }
+//            .disposed(by: disposeBag)
+        
+        // 현재 선택되어 있는 날짜인지 확인 후 배경 이미지의 alpha값을 조절한다
+//        self.viewModel.isCurrentSelected(date)
+//            .subscribe {[weak cell] bool in
+//                cell?.backImageView.alpha = bool ? 1 : 0.5
+//            }
+//            .disposed(by: disposeBag)
         
         return cell
     }
@@ -285,11 +357,15 @@ extension MainListViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
     }
     
+    //TODO: VIPER로 여기서부터 변환해야함
     // 날짜 선택 시 콜백 메소드
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        viewModel.updateSelectedDate(date)
+//        viewModel.updateSelectedDate(date)
         
+        self.presenter?.didSelectDate(date)
         self.dateLabel.text = date.dateToString()
+        
+        
         self.viewModel.rxGetPost(date: date)
     }
     
